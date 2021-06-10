@@ -35,9 +35,9 @@ export default class Explore extends React.Component {
   }
 
   render() {
+    const loadSuccess = !this.state.isLoading && this.state.data !== null;
     return (
-      !this.state.isLoading &&
-      this.state.data !== null && (
+      loadSuccess && (
         <>
           <DisplayArea>
             {this.state.data.map((column) => (

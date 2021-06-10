@@ -11,8 +11,8 @@ export default function App() {
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
       <Switch>
+        <Route exact path="/" component={Home}></Route>
         <Route path="/explore" component={Explore}></Route>
-        <Route path="/" component={Home}></Route>
       </Switch>
     </Router>
   );
