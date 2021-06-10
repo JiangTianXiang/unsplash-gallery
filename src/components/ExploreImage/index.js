@@ -1,4 +1,4 @@
-import { StyledImg } from "./DisplayImage.styles";
+import { StyledImg } from "./ExploreImage.styles";
 export default function Image(props) {
   return (
     <>

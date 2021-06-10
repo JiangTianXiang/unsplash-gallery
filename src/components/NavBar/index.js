@@ -8,7 +8,7 @@ class NavBar extends React.Component {
     return (
       <NavBarContianer>
         <Link to="/">Home</Link>
-        <Link to={`/explore`}> Explore</Link>
+        <Link to="/explore"> Explore</Link>
       </NavBarContianer>
     );
   }
