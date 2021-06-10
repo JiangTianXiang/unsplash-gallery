@@ -1,10 +1,9 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import DataCenter from "./components/DataCenter";
+import ApiCall from "components/ApiCall";
+
 
 export default function App() {
   return (
@@ -22,14 +21,10 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/">
-            <Home />
+            <ApiCall passData={(state) => <DataCenter {...state} />} />
           </Route>
         </Switch>
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
