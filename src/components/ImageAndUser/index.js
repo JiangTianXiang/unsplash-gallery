@@ -1,6 +1,7 @@
 import React from "react";
-import Image from "../DisplayImage";
+import DisplayImage from "../DisplayImage";
 import User from "../User";
+import {ImageAndUserContainer, Likes} from "./ImageAndUser.styles";
 
 export default class ImageAndUser extends React.Component {
   state = {
@@ -10,11 +11,11 @@ export default class ImageAndUser extends React.Component {
   render() {
     return (
       <>
-        <div>At Image and User</div>
-        <>
+        <ImageAndUserContainer>
           <User getUser={this.state.data.user}/>
-          <Image getImageUrl={this.state.data.urls.regular} />
-        </>
+          <DisplayImage url={this.state.data.urls.regular} />
+          <Likes>{`${this.state.data.likes} likes`} </Likes>
+        </ImageAndUserContainer>
       </>
     );
   }

@@ -10,11 +10,11 @@ export default class ApiCall extends React.Component {
   getData = async () => {
     try {
       this.setState({ isLoading: true, hasError: false });
+      console.log(this.props);
       const response = await axios(
-        `https://api.unsplash.com/photos/?client_id=Hq0j6DyWf2PdMPFtpxM32s74jwFbvcnGPpAaHjJXb1o`
+        `https://api.unsplash.com/photos/?client_id=${process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY}`
       );
       const newList = response.data;
-      console.log(newList);
       this.setState({ isLoading: false, data: newList });
     } catch (err) {
       console.log(err);

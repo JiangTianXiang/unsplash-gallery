@@ -1,7 +1,8 @@
+import {ImageContainer} from "./DisplayImage.styles";
 export default function Image(props) {
   return (
     <>
-      <img src={props.getImageUrl}></img>
+      <ImageContainer image={props.url}/>
     </>
   );
 }

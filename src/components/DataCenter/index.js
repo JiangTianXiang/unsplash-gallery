@@ -1,4 +1,5 @@
 import Home from "pages/Home";
+import Explore from "pages/Explore";
 import React from "react";
 /**
  *  Store all information received from unsplash
@@ -12,10 +13,12 @@ export default class DataCenter extends React.Component {
   };
 
   render() {
+    console.log(this.props);
+    //TODO: Use this.props to pass on router, depends on the match.param object relocation to the correct page
     return (
       <>
-        <div>At data center</div>
         <Home data={this.state.data}/>
+        <Explore />
       </>
     );
   }

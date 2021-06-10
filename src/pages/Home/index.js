@@ -1,5 +1,6 @@
 import ImageAndUser from "components/ImageAndUser";
 import React from "react";
+import { DisplayArea } from "./Home.styles";
 
 export default class Home extends React.Component {
   state = {
@@ -10,9 +11,11 @@ export default class Home extends React.Component {
     return (
       <>
         <div>Home page</div>
-        {this.state.data.map((item) => {
-          return <ImageAndUser key={item.id} item={item} />;
-        })}
+        <DisplayArea>
+          {this.state.data.map((item) => {
+            return <ImageAndUser key={item.id} item={item} />;
+          })}
+        </DisplayArea>
       </>
     );
   }

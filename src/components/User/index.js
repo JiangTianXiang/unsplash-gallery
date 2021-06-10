@@ -1,10 +1,10 @@
-import Image from "../DisplayImage";
+import { UserContainer, UserName, Avatar } from "./User.styles";
+
 export default function User(props) {
-    console.log(props);
-    return (
-      <>
-        <div>{props.getUser.username}</div>
-        <Image getImageUrl={props.getUser.profile_image.small}/>
-      </>
-    );
-  }
+  return (
+    <UserContainer>
+      <Avatar image={props.getUser.profile_image.small} />
+      <UserName>{props.getUser.username}</UserName>
+    </UserContainer>
+  );
+}
