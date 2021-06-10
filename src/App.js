@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "pages/Home";
 import Explore from "pages/Explore";
 import NavBar from "components/NavBar";
+import User from "pages/User";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
             renders the first one that matches the current URL. */}
       <Switch>
         <Route path="/explore" component={Explore}></Route>
+        <Route path="/user/:name" component={User}></Route>
         <Route path="/" component={Home}></Route>
       </Switch>
     </Router>

@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const UserContainer = styled.div`
+export const UserContainer = styled(Link)`
   display: flex;
   flex-direction: row;
   cursor: pointer;
