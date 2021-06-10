@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "axios";
 import ExploreImage from "components/ExploreImage";
+import { getUrl } from "utils";
 import { DisplayArea, ImageColumn } from "./Explore.styles";
+
 export default class Explore extends React.Component {
   state = {
     data: null,
@@ -12,9 +14,7 @@ export default class Explore extends React.Component {
   getData = async () => {
     try {
       this.setState({ isLoading: true, hasError: false });
-      const response = await axios(
-        `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY}&count=30`
-      );
+      const response = await axios(getUrl(true, true, 30));
       const newList = response.data;
       this.setState({
         isLoading: false,
@@ -38,17 +38,15 @@ export default class Explore extends React.Component {
     const loadSuccess = !this.state.isLoading && this.state.data !== null;
     return (
       loadSuccess && (
-        <>
-          <DisplayArea>
-            {this.state.data.map((column) => (
-              <ImageColumn key={column.key}>
-                {column.images.map((item) => (
-                  <ExploreImage key={item.id} url={item.urls.small} />
-                ))}
-              </ImageColumn>
-            ))}
-          </DisplayArea>
-        </>
+        <DisplayArea>
+          {this.state.data.map((column) => (
+            <ImageColumn key={column.key}>
+              {column.images.map((item) => (
+                <ExploreImage key={item.id} item={item} />
+              ))}
+            </ImageColumn>
+          ))}
+        </DisplayArea>
       )
     );
   }

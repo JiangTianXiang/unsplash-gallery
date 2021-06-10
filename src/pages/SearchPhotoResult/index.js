@@ -1,37 +1,31 @@
 import React from "react";
 import axios from "axios";
+import { getSearchUrl } from "utils";
 import ExploreImage from "components/ExploreImage";
 import {
-  DisplayArea,
-  ImageColumn,
-  UserInfoContainer,
-  Avatar,
-  UserInfo,
-  UserName,
-  UserDetail,
-  DetailDiv,
   ImageContainer,
-} from "./User.styles";
+  ImageColumn,
+  PhotosAndSelectionsContainer,
+  StyledLink
+} from "./SearchPhotoResult.styles";
 
-export default class User extends React.Component {
+export default class SearchPhotoResult extends React.Component {
   state = {
     data: null,
     hasError: false,
     isLoading: false,
-    user: null,
   };
 
   getData = async () => {
     try {
       this.setState({ isLoading: true, hasError: false });
       const response = await axios(
-        `https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY}&count=30&username=${this.props.match.params.name}`
+        getSearchUrl(true, this.props.match.params.input, 30)
       );
-      const newList = response.data;
+      const newList = response.data.results;
       const imagesPerColumn = Math.floor(newList.length / 3);
       this.setState({
         isLoading: false,
-        user: newList[0].user,
         data: [
           { key: Math.random(), images: newList.slice(0, imagesPerColumn) },
           {
@@ -51,22 +45,25 @@ export default class User extends React.Component {
     this.getData();
   }
 
+  componentDidUpdate(prevPros) {
+    if (this.props.match.params.input !== prevPros.match.params.input) {
+      this.getData();
+    }
+  }
+
   render() {
-    const loadedSuccess = !this.state.isLoading && this.state.data !== null;
+    const loadSuccess = !this.state.isLoading && this.state.data !== null;
     return (
-      loadedSuccess && (
-        <DisplayArea>
-          <UserInfoContainer>
-            <Avatar src={this.state.user.profile_image.large} />
-            <UserInfo>
-              <UserName>{this.state.user.username}</UserName>
-              <UserDetail>
-                <DetailDiv>{`${this.state.user.total_likes} likes`}</DetailDiv>
-                <DetailDiv>{`${this.state.user.total_photos} photos`}</DetailDiv>
-                <DetailDiv>{`${this.state.user.total_collections} collections`}</DetailDiv>
-              </UserDetail>
-            </UserInfo>
-          </UserInfoContainer>
+      loadSuccess && (
+        <>
+          <PhotosAndSelectionsContainer>
+            <StyledLink to={`/search/photos/${this.props.match.params.input}`}>
+              Photos
+            </StyledLink>
+            <StyledLink to={`/search/collections/${this.props.match.params.input}`}>
+              Collections
+            </StyledLink>
+          </PhotosAndSelectionsContainer>
           <ImageContainer>
             {this.state.data.map((column) => (
               <ImageColumn key={column.key}>
@@ -76,7 +73,7 @@ export default class User extends React.Component {
               </ImageColumn>
             ))}
           </ImageContainer>
-        </DisplayArea>
+        </>
       )
     );
   }
