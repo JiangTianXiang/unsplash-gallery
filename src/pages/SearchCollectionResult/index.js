@@ -6,9 +6,11 @@ import {
   ImageContainer,
   ImageColumn,
   PhotosAndSelectionsContainer,
-  StyledLink
-} from "./SearchCollectionResult.styles"
+  StyledLink,
+} from "./SearchCollectionResult.styles";
 
+const DEFAULT_IMAGE_COUNT = 30;
+const REQUIRE_PHOTO = false;
 export default class SearchCollectionResult extends React.Component {
   state = {
     data: null,
@@ -19,7 +21,10 @@ export default class SearchCollectionResult extends React.Component {
   getData = async () => {
     try {
       this.setState({ isLoading: true, hasError: false });
-      const response = await axios(getSearchUrl(false, this.props.match.params.input, 30));
+      const searchInput = this.props.match.params.input;
+      const response = await axios(
+        getSearchUrl(REQUIRE_PHOTO, searchInput, DEFAULT_IMAGE_COUNT)
+      );
       const newList = response.data.results;
       const imagesPerColumn = Math.floor(newList.length / 3);
       this.setState({
@@ -58,7 +63,9 @@ export default class SearchCollectionResult extends React.Component {
             <StyledLink to={`/search/photos/${this.props.match.params.input}`}>
               Photos
             </StyledLink>
-            <StyledLink to={`/search/collections/${this.props.match.params.input}`}>
+            <StyledLink
+              to={`/search/collections/${this.props.match.params.input}`}
+            >
               Collections
             </StyledLink>
           </PhotosAndSelectionsContainer>

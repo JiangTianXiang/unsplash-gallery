@@ -4,6 +4,9 @@ import ExploreImage from "components/ExploreImage";
 import { getUrl } from "utils";
 import { DisplayArea, ImageColumn } from "./Explore.styles";
 
+const DEFAULT_IMAGE_COUNT = 30;
+const REQUIRE_PHOTO = true;
+const RANDOM_PHOTO = true;
 export default class Explore extends React.Component {
   state = {
     data: null,
@@ -14,7 +17,9 @@ export default class Explore extends React.Component {
   getData = async () => {
     try {
       this.setState({ isLoading: true, hasError: false });
-      const response = await axios(getUrl(true, true, 30));
+      const response = await axios(
+        getUrl(REQUIRE_PHOTO, RANDOM_PHOTO, DEFAULT_IMAGE_COUNT)
+      );
       const newList = response.data;
       this.setState({
         isLoading: false,
