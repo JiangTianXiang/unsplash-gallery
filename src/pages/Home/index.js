@@ -1,25 +1,28 @@
 import React from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { getUrl } from "utils";
 import ImageAndUser from "components/ImageAndUser";
 import { DisplayArea } from "./Home.styles";
 
-const DEFAULT_IMAGE_COUNT = 10;
-const REQUIRE_PHOTO = true;
-const RANDOM_PHOTO = false;
 export default class Home extends React.Component {
   state = {
-    data: null,
+    data: [],
     hasError: false,
-    isLoading: false,
+    page: 1
   };
 
   getData = async () => {
     try {
-      this.setState({ isLoading: true, hasError: false });
-      const response = await axios(getUrl(REQUIRE_PHOTO, RANDOM_PHOTO, DEFAULT_IMAGE_COUNT));
+      this.setState({ hasError: false });
+      const response = await axios(
+        getUrl({ isRandom: false, numberOfRequest: 10, page: this.state.page })
+      );
       const newList = response.data;
-      this.setState({ isLoading: false, data: newList });
+      this.setState({
+        data: this.state.data.concat(newList),
+        page: this.state.page + 1
+      });
     } catch (err) {
       console.log(err);
       this.setState({ hasError: true });
@@ -28,17 +31,25 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this.getData();
+    this.setState({ page: 1 });
   }
 
   render() {
-    const loadSuccess = !this.state.isLoading && this.state.data !== null;
+    const loadSuccess = this.state.data.length !== 0;
     return (
       loadSuccess && (
         <>
           <DisplayArea>
-            {this.state.data.map((item) => {
-              return <ImageAndUser key={item.id} item={item} />;
-            })}
+            <InfiniteScroll
+              dataLength={this.state.data.length}
+              next={this.getData}
+              hasMore={true}
+              loader={<h4>Loading...</h4>}
+            >
+              {this.state.data.map((item, index) => {
+                return <ImageAndUser key={index} item={item} />;
+              })}
+            </InfiniteScroll>
           </DisplayArea>
         </>
       )
