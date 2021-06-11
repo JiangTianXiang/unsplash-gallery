@@ -14,10 +14,7 @@ class Search extends React.Component {
     e.preventDefault();
 
     this.setState({ inputValue: "" });
-    this.props.history.push({
-      pathname: `/search/photos/${this.state.inputValue}`,
-      query: this.state.inputValue,
-    });
+    this.props.history.push(`/search/photos/${this.state.inputValue}`);
   };
 
   render() {
