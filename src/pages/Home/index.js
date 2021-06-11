@@ -1,8 +1,12 @@
 import React from "react";
 import axios from "axios";
+import { getUrl } from "utils";
 import ImageAndUser from "components/ImageAndUser";
 import { DisplayArea } from "./Home.styles";
 
+const DEFAULT_IMAGE_COUNT = 10;
+const REQUIRE_PHOTO = true;
+const RANDOM_PHOTO = false;
 export default class Home extends React.Component {
   state = {
     data: null,
@@ -13,9 +17,7 @@ export default class Home extends React.Component {
   getData = async () => {
     try {
       this.setState({ isLoading: true, hasError: false });
-      const response = await axios(
-        `https://api.unsplash.com/photos/?client_id=${process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY}`
-      );
+      const response = await axios(getUrl(REQUIRE_PHOTO, RANDOM_PHOTO, DEFAULT_IMAGE_COUNT));
       const newList = response.data;
       this.setState({ isLoading: false, data: newList });
     } catch (err) {
@@ -29,9 +31,9 @@ export default class Home extends React.Component {
   }
 
   render() {
+    const loadSuccess = !this.state.isLoading && this.state.data !== null;
     return (
-      !this.state.isLoading &&
-      this.state.data !== null && (
+      loadSuccess && (
         <>
           <DisplayArea>
             {this.state.data.map((item) => {
