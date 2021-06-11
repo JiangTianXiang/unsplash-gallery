@@ -8,9 +8,6 @@ import {
   PhotosAndSelectionsContainer,
   StyledLink,
 } from "./SearchPhotoResult.styles";
-
-const DEFAULT_IMAGE_COUNT = 30;
-const REQUIRE_PHOTO = true;
 export default class SearchPhotoResult extends React.Component {
   state = {
     data: null,
@@ -22,9 +19,7 @@ export default class SearchPhotoResult extends React.Component {
     try {
       this.setState({ isLoading: true, hasError: false });
       const searchInput = this.props.match.params.input;
-      const response = await axios(
-        getSearchUrl(REQUIRE_PHOTO, searchInput, DEFAULT_IMAGE_COUNT)
-      );
+      const response = await axios(getSearchUrl({ query: searchInput }));
       const newList = response.data.results;
       const imagesPerColumn = Math.floor(newList.length / 3);
       this.setState({
