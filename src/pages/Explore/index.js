@@ -18,7 +18,7 @@ export default class Explore extends React.Component {
   getData = async () => {
     try {
       this.setState({ hasError: false });
-      const response = await axios(getUrl({}));
+      const response = await axios(getUrl({ page: null }));
       const newList = response.data;
       this.setState({
         data: [
@@ -51,18 +51,24 @@ export default class Explore extends React.Component {
     return (
       loadSuccess && (
         <DisplayArea>
-          {this.state.data.map((column) => (
+          {this.state.data.map((column, index) => (
             <ImageColumn key={column.key}>
-              <InfiniteScroll
-                dataLength={this.state.data[0].images.length}
-                next={this.getData}
-                hasMore={true}
-                loader={<h4>Loading...</h4>}
-              >
-                {column.images.map((item, index) => (
+              {index === 0 && (
+                <InfiniteScroll
+                  dataLength={this.state.data[0].images.length}
+                  next={this.getData}
+                  hasMore={this.state.page <= this.state.maxPage}
+                  loader={<h4>Loading...</h4>}
+                >
+                  {column.images.map((item, index) => (
+                    <ExploreImage key={column.key * index} item={item} />
+                  ))}
+                </InfiniteScroll>
+              )}
+              {index !== 0 &&
+                column.images.map((item, index) => (
                   <ExploreImage key={column.key * index} item={item} />
                 ))}
-              </InfiniteScroll>
             </ImageColumn>
           ))}
         </DisplayArea>

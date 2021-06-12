@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { getSearchUrl } from "utils";
 import ImageCollection from "components/ImageCollection";
 import {
@@ -11,30 +12,50 @@ import {
 
 export default class SearchCollectionResult extends React.Component {
   state = {
-    data: null,
+    data: [
+      { key: Math.random(), images: [] },
+      { key: Math.random(), images: [] },
+      { key: Math.random(), images: [] },
+    ],
     hasError: false,
-    isLoading: false,
+    page: 0,
+    maxPage: 0,
+    totalResult: 0,
   };
 
   getData = async () => {
     try {
-      this.setState({ isLoading: true, hasError: false });
+      this.setState({ hasError: false });
       const searchInput = this.props.match.params.input;
       const response = await axios(
-        getSearchUrl({ isPhoto: false, query: searchInput })
+        getSearchUrl({ isPhoto: false, query: searchInput, page: this.state.page })
       );
       const newList = response.data.results;
       const imagesPerColumn = Math.floor(newList.length / 3);
       this.setState({
-        isLoading: false,
         data: [
-          { key: Math.random(), images: newList.slice(0, imagesPerColumn) },
           {
-            key: Math.random(),
-            images: newList.slice(imagesPerColumn, 2 * imagesPerColumn),
+            key: this.state.data[0].key,
+            images: this.state.data[0].images.concat(
+              newList.slice(0, imagesPerColumn)
+            ),
           },
-          { key: Math.random(), images: newList.slice(2 * imagesPerColumn) },
+          {
+            key: this.state.data[1].key,
+            images: this.state.data[1].images.concat(
+              newList.slice(imagesPerColumn, 2 * imagesPerColumn)
+            ),
+          },
+          {
+            key: this.state.data[2].key,
+            images: this.state.data[2].images.concat(
+              newList.slice(2 * imagesPerColumn)
+            ),
+          },
         ],
+        page: this.state.page + 1,
+        maxPage: response.data.total_pages,
+        totalResult: response.data.total,
       });
     } catch (err) {
       console.log(err);
@@ -42,24 +63,32 @@ export default class SearchCollectionResult extends React.Component {
     }
   };
 
-
-
   componentDidMount() {
     this.getData();
+    this.setState({ page: 1 });
   }
 
   componentDidUpdate(prevPros) {
     if (this.props.match.params.input !== prevPros.match.params.input) {
+      this.setState({
+        page: 1,
+        data: [
+          { key: this.state.data[0].key, images: [] },
+          { key: this.state.data[1].key, images: [] },
+          { key: this.state.data[2].key, images: [] },
+        ],
+      });
       this.getData();
     }
   }
 
   render() {
-    const loadSuccess = !this.state.isLoading && this.state.data !== null;
+    const loadSuccess = this.state.data !== null;
     return (
       loadSuccess && (
         <>
           <PhotosAndSelectionsContainer>
+            <div>{this.state.totalResult}</div>
             <StyledLink to={`/search/photos/${this.props.match.params.input}`}>
               Photos
             </StyledLink>
@@ -70,11 +99,24 @@ export default class SearchCollectionResult extends React.Component {
             </StyledLink>
           </PhotosAndSelectionsContainer>
           <ImageContainer>
-            {this.state.data.map((column) => (
+            {this.state.data.map((column, index) => (
               <ImageColumn key={column.key}>
-                {column.images.map((item) => (
-                  <ImageCollection key={item.id} item={item} />
-                ))}
+               {index === 0 && (
+                  <InfiniteScroll
+                    dataLength={this.state.data[0].images.length}
+                    next={this.getData}
+                    hasMore={this.state.page <= this.state.maxPage}
+                    loader={<h4>Loading...</h4>}
+                  >
+                    {column.images.map((item, index) => (
+                      <ImageCollection key={column.key * index} item={item} />
+                    ))}
+                  </InfiniteScroll>
+                )}
+                {index !== 0 &&
+                  column.images.map((item, index) => (
+                    <ImageCollection key={column.key * index} item={item} />
+                  ))}
               </ImageColumn>
             ))}
           </ImageContainer>

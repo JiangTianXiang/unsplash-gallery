@@ -17,15 +17,15 @@ export default class SearchPhotoResult extends React.Component {
       { key: Math.random(), images: [] },
     ],
     hasError: false,
-    page: 0,
+    page: 1,
     maxPage: 0,
     totalResult: 0,
   };
 
   getData = async () => {
     try {
-      this.setState({ hasError: false });
       const searchInput = this.props.match.params.input;
+      console.log(this.state.page);
       const response = await axios(
         getSearchUrl({ query: searchInput, page: this.state.page })
       );
@@ -55,6 +55,7 @@ export default class SearchPhotoResult extends React.Component {
         page: this.state.page + 1,
         maxPage: response.data.total_pages,
         totalResult: response.data.total,
+        hasError: false,
       });
     } catch (err) {
       console.log(err);
@@ -69,8 +70,6 @@ export default class SearchPhotoResult extends React.Component {
   }
 
   componentDidUpdate(prevPros) {
-    console.log(this.props.match.params.input);
-    console.log(`PrevProps : ${prevPros.match.params.input}`);
     if (this.props.match.params.input !== prevPros.match.params.input) {
       this.setState({
         page: 1,
@@ -101,18 +100,24 @@ export default class SearchPhotoResult extends React.Component {
             </StyledLink>
           </PhotosAndSelectionsContainer>
           <ImageContainer>
-            {this.state.data.map((column) => (
+            {this.state.data.map((column, index) => (
               <ImageColumn key={column.key}>
-                <InfiniteScroll
-                  dataLength={this.state.data[0].images.length}
-                  next={this.getData}
-                  hasMore={this.state.page <= this.state.maxPage}
-                  loader={<h4>Loading...</h4>}
-                >
-                  {column.images.map((item, index) => (
+                {index === 0 && (
+                  <InfiniteScroll
+                    dataLength={this.state.data[0].images.length}
+                    next={this.getData}
+                    hasMore={this.state.page <= this.state.maxPage}
+                    loader={<h4>Loading...</h4>}
+                  >
+                    {column.images.map((item, index) => (
+                      <ExploreImage key={column.key * index} item={item} />
+                    ))}
+                  </InfiniteScroll>
+                )}
+                {index !== 0 &&
+                  column.images.map((item, index) => (
                     <ExploreImage key={column.key * index} item={item} />
                   ))}
-                </InfiniteScroll>
               </ImageColumn>
             ))}
           </ImageContainer>
