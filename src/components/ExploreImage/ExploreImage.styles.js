@@ -32,7 +32,6 @@ export const MoreInfoDiv = styled.div`
   left: 50%;
   opacity: 0;
   transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
 `;
 
 export const LikeInfoDiv = styled.div`

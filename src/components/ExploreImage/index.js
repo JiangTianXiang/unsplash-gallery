@@ -10,7 +10,6 @@ import {
 } from "./ExploreImage.styles";
 export default function Image(props) {
   const [opacity, setOpacity] = useState(1);
-  console.log(props);
   return (
     <>
       <Container imageContainerCSS={defaultImageContainerCSS}>
