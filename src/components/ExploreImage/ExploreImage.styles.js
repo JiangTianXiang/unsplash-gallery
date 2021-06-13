@@ -1,10 +1,5 @@
 import styled, { css } from "styled-components";
 
-export const Container = styled.div`
-  position: relative;
-  ${(props) => props.imageContainerCSS};
-`;
-
 export const Overlay = styled.div`
   position: absolute;
   width: 100%;
@@ -20,11 +15,39 @@ export const defaultImageCSS = css`
 `;
 
 export const DisplayImage = styled.img`
-    ${(props) => props.imageCSS}
-    object-fit:${(props) => `${props.objectFit || "cover"}`};
+  transition: 0.5s ease;
+  ${(props) => props.imageCSS}
+  object-fit:${(props) => `${props.objectFit || "cover"}`};
 `;
 
 export const defaultImageContainerCSS = css`
   width: 100%;
   height: auto;
+`;
+
+export const MoreInfoDiv = styled.div`
+  position: absolute;
+  transition: 0.5s ease;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+`;
+
+export const LikeInfoDiv = styled.div`
+  font-size: 32px;
+`;
+
+export const Container = styled.div`
+  position: relative;
+  ${(props) => props.imageContainerCSS};
+  &:hover {
+    ${DisplayImage} {
+      opacity: 0.3;
+    }
+    ${MoreInfoDiv} {
+      opacity: 1;
+    }
+  }
 `;

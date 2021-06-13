@@ -8,6 +8,9 @@ import {
   ImageColumn,
   PhotosAndSelectionsContainer,
   StyledLink,
+  PhotoResultDetails,
+  PhotoSelectionSwitch,
+  UnderScoredLink
 } from "./SearchPhotoResult.styles";
 export default class SearchPhotoResult extends React.Component {
   state = {
@@ -67,6 +70,13 @@ export default class SearchPhotoResult extends React.Component {
       this.setState({
         page: 1,
         data: [],
+        renderObject: [
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+        ],
+        maxPage: 0,
+        totalResult: 0,
       });
       this.getData();
     }
@@ -78,15 +88,22 @@ export default class SearchPhotoResult extends React.Component {
       loadSuccess && (
         <>
           <PhotosAndSelectionsContainer>
-            <div>{this.state.totalResult}</div>
-            <StyledLink to={`/search/photos/${this.props.match.params.input}`}>
-              Photos
-            </StyledLink>
-            <StyledLink
-              to={`/search/collections/${this.props.match.params.input}`}
-            >
-              Collections
-            </StyledLink>
+            <PhotoResultDetails>
+              <div>Search results for "{this.props.match.params.input}"</div>
+              <div>{this.state.totalResult} Photos found</div>
+            </PhotoResultDetails>
+            <PhotoSelectionSwitch>
+              <UnderScoredLink
+                to={`/search/photos/${this.props.match.params.input}`}
+              >
+                Photos
+              </UnderScoredLink>
+              <StyledLink
+                to={`/search/collections/${this.props.match.params.input}`}
+              >
+                Collections
+              </StyledLink>
+            </PhotoSelectionSwitch>
           </PhotosAndSelectionsContainer>
           <InfiniteScroll
             dataLength={this.state.renderObject[0].images.length}

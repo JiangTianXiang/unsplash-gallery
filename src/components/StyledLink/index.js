@@ -7,7 +7,7 @@ export const StyledLink = styled(Link)`
   background-color: ${(props) => props.theme.secondary};
 `;
 
-export const StyledLinkIcon = styled.img `
-  width: 50px;
-  height: 50px;
+export const StyledLinkIcon = styled.img`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `;

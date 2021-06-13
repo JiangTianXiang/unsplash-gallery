@@ -11,9 +11,14 @@ export const NavBarContianer = styled.div`
   background-color: ${(props) => props.theme.secondary};
 `;
 
-export const NavBarInfo = styled.div `
+export const NavBarInfo = styled.div`
   width: 60%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+`;
+
+export const ThemeSwitch = styled.button`
+  background-color: ${(props) => props.theme.secondary};
+  border: none;
 `;

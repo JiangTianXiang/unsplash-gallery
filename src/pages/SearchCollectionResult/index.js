@@ -8,6 +8,9 @@ import {
   ImageColumn,
   PhotosAndSelectionsContainer,
   StyledLink,
+  PhotoResultDetails,
+  PhotoSelectionSwitch,
+  UnderScoredLink,
 } from "./SearchCollectionResult.styles";
 
 export default class SearchCollectionResult extends React.Component {
@@ -69,11 +72,14 @@ export default class SearchCollectionResult extends React.Component {
     if (this.props.match.params.input !== prevPros.match.params.input) {
       this.setState({
         page: 1,
-        data: [
-          { key: this.state.data[0].key, images: [] },
-          { key: this.state.data[1].key, images: [] },
-          { key: this.state.data[2].key, images: [] },
+        data: [],
+        renderObject: [
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
         ],
+        maxPage: 0,
+        totalResult: 0,
       });
       this.getData();
     }
@@ -85,15 +91,22 @@ export default class SearchCollectionResult extends React.Component {
       loadSuccess && (
         <>
           <PhotosAndSelectionsContainer>
-            <div>{this.state.totalResult}</div>
-            <StyledLink to={`/search/photos/${this.props.match.params.input}`}>
-              Photos
-            </StyledLink>
-            <StyledLink
-              to={`/search/collections/${this.props.match.params.input}`}
-            >
-              Collections
-            </StyledLink>
+            <PhotoResultDetails>
+              <div>Search results for "{this.props.match.params.input}"</div>
+              <div>{this.state.totalResult} collections found</div>
+            </PhotoResultDetails>
+            <PhotoSelectionSwitch>
+              <StyledLink
+                to={`/search/photos/${this.props.match.params.input}`}
+              >
+                Photos
+              </StyledLink>
+              <UnderScoredLink
+                to={`/search/collections/${this.props.match.params.input}`}
+              >
+                Collections
+              </UnderScoredLink>
+            </PhotoSelectionSwitch>
           </PhotosAndSelectionsContainer>
           <InfiniteScroll
             dataLength={this.state.renderObject[0].images.length}
