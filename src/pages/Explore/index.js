@@ -7,12 +7,14 @@ import { DisplayArea, ImageColumn } from "./Explore.styles";
 
 export default class Explore extends React.Component {
   state = {
-    data: [
+    data: [],
+    renderObject: [
       { key: Math.random(), images: [] },
       { key: Math.random(), images: [] },
       { key: Math.random(), images: [] },
     ],
     hasError: false,
+    newDataIndex: 0,
   };
 
   getData = async () => {
@@ -21,20 +23,8 @@ export default class Explore extends React.Component {
       const response = await axios(getUrl({ page: null }));
       const newList = response.data;
       this.setState({
-        data: [
-          {
-            key: this.state.data[0].key,
-            images: this.state.data[0].images.concat(newList.slice(0, 10)),
-          },
-          {
-            key: this.state.data[1].key,
-            images: this.state.data[1].images.concat(newList.slice(10, 20)),
-          },
-          {
-            key: this.state.data[2].key,
-            images: this.state.data[2].images.concat(newList.slice(20)),
-          },
-        ],
+        data: [...this.state.data, newList],
+        renderObject: this.splitDataToColumns(newList),
       });
     } catch (err) {
       console.log(err);
@@ -46,18 +36,29 @@ export default class Explore extends React.Component {
     this.getData();
   }
 
+  splitDataToColumns = (newData) => {
+    const newRenderObject = [...this.state.renderObject];
+    let counter = 0;
+
+    while (counter < newData.length) {
+      newRenderObject[counter % 3].images.push(newData[counter]);
+      counter++;
+    }
+    return newRenderObject;
+  };
+
   render() {
     const loadSuccess = this.state.data !== null;
     return (
       loadSuccess && (
         <InfiniteScroll
-          dataLength={this.state.data[0].images.length}
+          dataLength={this.state.renderObject[0].images.length}
           next={this.getData}
           hasMore={true}
           loader={<h4>Loading...</h4>}
         >
           <DisplayArea>
-            {this.state.data.map((column, index) => (
+            {this.state.renderObject.map((column) => (
               <ImageColumn key={column.key}>
                 {column.images.map((item, index) => (
                   <ExploreImage key={column.key * index} item={item} />

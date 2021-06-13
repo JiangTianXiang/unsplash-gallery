@@ -11,7 +11,8 @@ import {
 } from "./SearchPhotoResult.styles";
 export default class SearchPhotoResult extends React.Component {
   state = {
-    data: [
+    data: [],
+    renderObject: [
       { key: Math.random(), images: [] },
       { key: Math.random(), images: [] },
       { key: Math.random(), images: [] },
@@ -30,28 +31,9 @@ export default class SearchPhotoResult extends React.Component {
         getSearchUrl({ query: searchInput, page: this.state.page })
       );
       const newList = response.data.results;
-      const imagesPerColumn = Math.floor(newList.length / 3);
       this.setState({
-        data: [
-          {
-            key: this.state.data[0].key,
-            images: this.state.data[0].images.concat(
-              newList.slice(0, imagesPerColumn)
-            ),
-          },
-          {
-            key: this.state.data[1].key,
-            images: this.state.data[1].images.concat(
-              newList.slice(imagesPerColumn, 2 * imagesPerColumn)
-            ),
-          },
-          {
-            key: this.state.data[2].key,
-            images: this.state.data[2].images.concat(
-              newList.slice(2 * imagesPerColumn)
-            ),
-          },
-        ],
+        data: [...this.state.data, newList],
+        renderObject: this.splitDataToColumns(newList),
         page: this.state.page + 1,
         maxPage: response.data.total_pages,
         totalResult: response.data.total,
@@ -61,6 +43,17 @@ export default class SearchPhotoResult extends React.Component {
       console.log(err);
       this.setState({ hasError: true });
     }
+  };
+
+  splitDataToColumns = (newData) => {
+    const newRenderObject = [...this.state.renderObject];
+    let counter = 0;
+
+    while (counter < newData.length) {
+      newRenderObject[counter % 3].images.push(newData[counter]);
+      counter++;
+    }
+    return newRenderObject;
   };
 
   componentDidMount() {
@@ -73,11 +66,7 @@ export default class SearchPhotoResult extends React.Component {
     if (this.props.match.params.input !== prevPros.match.params.input) {
       this.setState({
         page: 1,
-        data: [
-          { key: this.state.data[0].key, images: [] },
-          { key: this.state.data[1].key, images: [] },
-          { key: this.state.data[2].key, images: [] },
-        ],
+        data: [],
       });
       this.getData();
     }
@@ -100,13 +89,13 @@ export default class SearchPhotoResult extends React.Component {
             </StyledLink>
           </PhotosAndSelectionsContainer>
           <InfiniteScroll
-            dataLength={this.state.data[0].images.length}
+            dataLength={this.state.renderObject[0].images.length}
             next={this.getData}
             hasMore={this.state.page <= this.state.maxPage}
             loader={<h4>Loading...</h4>}
           >
             <ImageContainer>
-              {this.state.data.map((column) => (
+              {this.state.renderObject.map((column) => (
                 <ImageColumn key={column.key}>
                   {column.images.map((item, index) => (
                     <ExploreImage key={column.key * index} item={item} />
