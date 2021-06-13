@@ -1,33 +1,30 @@
 import React from "react";
 import axios from "axios";
 import ExploreImage from "components/ExploreImage";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { getUrl } from "utils";
 import { DisplayArea, ImageColumn } from "./Explore.styles";
 
-const DEFAULT_IMAGE_COUNT = 30;
-const REQUIRE_PHOTO = true;
-const RANDOM_PHOTO = true;
 export default class Explore extends React.Component {
   state = {
-    data: null,
+    data: [],
+    renderObject: [
+      { key: Math.random(), images: [] },
+      { key: Math.random(), images: [] },
+      { key: Math.random(), images: [] },
+    ],
     hasError: false,
-    isLoading: false,
+    newDataIndex: 0,
   };
 
   getData = async () => {
     try {
-      this.setState({ isLoading: true, hasError: false });
-      const response = await axios(
-        getUrl(REQUIRE_PHOTO, RANDOM_PHOTO, DEFAULT_IMAGE_COUNT)
-      );
+      this.setState({ hasError: false });
+      const response = await axios(getUrl({ page: null }));
       const newList = response.data;
       this.setState({
-        isLoading: false,
-        data: [
-          { key: Math.random(), images: newList.slice(0, 10) },
-          { key: Math.random(), images: newList.slice(10, 20) },
-          { key: Math.random(), images: newList.slice(20) },
-        ],
+        data: [...this.state.data, newList],
+        renderObject: this.splitDataToColumns(newList),
       });
     } catch (err) {
       console.log(err);
@@ -39,19 +36,37 @@ export default class Explore extends React.Component {
     this.getData();
   }
 
+  splitDataToColumns = (newData) => {
+    const newRenderObject = [...this.state.renderObject];
+    let counter = 0;
+
+    while (counter < newData.length) {
+      newRenderObject[counter % 3].images.push(newData[counter]);
+      counter++;
+    }
+    return newRenderObject;
+  };
+
   render() {
-    const loadSuccess = !this.state.isLoading && this.state.data !== null;
+    const loadSuccess = this.state.data !== null;
     return (
       loadSuccess && (
-        <DisplayArea>
-          {this.state.data.map((column) => (
-            <ImageColumn key={column.key}>
-              {column.images.map((item) => (
-                <ExploreImage key={item.id} item={item} />
-              ))}
-            </ImageColumn>
-          ))}
-        </DisplayArea>
+        <InfiniteScroll
+          dataLength={this.state.renderObject[0].images.length}
+          next={this.getData}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
+          <DisplayArea>
+            {this.state.renderObject.map((column) => (
+              <ImageColumn key={column.key}>
+                {column.images.map((item, index) => (
+                  <ExploreImage key={column.key * index} item={item} />
+                ))}
+              </ImageColumn>
+            ))}
+          </DisplayArea>
+        </InfiniteScroll>
       )
     );
   }

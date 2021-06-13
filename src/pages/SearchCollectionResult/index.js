@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { getSearchUrl } from "utils";
 import ImageCollection from "components/ImageCollection";
 import {
@@ -7,34 +8,43 @@ import {
   ImageColumn,
   PhotosAndSelectionsContainer,
   StyledLink,
+  PhotoResultDetails,
+  PhotoSelectionSwitch,
+  UnderScoredLink,
 } from "./SearchCollectionResult.styles";
 
 export default class SearchCollectionResult extends React.Component {
   state = {
-    data: null,
+    data: [],
+    renderObject: [
+      { key: Math.random(), images: [] },
+      { key: Math.random(), images: [] },
+      { key: Math.random(), images: [] },
+    ],
     hasError: false,
-    isLoading: false,
+    page: 0,
+    maxPage: 0,
+    totalResult: 0,
   };
 
   getData = async () => {
     try {
-      this.setState({ isLoading: true, hasError: false });
+      this.setState({ hasError: false });
       const searchInput = this.props.match.params.input;
       const response = await axios(
-        getSearchUrl({ isPhoto: false, query: searchInput })
+        getSearchUrl({
+          isPhoto: false,
+          query: searchInput,
+          page: this.state.page,
+        })
       );
       const newList = response.data.results;
-      const imagesPerColumn = Math.floor(newList.length / 3);
       this.setState({
-        isLoading: false,
-        data: [
-          { key: Math.random(), images: newList.slice(0, imagesPerColumn) },
-          {
-            key: Math.random(),
-            images: newList.slice(imagesPerColumn, 2 * imagesPerColumn),
-          },
-          { key: Math.random(), images: newList.slice(2 * imagesPerColumn) },
-        ],
+        data: [...this.state.data, newList],
+        renderObject: this.splitDataToColumns(newList),
+        page: this.state.page + 1,
+        maxPage: response.data.total_pages,
+        totalResult: response.data.total,
       });
     } catch (err) {
       console.log(err);
@@ -42,40 +52,78 @@ export default class SearchCollectionResult extends React.Component {
     }
   };
 
+  splitDataToColumns = (newData) => {
+    const newRenderObject = [...this.state.renderObject];
+    let counter = 0;
+
+    while (counter < newData.length) {
+      newRenderObject[counter % 3].images.push(newData[counter]);
+      counter++;
+    }
+    return newRenderObject;
+  };
+
   componentDidMount() {
     this.getData();
+    this.setState({ page: 1 });
   }
 
   componentDidUpdate(prevPros) {
     if (this.props.match.params.input !== prevPros.match.params.input) {
+      this.setState({
+        page: 1,
+        data: [],
+        renderObject: [
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+        ],
+        maxPage: 0,
+        totalResult: 0,
+      });
       this.getData();
     }
   }
 
   render() {
-    const loadSuccess = !this.state.isLoading && this.state.data !== null;
+    const loadSuccess = this.state.data !== null;
     return (
       loadSuccess && (
         <>
           <PhotosAndSelectionsContainer>
-            <StyledLink to={`/search/photos/${this.props.match.params.input}`}>
-              Photos
-            </StyledLink>
-            <StyledLink
-              to={`/search/collections/${this.props.match.params.input}`}
-            >
-              Collections
-            </StyledLink>
+            <PhotoResultDetails>
+              <div>Search results for "{this.props.match.params.input}"</div>
+              <div>{this.state.totalResult} collections found</div>
+            </PhotoResultDetails>
+            <PhotoSelectionSwitch>
+              <StyledLink
+                to={`/search/photos/${this.props.match.params.input}`}
+              >
+                Photos
+              </StyledLink>
+              <UnderScoredLink
+                to={`/search/collections/${this.props.match.params.input}`}
+              >
+                Collections
+              </UnderScoredLink>
+            </PhotoSelectionSwitch>
           </PhotosAndSelectionsContainer>
-          <ImageContainer>
-            {this.state.data.map((column) => (
-              <ImageColumn key={column.key}>
-                {column.images.map((item) => (
-                  <ImageCollection key={item.id} item={item} />
-                ))}
-              </ImageColumn>
-            ))}
-          </ImageContainer>
+          <InfiniteScroll
+            dataLength={this.state.renderObject[0].images.length}
+            next={this.getData}
+            hasMore={this.state.page <= this.state.maxPage}
+            loader={<h4>Loading...</h4>}
+          >
+            <ImageContainer>
+              {this.state.renderObject.map((column) => (
+                <ImageColumn key={column.key}>
+                  {column.images.map((item, index) => (
+                    <ImageCollection key={column.key * index} item={item} />
+                  ))}
+                </ImageColumn>
+              ))}
+            </ImageContainer>
+          </InfiniteScroll>
         </>
       )
     );

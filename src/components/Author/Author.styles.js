@@ -5,6 +5,9 @@ export const UserContainer = styled(Link)`
   display: flex;
   flex-direction: row;
   cursor: pointer;
+  color: ${(props) => props.theme.main};
+  text-decoration: none;
+  background-color: ${(props) => props.theme.secondary};
 `;
 
 export const UserName = styled.div`

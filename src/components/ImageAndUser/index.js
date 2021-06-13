@@ -12,7 +12,10 @@ export default class ImageAndUser extends React.Component {
     return (
       <ImageAndUserContainer>
         <Author getUser={this.state.data.user} />
-        <DisplayImage url={this.state.data.urls.regular} />
+        <DisplayImage
+          url={this.state.data.urls.regular}
+          placeholder={this.state.data.color}
+        />
         <Likes>{`${this.state.data.likes} likes`} </Likes>
       </ImageAndUserContainer>
     );

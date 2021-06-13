@@ -17,11 +17,34 @@ export const ImageContainer = styled.div`
 export const PhotosAndSelectionsContainer = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   width: 100%;
 `;
 
-export const StyledLink = styled(Link) `
-    margin: 16px;
-    font-size: 32px;
-    font-family: "Poppins";
-`
+export const StyledLink = styled(Link)`
+  margin: 16px;
+  font-size: 32px;
+  color: ${(props) => props.theme.main};
+  text-decoration: none;
+  background-color: ${(props) => props.theme.secondary};
+`;
+
+export const UnderScoredLink = styled(Link)`
+  margin: 16px;
+  font-size: 32px;
+  color: ${(props) => props.theme.main};
+  text-decoration: none;
+  background-color: ${(props) => props.theme.secondary};
+  border-bottom: 5px solid ${(props) => props.theme.main};
+`;
+
+export const PhotoResultDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const PhotoSelectionSwitch = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
