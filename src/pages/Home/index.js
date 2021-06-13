@@ -9,7 +9,7 @@ export default class Home extends React.Component {
   state = {
     data: [],
     hasError: false,
-    page: 1
+    page: 1,
   };
 
   getData = async () => {
@@ -21,7 +21,7 @@ export default class Home extends React.Component {
       const newList = response.data;
       this.setState({
         data: this.state.data.concat(newList),
-        page: this.state.page + 1
+        page: this.state.page + 1,
       });
     } catch (err) {
       console.log(err);
@@ -39,18 +39,18 @@ export default class Home extends React.Component {
     return (
       loadSuccess && (
         <>
-          <DisplayArea>
-            <InfiniteScroll
-              dataLength={this.state.data.length}
-              next={this.getData}
-              hasMore={true}
-              loader={<h4>Loading...</h4>}
-            >
+          <InfiniteScroll
+            dataLength={this.state.data.length}
+            next={this.getData}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+          >
+            <DisplayArea>
               {this.state.data.map((item, index) => {
                 return <ImageAndUser key={index} item={item} />;
               })}
-            </InfiniteScroll>
-          </DisplayArea>
+            </DisplayArea>
+          </InfiniteScroll>
         </>
       )
     );

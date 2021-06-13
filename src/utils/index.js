@@ -8,7 +8,7 @@ export const getUrl = ({
   const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
   const type = isPhoto ? "/photos" : "/collections";
   const random = isRandom ? "/random" : "";
-  const pages = page === null ? "" : `&page=${page}`;
+  const pages = (page === null) ? "" : `&page=${page}`;
   return `${base}${type}${random}/?client_id=${apiKey}&count=${numberOfRequest}${pages}`;
 };
 

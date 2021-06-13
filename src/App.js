@@ -12,36 +12,53 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Poppins";
     text-align: center;
+    background-color: ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.main}
   }
 `;
 
-const theme = {
+const lightTheme = {
   main: "#000000",
   secondary: "#FFFFFF",
 };
 
-export default function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Router>
-        <NavBar />
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route exact path="/" component={Home}></Route>
-          <Route path="/user/:name" component={User}></Route>
-          <Route
-            path="/search/photos/:input"
-            component={SearchPhotoResult}
-          ></Route>
-          <Route
-            path="/search/collections/:input"
-            component={SearchCollectionResult}
-          ></Route>
-          <Route path="/explore" component={Explore}></Route>
-        </Switch>
-      </Router>
-    </ThemeProvider>
-  );
+const darkTheme = {
+  secondary: "#000000",
+  main: "#FFFFFF",
+};
+
+export default class App extends React.Component {
+  state = {
+    on: true,
+  };
+
+  handleTheme = () => {
+    this.setState({ on: !this.state.on });
+  };
+
+  render() {
+    return (
+      <ThemeProvider theme={this.state.on ? lightTheme : darkTheme}>
+        <GlobalStyle />
+        <Router>
+          <NavBar handleTheme={this.handleTheme} on={this.state.on} />
+          {/* A <Switch> looks through its children <Route>s and
+              renders the first one that matches the current URL. */}
+          <Switch>
+            <Route exact path="/" component={Home}></Route>
+            <Route path="/user/:name" component={User}></Route>
+            <Route
+              path="/search/photos/:input"
+              component={SearchPhotoResult}
+            ></Route>
+            <Route
+              path="/search/collections/:input"
+              component={SearchCollectionResult}
+            ></Route>
+            <Route path="/explore" component={Explore}></Route>
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    );
+  }
 }

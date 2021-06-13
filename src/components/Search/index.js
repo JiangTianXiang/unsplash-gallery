@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
+import { SearchInput } from "./Search.styles";
 
 class Search extends React.Component {
   state = {
@@ -20,7 +21,10 @@ class Search extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input onChange={this.handleChange} value={this.state.inputValue} />
+        <SearchInput
+          onChange={this.handleChange}
+          value={this.state.inputValue}
+        />
       </form>
     );
   }

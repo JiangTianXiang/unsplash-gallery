@@ -28,7 +28,11 @@ export default class SearchCollectionResult extends React.Component {
       this.setState({ hasError: false });
       const searchInput = this.props.match.params.input;
       const response = await axios(
-        getSearchUrl({ isPhoto: false, query: searchInput, page: this.state.page })
+        getSearchUrl({
+          isPhoto: false,
+          query: searchInput,
+          page: this.state.page,
+        })
       );
       const newList = response.data.results;
       const imagesPerColumn = Math.floor(newList.length / 3);
@@ -98,28 +102,22 @@ export default class SearchCollectionResult extends React.Component {
               Collections
             </StyledLink>
           </PhotosAndSelectionsContainer>
-          <ImageContainer>
-            {this.state.data.map((column, index) => (
-              <ImageColumn key={column.key}>
-               {index === 0 && (
-                  <InfiniteScroll
-                    dataLength={this.state.data[0].images.length}
-                    next={this.getData}
-                    hasMore={this.state.page <= this.state.maxPage}
-                    loader={<h4>Loading...</h4>}
-                  >
-                    {column.images.map((item, index) => (
-                      <ImageCollection key={column.key * index} item={item} />
-                    ))}
-                  </InfiniteScroll>
-                )}
-                {index !== 0 &&
-                  column.images.map((item, index) => (
+          <InfiniteScroll
+            dataLength={this.state.data[0].images.length}
+            next={this.getData}
+            hasMore={this.state.page <= this.state.maxPage}
+            loader={<h4>Loading...</h4>}
+          >
+            <ImageContainer>
+              {this.state.data.map((column) => (
+                <ImageColumn key={column.key}>
+                  {column.images.map((item, index) => (
                     <ImageCollection key={column.key * index} item={item} />
                   ))}
-              </ImageColumn>
-            ))}
-          </ImageContainer>
+                </ImageColumn>
+              ))}
+            </ImageContainer>
+          </InfiniteScroll>
         </>
       )
     );

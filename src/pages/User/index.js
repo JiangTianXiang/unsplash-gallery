@@ -34,10 +34,7 @@ export default class User extends React.Component {
         user: newList[0].user,
         data: [
           { key: Math.random(), images: newList.slice(0, imagesPerColumn) },
-          {
-            key: Math.random(),
-            images: newList.slice(imagesPerColumn, 2 * imagesPerColumn),
-          },
+          { key: Math.random(), images: newList.slice(imagesPerColumn, 2 * imagesPerColumn) },
           { key: Math.random(), images: newList.slice(2 * imagesPerColumn) },
         ],
       });
@@ -71,7 +68,7 @@ export default class User extends React.Component {
             {this.state.data.map((column) => (
               <ImageColumn key={column.key}>
                 {column.images.map((item) => (
-                  <ExploreImage key={item.id} item={item} />
+                  <ExploreImage key={item.id} item={item}/>
                 ))}
               </ImageColumn>
             ))}
