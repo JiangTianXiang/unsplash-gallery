@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import { NavBarContianer, NavBarInfo, ThemeSwitch } from "./NavBar.styles";
 import Search from "components/Search";
 import { StyledLink, StyledLinkIcon } from "components/StyledLink";
-import logo from "utils/moon.PNG";
+import logo from "utils/resources/moon.PNG";
 
 const HOME_ICON_URL =
   "https://icon-library.com/images/homepage-icon/homepage-icon-17.jpg";
