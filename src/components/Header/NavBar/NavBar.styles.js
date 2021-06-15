@@ -7,8 +7,11 @@ export const NavBarContianer = styled.div`
   display: flex;
   justify-content: center;
   border-bottom: 1px solid lightgray;
-  padding: 32px;
   background-color: ${(props) => props.theme.secondary};
+
+  margin-top: 74px;
+  margin-left: 130px;
+  margin-right: 130px;
 `;
 
 export const NavBarInfo = styled.div`

@@ -5,4 +5,5 @@ export const DisplayArea = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  background-color:#F9FAFB;
 `;

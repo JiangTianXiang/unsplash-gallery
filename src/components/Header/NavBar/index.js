@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { NavBarContianer, NavBarInfo, ThemeSwitch } from "./NavBar.styles";
-import Search from "components/Search";
+import Search from "components/Header/Search";
 import { StyledLink, StyledLinkIcon } from "components/StyledLink";
 import logo from "utils/resources/moon.PNG";
 
