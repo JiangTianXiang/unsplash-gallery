@@ -6,8 +6,9 @@ export const ImageAndUserContainer = styled.div`
   align-items: center;
   margin-top: 16px;
   border-radius: 4px;
-  background-color: white;
 
+  background-color: white;
+  max-width: 900px;
   padding-left: 32px;
   padding-right: 37px;
 `;

@@ -7,21 +7,17 @@ export const NavBarContianer = styled.div`
   display: flex;
   justify-content: center;
   border-bottom: 1px solid lightgray;
-  background-color: ${(props) => props.theme.secondary};
-
-  margin-top: 74px;
-  margin-left: 130px;
-  margin-right: 130px;
+  background-color: #fcfcfd;
+  /* background-color: ${(props) => props.theme.secondary}; */
+  padding-top: 22px;
 `;
 
 export const NavBarInfo = styled.div`
-  width: 60%;
+  width: 100%;
+  height: 64px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  max-width: 900px;
 `;
 
-export const ThemeSwitch = styled.button`
-  background-color: ${(props) => props.theme.secondary};
-  border: none;
-`;

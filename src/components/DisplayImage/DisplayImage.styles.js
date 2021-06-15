@@ -13,6 +13,7 @@ export const Overlay = styled.div`
   height: 100%;
   opacity: ${(props) => props.opacity};
   background-color: ${(props) => `${props.placeholderColor || "grey"}`};
+  max-width: 900px;
   transition: 2s;
 `;
 
