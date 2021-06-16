@@ -25,6 +25,7 @@ export const IconContainer = styled.div`
 const FunctionDescription = styled.div`
   font-size: 8px;
   color: #999999;
+  background-color: #fcfcfd;
 `;
 
 export const IconButton = (props) => {

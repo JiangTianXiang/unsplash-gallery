@@ -6,19 +6,16 @@ export const SearchInput = styled.input`
   border: none;
   margin-top: 13px;
   margin-left: 33px;
-  &:focus {
-    border: none;
-  }
 `;
 
 export const SearchContainer = styled.div`
   width: 100%;
   margin-bottom: 21px;
   height: 49px;
+  background-color: white;
 
   display: flex;
   flex-direction: row;
-  background-color: white;
 `;
 
 export const SearchIcon = styled.img`

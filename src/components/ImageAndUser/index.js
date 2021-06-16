@@ -1,6 +1,8 @@
 import React from "react";
-import DisplayImage from "../DisplayImage";
-import Author from "../Author";
+import favoriteIcon from "utils/resources/Iconly-Broken-Star.svg";
+import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
+import DisplayImage from "components/DisplayImage";
+import Author from "components/Author";
 import {
   ImageAndUserContainer,
   Likes,
@@ -11,8 +13,6 @@ import {
   LikeIcon,
 } from "./ImageAndUser.styles";
 import { getDiffInTime } from "utils/index";
-import favoriteIcon from "utils/resources/Iconly-Broken-Star.png";
-import likeIcon from "utils/resources/Iconly-Broken-Heart.png";
 
 export default class ImageAndUser extends React.Component {
   state = {
@@ -32,6 +32,7 @@ export default class ImageAndUser extends React.Component {
         <DisplayImage
           url={this.state.data.urls.regular}
           placeholder={this.state.data.color}
+          portrait={this.state.data.width < this.state.data.height}
         />
         <ImageAndUserFooter>
           <LikesContainer>

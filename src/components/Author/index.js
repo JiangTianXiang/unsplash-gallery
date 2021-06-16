@@ -1,3 +1,4 @@
+import showMoreIcon from "utils/resources/Icon-show-detail.svg";
 import {
   UserContainer,
   UserName,
@@ -7,7 +8,6 @@ import {
   ImageAndUserHeader,
   LastUpdateTime,
 } from "./Author.styles";
-import showMoreIcon from "utils/resources/Icon-show-detail.png";
 
 export default function Author(props) {
   return (

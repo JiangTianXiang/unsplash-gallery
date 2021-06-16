@@ -13,13 +13,19 @@ export const Overlay = styled.div`
   height: 100%;
   opacity: ${(props) => props.opacity};
   background-color: ${(props) => `${props.placeholderColor || "grey"}`};
-  max-width: 900px;
+  max-width: 830px;
   transition: 2s;
 `;
 
 export const defaultImageCSS = css`
   width: 100%;
   height: 100%;
+`;
+
+export const portraitImageCSS = css`
+  width: 100%;
+  height: 100%;
+  max-height: 800px;
 `;
 
 export const DisplayImage = styled.img`

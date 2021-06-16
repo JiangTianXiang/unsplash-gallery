@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
+import searchIcon from "utils/resources/Iconly-Broken-Search.svg";
 import { SearchInput, SearchContainer, SearchIcon } from "./Search.styles";
-import searchIcon from "utils/resources/Iconly-Broken-Search.png";
 
 class Search extends React.Component {
   state = {

@@ -8,7 +8,7 @@ export const ImageAndUserContainer = styled.div`
   border-radius: 4px;
 
   background-color: white;
-  max-width: 900px;
+  max-width: 830px;
   padding-left: 32px;
   padding-right: 37px;
 `;
