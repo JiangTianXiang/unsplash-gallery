@@ -36,6 +36,7 @@ export const UserName = styled.div`
 
 export const LastUpdateTime = styled.div`
   font-size: 14px;
+  text-align: start;
   opacity: 39%;
 `;
 
