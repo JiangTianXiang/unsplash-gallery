@@ -38,20 +38,18 @@ export default class Home extends React.Component {
     const loadSuccess = this.state.data.length !== 0;
     return (
       loadSuccess && (
-        <>
-          <InfiniteScroll
-            dataLength={this.state.data.length}
-            next={this.getData}
-            hasMore={true}
-            loader={<h4>Loading...</h4>}
-          >
-            <DisplayArea>
-              {this.state.data.map((item, index) => {
-                return <ImageAndUser key={index} item={item} />;
-              })}
-            </DisplayArea>
-          </InfiniteScroll>
-        </>
+        <InfiniteScroll
+          dataLength={this.state.data.length}
+          next={this.getData}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
+          <DisplayArea>
+            {this.state.data.map((item, index) => {
+              return <ImageAndUser key={index} item={item} />;
+            })}
+          </DisplayArea>
+        </InfiniteScroll>
       )
     );
   }
