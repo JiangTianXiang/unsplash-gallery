@@ -59,9 +59,10 @@ function timeDifference(elapsed) {
     return "approximately " + Math.round(elapsed / msPerYear) + " years ago";
   }
 }
+
 export const getDiffInTime = (givenDate) => {
-  let currentTime = new Date();
-  let givenTime = new Date(givenDate);
-  let diff = timeDifference(currentTime - givenTime);
+  const currentTime = new Date();
+  const givenTime = new Date(givenDate);
+  const diff = timeDifference(currentTime - givenTime);
   return diff;
 };

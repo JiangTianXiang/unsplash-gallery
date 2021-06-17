@@ -7,7 +7,7 @@ import {
 
 export const IconButton = (props) => {
   return (
-    <StyledLink to="/explore">
+    <StyledLink to={props.to || ""}>
       <IconContainer>
         <StyledLinkIcon src={props.icon} alt="Explore" />
       </IconContainer>

@@ -14,7 +14,7 @@ class NavBar extends React.Component {
         <NavBarInfo>
           <Search />
           <IconButton icon={exploreIcon} to="/explore" description="Photos" />
-          <IconButton icon={savedIcon} description="Saved" />
+          <IconButton icon={savedIcon} to="/favorite" description="Saved" />
           <IconButton icon={themeIcon} description="Theme" />
         </NavBarInfo>
       </NavBarContianer>
