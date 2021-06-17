@@ -22,19 +22,8 @@ export const IconContainer = styled.div`
   align-items: center;
 `;
 
-const FunctionDescription = styled.div`
+export const FunctionDescription = styled.div`
   font-size: 8px;
   color: #999999;
   background-color: #fcfcfd;
 `;
-
-export const IconButton = (props) => {
-  return (
-    <StyledLink to="/explore">
-      <IconContainer>
-        <StyledLinkIcon src={props.icon} alt="Explore" />
-      </IconContainer>
-      <FunctionDescription>{props.description}</FunctionDescription>
-    </StyledLink>
-  );
-}

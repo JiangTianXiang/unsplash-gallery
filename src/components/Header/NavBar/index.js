@@ -5,7 +5,7 @@ import savedIcon from "utils/resources/Iconly-Bulk-Heart.svg";
 import themeIcon from "utils/resources/Scan.svg";
 import { NavBarContianer, NavBarInfo } from "./NavBar.styles";
 import Search from "components/Header/Search";
-import { IconButton } from "components/StyledLink";
+import { IconButton } from "components/Header/IconButton";
 
 class NavBar extends React.Component {
   render() {
