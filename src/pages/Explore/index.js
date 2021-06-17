@@ -3,7 +3,7 @@ import axios from "axios";
 import ExploreImage from "components/ExploreImage";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUrl } from "utils";
-import { DisplayArea, ImageColumn } from "./Explore.styles";
+import { DisplayArea, ImageColumn, ImageArea } from "./Explore.styles";
 
 export default class Explore extends React.Component {
   state = {
@@ -14,7 +14,6 @@ export default class Explore extends React.Component {
       { key: Math.random(), images: [] },
     ],
     hasError: false,
-    newDataIndex: 0,
   };
 
   getData = async () => {
@@ -25,6 +24,7 @@ export default class Explore extends React.Component {
       this.setState({
         data: [...this.state.data, newList],
         renderObject: this.splitDataToColumns(newList),
+        hasError: false,
       });
     } catch (err) {
       console.log(err);
@@ -58,13 +58,19 @@ export default class Explore extends React.Component {
           loader={<h4>Loading...</h4>}
         >
           <DisplayArea>
-            {this.state.renderObject.map((column) => (
-              <ImageColumn key={column.key}>
-                {column.images.map((item, index) => (
-                  <ExploreImage key={column.key * index} item={item} />
-                ))}
-              </ImageColumn>
-            ))}
+            <ImageArea>
+              {this.state.renderObject.map((column) => (
+                <ImageColumn key={column.key}>
+                  {column.images.map((item, index) => (
+                    <ExploreImage
+                      key={column.key * index}
+                      item={item}
+                      portrait={item.width < item.height}
+                    />
+                  ))}
+                </ImageColumn>
+              ))}
+            </ImageArea>
           </DisplayArea>
         </InfiniteScroll>
       )

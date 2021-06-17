@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
 export const ImageColumn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 20%;
-  margin: 8px;
+  margin: 15px;
+`;
+
+export const ImageArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 20px;
+  padding-left: 14px;
+  padding-right: 14px;
+  width: 928px;
 `;
 
 export const ImageContainer = styled.div`

@@ -7,11 +7,13 @@ export const Overlay = styled.div`
   opacity: ${(props) => props.opacity};
   background-color: ${(props) => `${props.placeholderColor || "grey"}`};
   transition: 2s;
+  border-radius: 8px;
 `;
 
 export const defaultImageCSS = css`
   width: 100%;
   height: 100%;
+  border-radius: 8px;
 `;
 
 export const DisplayImage = styled.img`
@@ -40,6 +42,7 @@ export const LikeInfoDiv = styled.div`
 
 export const Container = styled.div`
   position: relative;
+  margin-bottom: 28px;
   ${(props) => props.imageContainerCSS};
   &:hover {
     ${DisplayImage} {

@@ -4,6 +4,7 @@ import savedFavoriteIcon from "utils/resources/Iconly-Filled-Star.svg";
 import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
 import DisplayImage from "components/DisplayImage";
 import Author from "components/Author";
+import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
 import {
   ImageAndUserContainer,
   Likes,
@@ -20,21 +21,7 @@ const ImageAndUser = (props) => {
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
-    if (!saved) {
-      if (!localStorage.getItem("favoriteImages")) {
-        const newArray = [];
-        localStorage.setItem("favoriteImages", JSON.stringify(newArray));
-      }
-      let favoriteImages = JSON.parse(localStorage.getItem("favoriteImages"));
-      favoriteImages.push(data);
-      localStorage.setItem("favoriteImages", JSON.stringify(favoriteImages));
-    } else {
-      const favoriteImages = JSON.parse(localStorage.getItem("favoriteImages"));
-      const newArray = favoriteImages.filter(
-        (favoriteImage) => favoriteImage.id !== data.id
-      );
-      localStorage.setItem("favoriteImages", JSON.stringify(newArray));
-    }
+    saved ? removeFavoriteImage(data) : saveFavoriteImage(data);
     setSaved(!saved);
   };
 

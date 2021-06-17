@@ -13,6 +13,7 @@ import {
   UserDetail,
   DetailDiv,
   ImageContainer,
+  ImageArea,
 } from "./User.styles";
 
 export default class User extends React.Component {
@@ -94,13 +95,15 @@ export default class User extends React.Component {
             loader={<h4>Loading...</h4>}
           >
             <ImageContainer>
-              {this.state.renderObject.map((column) => (
-                <ImageColumn key={column.key}>
-                  {column.images.map((item) => (
-                    <ExploreImage key={item.id} item={item} />
-                  ))}
-                </ImageColumn>
-              ))}
+              <ImageArea>
+                {this.state.renderObject.map((column) => (
+                  <ImageColumn key={column.key}>
+                    {column.images.map((item) => (
+                      <ExploreImage key={item.id} item={item} />
+                    ))}
+                  </ImageColumn>
+                ))}
+              </ImageArea>
             </ImageContainer>
           </InfiniteScroll>
         </DisplayArea>

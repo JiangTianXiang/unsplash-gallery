@@ -10,7 +10,8 @@ import {
   StyledLink,
   PhotoResultDetails,
   PhotoSelectionSwitch,
-  UnderScoredLink
+  UnderScoredLink,
+  ImageArea
 } from "./SearchPhotoResult.styles";
 export default class SearchPhotoResult extends React.Component {
   state = {
@@ -112,6 +113,7 @@ export default class SearchPhotoResult extends React.Component {
             loader={<h4>Loading...</h4>}
           >
             <ImageContainer>
+              <ImageArea>
               {this.state.renderObject.map((column) => (
                 <ImageColumn key={column.key}>
                   {column.images.map((item, index) => (
@@ -119,6 +121,7 @@ export default class SearchPhotoResult extends React.Component {
                   ))}
                 </ImageColumn>
               ))}
+              </ImageArea>
             </ImageContainer>
           </InfiniteScroll>
         </>

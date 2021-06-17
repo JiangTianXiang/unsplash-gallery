@@ -20,6 +20,8 @@ export const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
+  background-color: ${(props) => (props.selected ? "#A2C8FA" : "#FFFFFF")};
 `;
 
 export const FunctionDescription = styled.div`

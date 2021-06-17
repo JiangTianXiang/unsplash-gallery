@@ -66,3 +66,21 @@ export const getDiffInTime = (givenDate) => {
   const diff = timeDifference(currentTime - givenTime);
   return diff;
 };
+
+export const saveFavoriteImage = (item) => {
+  if (!localStorage.getItem("favoriteImages")) {
+    const newArray = [];
+    localStorage.setItem("favoriteImages", JSON.stringify(newArray));
+  }
+  let favoriteImages = JSON.parse(localStorage.getItem("favoriteImages"));
+  favoriteImages.push(item);
+  localStorage.setItem("favoriteImages", JSON.stringify(favoriteImages));
+}
+
+export const removeFavoriteImage = (item) => {
+  const favoriteImages = JSON.parse(localStorage.getItem("favoriteImages"));
+  const newArray = favoriteImages.filter(
+    (favoriteImage) => favoriteImage.id !== item.id
+  );
+  localStorage.setItem("favoriteImages", JSON.stringify(newArray));
+}
