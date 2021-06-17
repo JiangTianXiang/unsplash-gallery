@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { SearchInput } from "./Search.styles";
+import searchIcon from "utils/resources/Iconly-Broken-Search.svg";
+import { SearchInput, SearchContainer, SearchIcon } from "./Search.styles";
 
 class Search extends React.Component {
   state = {
@@ -20,12 +21,16 @@ class Search extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <SearchInput
-          onChange={this.handleChange}
-          value={this.state.inputValue}
-        />
-      </form>
+      <SearchContainer>
+        <SearchIcon src={searchIcon} />
+        <form onSubmit={this.handleSubmit}>
+          <SearchInput
+            onChange={this.handleChange}
+            value={this.state.inputValue}
+            placeholder="Search..."
+          />
+        </form>
+      </SearchContainer>
     );
   }
 }
