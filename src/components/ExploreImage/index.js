@@ -8,6 +8,7 @@ import {
   MoreInfoDiv,
   LikeInfoDiv
 } from "./ExploreImage.styles";
+
 export default function Image(props) {
   const [opacity, setOpacity] = useState(1);
   return (

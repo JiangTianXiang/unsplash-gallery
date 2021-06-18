@@ -24,6 +24,7 @@ export const DisplayImage = styled.img`
 
 export const defaultImageContainerCSS = css`
   width: 100%;
+  min-width: 100%;
   height: auto;
 `;
 

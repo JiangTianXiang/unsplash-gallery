@@ -1,5 +1,6 @@
 import React from "react";
 import { DisplayArea, ImageColumn, ImageArea } from "./FavoriteImage.styles";
+import { getAllFavoriteImage } from "utils/index.js";
 import ExploreImage from "components/ExploreImage";
 
 export default class FavoriteImage extends React.Component {
@@ -15,9 +16,9 @@ export default class FavoriteImage extends React.Component {
 
   loadImageFromLocalStorage = () => {
     try {
-      const favoriteImages = JSON.parse(localStorage.getItem("favoriteImages"));
+      const favoriteImages = getAllFavoriteImage();
       this.setState({
-        data: [favoriteImages],
+        data: [...favoriteImages],
         renderObject: this.splitDataToColumns(favoriteImages),
         hasError: false,
       });
@@ -44,10 +45,15 @@ export default class FavoriteImage extends React.Component {
 
   render() {
     const loadSuccess = this.state.data !== null;
+    const noImage = this.state.data.length === 0;
+    console.log(noImage);
     return (
       loadSuccess && (
         <>
-          <div>Saved Photos</div>
+          {noImage && (
+            <div>No image saved yet. Press star button to save some images</div>
+          )}
+          {!noImage && <div>Saved Photos</div>}
           <DisplayArea>
             <ImageArea>
               {this.state.renderObject.map((column) => (

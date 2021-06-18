@@ -26,13 +26,8 @@ const ImageAndUser = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("favoriteImages")) {
-      const favoriteImages = JSON.parse(localStorage.getItem("favoriteImages"));
-      const founded = favoriteImages.find(
-        (favoriteImage) => favoriteImage.id === data.id
-      );
-      setSaved(founded ? true : false);
-    }
+    const founded = localStorage.getItem(data.id);
+    setSaved(founded ? true : false);
   }, [data]);
 
   return (
