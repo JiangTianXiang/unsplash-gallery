@@ -2,16 +2,22 @@ import {
   StyledLink,
   IconContainer,
   FunctionDescription,
-  StyledLinkIcon
+  StyledLinkIcon,
 } from "components/StyledLink";
 
-export const IconButton = (props) => {
+const IconButton = (props) => {
+  const handleClick = () => {
+    props.handleSelected(props.description);
+  };
+
   return (
-    <StyledLink to="/explore">
-      <IconContainer>
+    <StyledLink to={props.to || ""} onClick={handleClick}>
+      <IconContainer selected={props.selected}>
         <StyledLinkIcon src={props.icon} alt="Explore" />
       </IconContainer>
       <FunctionDescription>{props.description}</FunctionDescription>
     </StyledLink>
   );
 };
+
+export default IconButton;

@@ -59,9 +59,30 @@ function timeDifference(elapsed) {
     return "approximately " + Math.round(elapsed / msPerYear) + " years ago";
   }
 }
+
 export const getDiffInTime = (givenDate) => {
-  let currentTime = new Date();
-  let givenTime = new Date(givenDate);
-  let diff = timeDifference(currentTime - givenTime);
+  const currentTime = new Date();
+  const givenTime = new Date(givenDate);
+  const diff = timeDifference(currentTime - givenTime);
   return diff;
+};
+
+export const saveFavoriteImage = (item) => {
+  localStorage.setItem(item.id, JSON.stringify(item));
+};
+
+export const removeFavoriteImage = (item) => {
+  localStorage.removeItem(item.id);
+};
+
+export const getAllFavoriteImage = () => {
+  const values = [];
+  const keys = Object.keys(localStorage);
+  let i = keys.length;
+
+  while (i--) {
+    values.push(JSON.parse(localStorage.getItem(keys[i])));
+  }
+
+  return values;
 };

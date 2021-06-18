@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import favoriteIcon from "utils/resources/Iconly-Broken-Star.svg";
+import savedFavoriteIcon from "utils/resources/Iconly-Filled-Star.svg";
 import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
 import DisplayImage from "components/DisplayImage";
 import Author from "components/Author";
+import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
 import {
   ImageAndUserContainer,
   Likes,
@@ -14,34 +16,41 @@ import {
 } from "./ImageAndUser.styles";
 import { getDiffInTime } from "utils/index";
 
-export default class ImageAndUser extends React.Component {
-  state = {
-    data: this.props.item,
+const ImageAndUser = (props) => {
+  const [data] = useState(props.item);
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = () => {
+    saved ? removeFavoriteImage(data) : saveFavoriteImage(data);
+    setSaved(!saved);
   };
 
-  render() {
-    return (
-      <ImageAndUserContainer>
-        <Author
-          getUser={this.state.data.user}
-          timeStamp={getDiffInTime(this.state.data.updated_at)}
+  useEffect(() => {
+    const founded = localStorage.getItem(data.id);
+    setSaved(founded ? true : false);
+  }, [data]);
+
+  return (
+    <ImageAndUserContainer>
+      <Author getUser={data.user} timeStamp={getDiffInTime(data.updated_at)} />
+      {data.description && <PostBio>{data.description}</PostBio>}
+      <DisplayImage
+        url={data.urls.regular}
+        placeholder={data.color}
+        portrait={data.width < data.height}
+      />
+      <ImageAndUserFooter>
+        <LikesContainer>
+          <LikeIcon src={likeIcon} />
+          <Likes>{`${data.likes}`} </Likes>
+        </LikesContainer>
+        <FavoriteButton
+          src={saved ? savedFavoriteIcon : favoriteIcon}
+          onClick={handleSave}
         />
-        {this.state.data.description && (
-          <PostBio>{this.state.data.description}</PostBio>
-        )}
-        <DisplayImage
-          url={this.state.data.urls.regular}
-          placeholder={this.state.data.color}
-          portrait={this.state.data.width < this.state.data.height}
-        />
-        <ImageAndUserFooter>
-          <LikesContainer>
-            <LikeIcon src={likeIcon} />
-            <Likes>{`${this.state.data.likes}`} </Likes>
-          </LikesContainer>
-          <FavoriteButton src={favoriteIcon} />
-        </ImageAndUserFooter>
-      </ImageAndUserContainer>
-    );
-  }
-}
+      </ImageAndUserFooter>
+    </ImageAndUserContainer>
+  );
+};
+
+export default ImageAndUser;

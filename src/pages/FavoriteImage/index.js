@@ -1,11 +1,9 @@
 import React from "react";
-import axios from "axios";
+import { DisplayArea, ImageColumn, ImageArea } from "./FavoriteImage.styles";
+import { getAllFavoriteImage } from "utils/index.js";
 import ExploreImage from "components/ExploreImage";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { getUrl } from "utils";
-import { DisplayArea, ImageColumn, ImageArea } from "./Explore.styles";
 
-export default class Explore extends React.Component {
+export default class FavoriteImage extends React.Component {
   state = {
     data: [],
     renderObject: [
@@ -16,14 +14,12 @@ export default class Explore extends React.Component {
     hasError: false,
   };
 
-  getData = async () => {
+  loadImageFromLocalStorage = () => {
     try {
-      this.setState({ hasError: false });
-      const response = await axios(getUrl({ page: null }));
-      const newList = response.data;
+      const favoriteImages = getAllFavoriteImage();
       this.setState({
-        data: [...this.state.data, newList],
-        renderObject: this.splitDataToColumns(newList),
+        data: [...favoriteImages],
+        renderObject: this.splitDataToColumns(favoriteImages),
         hasError: false,
       });
     } catch (err) {
@@ -33,7 +29,7 @@ export default class Explore extends React.Component {
   };
 
   componentDidMount() {
-    this.getData();
+    this.loadImageFromLocalStorage();
   }
 
   splitDataToColumns = (newData) => {
@@ -49,30 +45,27 @@ export default class Explore extends React.Component {
 
   render() {
     const loadSuccess = this.state.data !== null;
+    const noImage = this.state.data.length === 0;
+    console.log(noImage);
     return (
       loadSuccess && (
-        <InfiniteScroll
-          dataLength={this.state.renderObject[0].images.length}
-          next={this.getData}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        >
+        <>
+          {noImage && (
+            <div>No image saved yet. Press star button to save some images</div>
+          )}
+          {!noImage && <div>Saved Photos</div>}
           <DisplayArea>
             <ImageArea>
               {this.state.renderObject.map((column) => (
                 <ImageColumn key={column.key}>
                   {column.images.map((item, index) => (
-                    <ExploreImage
-                      key={column.key * index}
-                      item={item}
-                      portrait={item.width < item.height}
-                    />
+                    <ExploreImage key={column.key * index} item={item} />
                   ))}
                 </ImageColumn>
               ))}
             </ImageArea>
           </DisplayArea>
-        </InfiniteScroll>
+        </>
       )
     );
   }

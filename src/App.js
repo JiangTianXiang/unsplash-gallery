@@ -7,6 +7,7 @@ import NavBar from "components/Header/NavBar";
 import User from "pages/User";
 import SearchPhotoResult from "pages/SearchPhotoResult";
 import SearchCollectionResult from "pages/SearchCollectionResult";
+import FavoriteImage from "pages/FavoriteImage";
 import { GlobalStyle, lightTheme, darkTheme, AppContainer } from "App.styles";
 
 export default class App extends React.Component {
@@ -37,6 +38,7 @@ export default class App extends React.Component {
                 component={SearchCollectionResult}
               ></Route>
               <Route path="/explore" component={Explore}></Route>
+              <Route path="/favorite" component={FavoriteImage}></Route>
             </Switch>
           </Router>
         </ThemeProvider>
