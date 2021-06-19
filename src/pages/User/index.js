@@ -69,11 +69,12 @@ export default class User extends React.Component {
 
   componentDidMount() {
     this.getData();
+    document.body.style.overflow = "unset";
     this.setState({ page: 1 });
   }
 
   render() {
-    const loadedSuccess = this.state.data !== null && this.state.user !== null;
+    const loadedSuccess = this.state.data.length && this.state.user !== null;
     return (
       loadedSuccess && (
         <DisplayArea>

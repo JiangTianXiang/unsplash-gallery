@@ -10,15 +10,6 @@ export const UserContainer = styled(Link)`
   background-color: ${(props) => props.theme.secondary};
 `;
 
-export const ImageAndUserHeader = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-left: 32px;
-  padding-right: 37px;
-`;
-
 export const UserAndTimeContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -13,6 +13,26 @@ export const ImageAndUserContainer = styled.div`
   padding-right: 37px;
 `;
 
+export const ImageAndUserHeader = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 32px;
+  padding-right: 37px;
+`;
+
+export const ShowMore = styled.img`
+  background-image: url(${(props) => props.image});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 5px;
+  width: 25px;
+
+  margin-top: 53px;
+`;
+
 export const ImageAndUserFooter = styled.div`
   display: flex;
   width: 100%;

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import favoriteIcon from "utils/resources/Iconly-Broken-Star.svg";
 import savedFavoriteIcon from "utils/resources/Iconly-Filled-Star.svg";
 import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
+import closeIcon from "utils/resources/Icon-metro-cross.svg";
 import DisplayImage from "components/DisplayImage";
 import Author from "components/Author";
+import { Download } from "./Download";
 import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
 import {
   ImageAndUserContainer,
@@ -13,7 +15,9 @@ import {
   LikesContainer,
   LikeIcon,
   OpacityBackground,
-} from "./Modal.styles.js";
+  ImageAndUserHeader,
+  Close,
+} from "./Modal.styles";
 import { getDiffInTime } from "utils/index";
 
 const Modal = (props) => {
@@ -30,29 +34,18 @@ const Modal = (props) => {
     setSaved(founded ? true : false);
   }, [data]);
 
-  const { setModalVisible, modalVisible } = props;
-
   return (
     <>
-      <OpacityBackground
-        open={modalVisible}
-        animationDuration={1000}
-        focusTrapped={true}
-        closeIconSize={40}
-        showCloseIcon={true}
-        onClick={() => props.close()}
-      />
+      <OpacityBackground onClick={() => props.close()} />
       <ImageAndUserContainer>
-        <Author
-          getUser={data.user}
-          timeStamp={getDiffInTime(data.updated_at)}
-        />
-        <DisplayImage
-          url={data.urls.regular}
-          placeholder={data.color}
-          portrait={data.width < data.height}
-          modal
-        />
+        <ImageAndUserHeader>
+          <Author
+            getUser={data.user}
+            timeStamp={getDiffInTime(data.updated_at)}
+          />
+          <Close image={closeIcon} onClick={() => props.close()} />
+        </ImageAndUserHeader>
+        <DisplayImage url={data.urls.regular} placeholder={data.color} modal />
         <ImageAndUserFooter>
           <LikesContainer>
             <LikeIcon src={likeIcon} />
@@ -63,6 +56,7 @@ const Modal = (props) => {
             onClick={handleSave}
           />
         </ImageAndUserFooter>
+        <Download url={data.urls.regular} />
       </ImageAndUserContainer>
     </>
   );

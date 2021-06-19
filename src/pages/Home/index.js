@@ -4,12 +4,14 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { getUrl } from "utils";
 import ImageAndUser from "components/ImageAndUser";
 import { DisplayArea } from "./Home.styles";
+import Modal from "components/Modal";
 
 export default class Home extends React.Component {
   state = {
     data: [],
     hasError: false,
     page: 1,
+    modalItem: null,
   };
 
   getData = async () => {
@@ -31,15 +33,22 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this.getData();
+    document.body.style.overflow = "unset";
     this.setState({ page: 1 });
   }
 
   handleModal = (item) => {
-    this.props.handleModal(item);
+    document.body.style.overflow = "hidden";
+    this.setState({ modalItem: item });
+  };
+
+  closeModal = () => {
+    document.body.style.overflow = "unset";
+    this.setState({ modalItem: null });
   };
 
   render() {
-    const loadSuccess = this.state.data.length !== 0;
+    const loadSuccess = this.state.data.length;
     return (
       loadSuccess && (
         <InfiniteScroll
@@ -48,6 +57,9 @@ export default class Home extends React.Component {
           hasMore={true}
           loader={<h4>Loading...</h4>}
         >
+          {this.state.modalItem !== null && (
+            <Modal item={this.state.modalItem} close={this.closeModal} />
+          )}
           <DisplayArea>
             {this.state.data.map((item, index) => {
               return (

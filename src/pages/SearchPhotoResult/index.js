@@ -84,7 +84,7 @@ export default class SearchPhotoResult extends React.Component {
   }
 
   render() {
-    const loadSuccess = this.state.data !== null;
+    const loadSuccess = this.state.data.length;
     return (
       loadSuccess && (
         <>

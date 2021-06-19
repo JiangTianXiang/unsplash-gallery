@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import favoriteIcon from "utils/resources/Iconly-Broken-Star.svg";
 import savedFavoriteIcon from "utils/resources/Iconly-Filled-Star.svg";
 import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
+import showMoreIcon from "utils/resources/Icon-show-detail.svg";
 import DisplayImage from "components/DisplayImage";
 import Author from "components/Author";
 import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
@@ -13,6 +14,8 @@ import {
   PostBio,
   LikesContainer,
   LikeIcon,
+  ImageAndUserHeader,
+  ShowMore,
 } from "./ImageAndUser.styles";
 import { getDiffInTime } from "utils/index";
 
@@ -30,13 +33,19 @@ const ImageAndUser = (props) => {
   };
 
   useEffect(() => {
-    const founded = localStorage.getItem(data.id);
-    setSaved(founded ? true : false);
+    const found = localStorage.getItem(data.id);
+    setSaved(!!found);
   }, [data]);
 
   return (
     <ImageAndUserContainer>
-      <Author getUser={data.user} timeStamp={getDiffInTime(data.updated_at)} />
+      <ImageAndUserHeader>
+        <Author
+          getUser={data.user}
+          timeStamp={getDiffInTime(data.updated_at)}
+        />
+        <ShowMore image={showMoreIcon} />
+      </ImageAndUserHeader>
       {data.description && <PostBio>{data.description}</PostBio>}
       <DisplayImage
         url={data.urls.regular}
