@@ -15,7 +15,7 @@ export const Overlay = styled.div`
   background-color: ${(props) => `${props.placeholderColor || "grey"}`};
   max-width: 830px;
   border-radius: 8px;
-  transition: 2s;
+  transition: 0.5s;
 `;
 
 export const defaultImageCSS = css`
@@ -29,7 +29,7 @@ export const portraitImageCSS = css`
   max-height: 800px;
 `;
 
-export const DisplayImage = styled.img`
+export const ImageArea = styled.img`
   ${(props) => props.imageCSS}
   object-fit:${(props) => `${props.objectFit || "cover"}`};
   border-radius: 8px;

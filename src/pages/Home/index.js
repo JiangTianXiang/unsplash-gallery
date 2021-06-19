@@ -34,6 +34,10 @@ export default class Home extends React.Component {
     this.setState({ page: 1 });
   }
 
+  handleModal = (item) => {
+    this.props.handleModal(item);
+  };
+
   render() {
     const loadSuccess = this.state.data.length !== 0;
     return (
@@ -46,7 +50,13 @@ export default class Home extends React.Component {
         >
           <DisplayArea>
             {this.state.data.map((item, index) => {
-              return <ImageAndUser key={index} item={item} />;
+              return (
+                <ImageAndUser
+                  key={index}
+                  item={item}
+                  handleModal={this.handleModal}
+                />
+              );
             })}
           </DisplayArea>
         </InfiniteScroll>

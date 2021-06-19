@@ -25,6 +25,10 @@ const ImageAndUser = (props) => {
     setSaved(!saved);
   };
 
+  const handleModal = (item) => {
+    props.handleModal(item);
+  };
+
   useEffect(() => {
     const founded = localStorage.getItem(data.id);
     setSaved(founded ? true : false);
@@ -38,6 +42,8 @@ const ImageAndUser = (props) => {
         url={data.urls.regular}
         placeholder={data.color}
         portrait={data.width < data.height}
+        handleModal={handleModal}
+        item={data}
       />
       <ImageAndUserFooter>
         <LikesContainer>
