@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import favoriteIcon from "utils/resources/Iconly-Broken-Star.svg";
 import savedFavoriteIcon from "utils/resources/Iconly-Filled-Star.svg";
 import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
 import closeIcon from "utils/resources/Icon-metro-cross.svg";
-import DisplayImage from "components/DisplayImage";
+import ModalImage from "components/Modal/ModalImage";
 import Author from "components/Author";
 import { Download } from "./Download";
 import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
@@ -20,7 +21,7 @@ import {
 } from "./Modal.styles";
 import { getDiffInTime } from "utils/index";
 
-const Modal = (props) => {
+export default function Modal(props) {
   const [data] = useState(props.item);
   const [saved, setSaved] = useState(false);
 
@@ -30,22 +31,26 @@ const Modal = (props) => {
   };
 
   useEffect(() => {
-    const founded = localStorage.getItem(data.id);
-    setSaved(founded ? true : false);
+    if (data) {
+      const founded = localStorage.getItem(data.id);
+      setSaved(founded ? true : false);
+    }
   }, [data]);
 
-  return (
+  if (!props.open) return null;
+
+  return ReactDOM.createPortal(
     <>
-      <OpacityBackground onClick={() => props.close()} />
+      <OpacityBackground onClick={props.onClose} />
       <ImageAndUserContainer>
         <ImageAndUserHeader>
           <Author
             getUser={data.user}
             timeStamp={getDiffInTime(data.updated_at)}
           />
-          <Close image={closeIcon} onClick={() => props.close()} />
+          <Close image={closeIcon} onClick={props.onClose} />
         </ImageAndUserHeader>
-        <DisplayImage url={data.urls.regular} placeholder={data.color} modal />
+        <ModalImage url={data.urls.regular} placeholder={data.color} />
         <ImageAndUserFooter>
           <LikesContainer>
             <LikeIcon src={likeIcon} />
@@ -58,8 +63,7 @@ const Modal = (props) => {
         </ImageAndUserFooter>
         <Download url={data.urls.regular} />
       </ImageAndUserContainer>
-    </>
+    </>,
+    document.getElementById("modal-root")
   );
-};
-
-export default Modal;
+}

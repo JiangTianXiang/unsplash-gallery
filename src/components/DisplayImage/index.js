@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Modal from "components/Modal";
 import {
   Container,
   Overlay,
@@ -12,6 +13,7 @@ import {
 
 export default function DisplayImage(props) {
   const [opacity, setOpacity] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
 
   let imageCSS = defaultImageCSS;
   let containerCSS = defaultImageContainerCSS;
@@ -22,18 +24,28 @@ export default function DisplayImage(props) {
     imageCSS = portraitImageCSS;
   }
 
+  const showModal = () => {
+    document.body.style.overflow = "hidden";
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    document.body.style.overflow = "unset";
+    setModalOpen(false);
+  };
+
   return (
-    <Container
-      imageContainerCSS={containerCSS}
-      onClick={(e) => !props.modal && props.handleModal(props.item, e)}
-    >
-      <Overlay opacity={opacity} placeholderColor={props.placeholder} />
-      <ImageArea
-        src={props.url}
-        objectFit={"cover"}
-        imageCSS={imageCSS}
-        onLoad={() => setOpacity(0)}
-      />
-    </Container>
+    <>
+      <Modal item={props.item} open={modalOpen} onClose={closeModal} />
+      <Container imageContainerCSS={containerCSS} onClick={showModal}>
+        <Overlay opacity={opacity} placeholderColor={props.placeholder} />
+        <ImageArea
+          src={props.url}
+          objectFit={"cover"}
+          imageCSS={imageCSS}
+          onLoad={() => setOpacity(0)}
+        />
+      </Container>
+    </>
   );
 }
