@@ -27,11 +27,11 @@ export default function App() {
             ></Route>
             <Route path="/user/:name" component={User}></Route>
             <Route
-              path="/search/photos/:input"
+              path="/search/photos/:searchTerm"
               component={SearchPhotoResult}
             ></Route>
             <Route
-              path="/search/collections/:input"
+              path="/search/collections/:searchTerm"
               component={SearchCollectionResult}
             ></Route>
             <Route path="/explore" component={Explore}></Route>

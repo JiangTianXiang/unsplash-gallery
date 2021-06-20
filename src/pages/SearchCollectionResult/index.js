@@ -31,7 +31,7 @@ export default class SearchCollectionResult extends React.Component {
   getData = async () => {
     try {
       this.setState({ hasError: false });
-      const searchInput = this.props.match.params.input;
+      const searchInput = this.props.match.params.searchTerm;
       const response = await axios(
         getSearchUrl({
           isPhoto: false,
@@ -70,7 +70,7 @@ export default class SearchCollectionResult extends React.Component {
   }
 
   componentDidUpdate(prevPros) {
-    if (this.props.match.params.input !== prevPros.match.params.input) {
+    if (this.props.match.params.searchTerm !== prevPros.match.params.searchTerm) {
       this.setState({
         page: 1,
         data: [],
@@ -93,17 +93,17 @@ export default class SearchCollectionResult extends React.Component {
         <>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
-              <div>Search results for "{this.props.match.params.input}"</div>
+              <div>Search results for "{this.props.match.params.searchTerm}"</div>
               <div>{this.state.totalResult} collections found</div>
             </PhotoResultDetails>
             <PhotoSelectionSwitch>
               <StyledLink
-                to={`/search/photos/${this.props.match.params.input}`}
+                to={`/search/photos/${this.props.match.params.searchTerm}`}
               >
                 Photos
               </StyledLink>
               <UnderScoredLink
-                to={`/search/collections/${this.props.match.params.input}`}
+                to={`/search/collections/${this.props.match.params.searchTerm}`}
               >
                 Collections
               </UnderScoredLink>

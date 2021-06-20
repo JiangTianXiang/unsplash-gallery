@@ -32,8 +32,8 @@ export default function Modal(props) {
 
   useEffect(() => {
     if (data) {
-      const founded = localStorage.getItem(data.id);
-      setSaved(founded ? true : false);
+      const found = localStorage.getItem(data.id);
+      setSaved(found ? true : false);
     }
   }, [data]);
 

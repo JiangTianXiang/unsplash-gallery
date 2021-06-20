@@ -31,7 +31,6 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this.getData();
-    document.body.style.overflow = "unset";
     this.setState({ page: 1 });
   }
 
