@@ -29,12 +29,6 @@ export const portraitImageCSS = css`
   max-height: 800px;
 `;
 
-export const modalImageCSS = css`
-  width: 100%;
-  height: 100%;
-  max-height: 600px;
-`;
-
 export const ImageArea = styled.img`
   ${(props) => props.imageCSS}
   object-fit:${(props) => `${props.objectFit || "cover"}`};
@@ -45,10 +39,4 @@ export const ImageArea = styled.img`
 export const defaultImageContainerCSS = css`
   width: 100%;
   height: 100%;
-`;
-
-export const modalImageContainerCSS = css`
-  width: 100%;
-  height: 100%;
-  max-height: 600px;
 `;
