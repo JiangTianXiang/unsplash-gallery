@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUrl } from "utils";
-import ImageAndUser from "components/ImageAndUser";
+import { ImageAndUser } from "components";
 import { DisplayArea } from "./Home.styles";
 
 export default class Home extends React.Component {
@@ -35,7 +35,7 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const loadSuccess = this.state.data.length !== 0;
+    const loadSuccess = this.state.data.length;
     return (
       loadSuccess && (
         <InfiniteScroll
@@ -46,7 +46,13 @@ export default class Home extends React.Component {
         >
           <DisplayArea>
             {this.state.data.map((item, index) => {
-              return <ImageAndUser key={index} item={item} />;
+              return (
+                <ImageAndUser
+                  key={index}
+                  item={item}
+                  handleModal={this.handleModal}
+                />
+              );
             })}
           </DisplayArea>
         </InfiniteScroll>

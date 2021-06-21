@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Home from "pages/Home";
@@ -10,39 +10,35 @@ import SearchCollectionResult from "pages/SearchCollectionResult";
 import FavoriteImage from "pages/FavoriteImage";
 import { GlobalStyle, lightTheme, darkTheme, AppContainer } from "App.styles";
 
-export default class App extends React.Component {
-  state = {
-    on: true,
-  };
+export default function App() {
+  const [theme, setTheme] = useState(true);
 
-  handleTheme = () => {
-    this.setState({ on: !this.state.on });
-  };
-
-  render() {
-    return (
-      <AppContainer>
-        <ThemeProvider theme={this.state.on ? lightTheme : darkTheme}>
-          <GlobalStyle />
-          <Router>
-            <NavBar handleTheme={this.handleTheme} on={this.state.on} />
-            <Switch>
-              <Route exact path="/" component={Home}></Route>
-              <Route path="/user/:name" component={User}></Route>
-              <Route
-                path="/search/photos/:input"
-                component={SearchPhotoResult}
-              ></Route>
-              <Route
-                path="/search/collections/:input"
-                component={SearchCollectionResult}
-              ></Route>
-              <Route path="/explore" component={Explore}></Route>
-              <Route path="/favorite" component={FavoriteImage}></Route>
-            </Switch>
-          </Router>
-        </ThemeProvider>
-      </AppContainer>
-    );
-  }
+  return (
+    <AppContainer>
+      <ThemeProvider theme={theme ? lightTheme : darkTheme}>
+        <GlobalStyle />
+        <Router>
+          <NavBar handleTheme={setTheme} on={theme} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={Home}
+            ></Route>
+            <Route path="/user/:name" component={User}></Route>
+            <Route
+              path="/search/photos/:searchTerm"
+              component={SearchPhotoResult}
+            ></Route>
+            <Route
+              path="/search/collections/:searchTerm"
+              component={SearchCollectionResult}
+            ></Route>
+            <Route path="/explore" component={Explore}></Route>
+            <Route path="/favorite" component={FavoriteImage}></Route>
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </AppContainer>
+  );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getSearchUrl } from "utils";
-import ImageCollection from "components/ImageCollection";
+import { ImageCollection } from "components";
 import {
   ImageContainer,
   ImageColumn,
@@ -31,7 +31,7 @@ export default class SearchCollectionResult extends React.Component {
   getData = async () => {
     try {
       this.setState({ hasError: false });
-      const searchInput = this.props.match.params.input;
+      const searchInput = this.props.match.params.searchTerm;
       const response = await axios(
         getSearchUrl({
           isPhoto: false,
@@ -70,7 +70,9 @@ export default class SearchCollectionResult extends React.Component {
   }
 
   componentDidUpdate(prevPros) {
-    if (this.props.match.params.input !== prevPros.match.params.input) {
+    if (
+      this.props.match.params.searchTerm !== prevPros.match.params.searchTerm
+    ) {
       this.setState({
         page: 1,
         data: [],
@@ -87,23 +89,25 @@ export default class SearchCollectionResult extends React.Component {
   }
 
   render() {
-    const loadSuccess = this.state.data !== null;
+    const loadSuccess = this.state.data.length;
     return (
       loadSuccess && (
         <>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
-              <div>Search results for "{this.props.match.params.input}"</div>
+              <div>
+                Search results for "{this.props.match.params.searchTerm}"
+              </div>
               <div>{this.state.totalResult} collections found</div>
             </PhotoResultDetails>
             <PhotoSelectionSwitch>
               <StyledLink
-                to={`/search/photos/${this.props.match.params.input}`}
+                to={`/search/photos/${this.props.match.params.searchTerm}`}
               >
                 Photos
               </StyledLink>
               <UnderScoredLink
-                to={`/search/collections/${this.props.match.params.input}`}
+                to={`/search/collections/${this.props.match.params.searchTerm}`}
               >
                 Collections
               </UnderScoredLink>

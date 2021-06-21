@@ -1,7 +1,7 @@
 import React from "react";
 import { DisplayArea, ImageColumn, ImageArea } from "./FavoriteImage.styles";
 import { getAllFavoriteImage } from "utils/index.js";
-import ExploreImage from "components/ExploreImage";
+import { ExploreImage } from "components";
 
 export default class FavoriteImage extends React.Component {
   state = {
@@ -46,7 +46,6 @@ export default class FavoriteImage extends React.Component {
   render() {
     const loadSuccess = this.state.data !== null;
     const noImage = this.state.data.length === 0;
-    console.log(noImage);
     return (
       loadSuccess && (
         <>

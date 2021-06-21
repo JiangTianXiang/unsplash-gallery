@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { getSearchUrl } from "utils";
 import InfiniteScroll from "react-infinite-scroll-component";
-import ExploreImage from "components/ExploreImage";
+import { ExploreImage } from "components";
 import {
   ImageContainer,
   ImageColumn,
@@ -11,8 +11,9 @@ import {
   PhotoResultDetails,
   PhotoSelectionSwitch,
   UnderScoredLink,
-  ImageArea
+  ImageArea,
 } from "./SearchPhotoResult.styles";
+
 export default class SearchPhotoResult extends React.Component {
   state = {
     data: [],
@@ -29,8 +30,7 @@ export default class SearchPhotoResult extends React.Component {
 
   getData = async () => {
     try {
-      const searchInput = this.props.match.params.input;
-      console.log(this.state.page);
+      const searchInput = this.props.match.params.searchTerm;
       const response = await axios(
         getSearchUrl({ query: searchInput, page: this.state.page })
       );
@@ -67,7 +67,9 @@ export default class SearchPhotoResult extends React.Component {
   }
 
   componentDidUpdate(prevPros) {
-    if (this.props.match.params.input !== prevPros.match.params.input) {
+    if (
+      this.props.match.params.searchTerm !== prevPros.match.params.searchTerm
+    ) {
       this.setState({
         page: 1,
         data: [],
@@ -84,23 +86,25 @@ export default class SearchPhotoResult extends React.Component {
   }
 
   render() {
-    const loadSuccess = this.state.data !== null;
+    const loadSuccess = this.state.data.length;
     return (
       loadSuccess && (
         <>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
-              <div>Search results for "{this.props.match.params.input}"</div>
+              <div>
+                Search results for "{this.props.match.params.searchTerm}"
+              </div>
               <div>{this.state.totalResult} Photos found</div>
             </PhotoResultDetails>
             <PhotoSelectionSwitch>
               <UnderScoredLink
-                to={`/search/photos/${this.props.match.params.input}`}
+                to={`/search/photos/${this.props.match.params.searchTerm}`}
               >
                 Photos
               </UnderScoredLink>
               <StyledLink
-                to={`/search/collections/${this.props.match.params.input}`}
+                to={`/search/collections/${this.props.match.params.searchTerm}`}
               >
                 Collections
               </StyledLink>
@@ -114,13 +118,13 @@ export default class SearchPhotoResult extends React.Component {
           >
             <ImageContainer>
               <ImageArea>
-              {this.state.renderObject.map((column) => (
-                <ImageColumn key={column.key}>
-                  {column.images.map((item, index) => (
-                    <ExploreImage key={column.key * index} item={item} />
-                  ))}
-                </ImageColumn>
-              ))}
+                {this.state.renderObject.map((column) => (
+                  <ImageColumn key={column.key}>
+                    {column.images.map((item, index) => (
+                      <ExploreImage key={column.key * index} item={item} />
+                    ))}
+                  </ImageColumn>
+                ))}
               </ImageArea>
             </ImageContainer>
           </InfiniteScroll>

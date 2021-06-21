@@ -1,8 +1,10 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const Container = styled.div`
   position: relative;
-  ${(props) => props.imageContainerCSS};
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
   padding-left: 35px;
   padding-right: 35px;
 `;
@@ -18,25 +20,11 @@ export const Overlay = styled.div`
   transition: 0.5s;
 `;
 
-export const defaultImageCSS = css`
-  width: 100%;
-  height: 100%;
-`;
-
-export const portraitImageCSS = css`
-  width: 100%;
-  height: 100%;
-  max-height: 800px;
-`;
-
 export const ImageArea = styled.img`
-  ${(props) => props.imageCSS}
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
   object-fit:${(props) => `${props.objectFit || "cover"}`};
   border-radius: 8px;
   min-width: 600px;
-`;
-
-export const defaultImageContainerCSS = css`
-  width: 100%;
-  height: 100%;
 `;
