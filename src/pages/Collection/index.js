@@ -3,6 +3,7 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ExploreImage } from "components";
 import { ImageContainer, ImageArea, ImageColumn } from "./Collection.styles";
+import { getCollectionUrl } from "utils";
 
 export default function Collection(props) {
   const [data, setData] = useState([]);
@@ -28,9 +29,8 @@ export default function Collection(props) {
 
   const getData = async () => {
     try {
-      const id = props.match.params.id;
       const response = await axios(
-        `https://api.unsplash.com/collections/${id}/photos?client_id=Hq0j6DyWf2PdMPFtpxM32s74jwFbvcnGPpAaHjJXb1o&page=${page}&per_page=30`
+        getCollectionUrl({ collectionId: props.match.params.id })
       );
       const newList = response.data;
       setRenderObject(splitDataToColumns(newList));
@@ -74,7 +74,7 @@ export default function Collection(props) {
             {renderObject.map((column) => (
               <ImageColumn key={column.key}>
                 {column.images.map((item, index) => (
-                  <ExploreImage key={column.key * index} item={item} restrict/>
+                  <ExploreImage key={column.key * index} item={item} restrict />
                 ))}
               </ImageColumn>
             ))}
