@@ -36,7 +36,7 @@ export default function Collection(props) {
   const getData = async () => {
     try {
       const response = await axios(
-        getCollectionUrl({ collectionId: props.match.params.id })
+        getCollectionUrl({ collectionId: props.match.params.id, page: page })
       );
       const newList = response.data;
       setRenderObject(splitDataToColumns(newList));
@@ -60,7 +60,10 @@ export default function Collection(props) {
       <>
         <CollectionInfoContainer>
           <CollectionDetails>
-            <div>Collection "{props.match.params.title}" created by {props.match.params.user}</div>
+            <div>
+              Collection "{props.match.params.title}" created by{" "}
+              {props.match.params.user}
+            </div>
             <div>{maxPhoto} Photos in this collection</div>
           </CollectionDetails>
         </CollectionInfoContainer>
