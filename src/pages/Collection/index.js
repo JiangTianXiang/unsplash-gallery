@@ -54,7 +54,6 @@ export default function Collection(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(props);
   const loadSuccess = data.length && !error;
   return (
     loadSuccess && (
