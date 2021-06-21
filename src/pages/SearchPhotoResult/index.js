@@ -121,7 +121,7 @@ export default class SearchPhotoResult extends React.Component {
                 {this.state.renderObject.map((column) => (
                   <ImageColumn key={column.key}>
                     {column.images.map((item, index) => (
-                      <ExploreImage key={column.key * index} item={item} />
+                      <ExploreImage key={column.key * index} item={item} restrict/>
                     ))}
                   </ImageColumn>
                 ))}
