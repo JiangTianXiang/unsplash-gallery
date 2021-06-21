@@ -7,22 +7,11 @@ import {
   defaultImageContainerCSS,
   defaultImageCSS,
   portraitImageCSS,
-  modalImageCSS,
-  modalImageContainerCSS,
 } from "./DisplayImage.styles";
 
 export default function DisplayImage(props) {
   const [opacity, setOpacity] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
-
-  let imageCSS = defaultImageCSS;
-  let containerCSS = defaultImageContainerCSS;
-  if (props.modal) {
-    imageCSS = modalImageCSS;
-    containerCSS = modalImageContainerCSS;
-  } else if (props.portrait) {
-    imageCSS = portraitImageCSS;
-  }
 
   const showModal = () => {
     document.body.style.overflow = "hidden";
@@ -37,12 +26,12 @@ export default function DisplayImage(props) {
   return (
     <>
       <Modal item={props.item} open={modalOpen} onClose={closeModal} />
-      <Container imageContainerCSS={containerCSS} onClick={showModal}>
+      <Container imageContainerCSS={defaultImageContainerCSS} onClick={showModal}>
         <Overlay opacity={opacity} placeholderColor={props.placeholder} />
         <ImageArea
           src={props.url}
           objectFit={"cover"}
-          imageCSS={imageCSS}
+          imageCSS={props.portrait ? portraitImageCSS : defaultImageCSS}
           onLoad={() => setOpacity(0)}
         />
       </Container>
