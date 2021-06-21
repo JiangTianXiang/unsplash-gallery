@@ -22,3 +22,15 @@ export const ImageContainer = styled.div`
   justify-content: center;
   flex-direction: row;
 `;
+
+export const CollectionInfoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+`;
+
+export const CollectionDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

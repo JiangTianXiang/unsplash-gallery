@@ -32,7 +32,7 @@ export default function App() {
               component={SearchCollectionResult}
             />
             <Route
-              path="/collection/:id&total_photos=:total_photos"
+              path="/collection/:id&total_photos=:total_photos&user=:user&title=:title"
               component={Collection}
             />
             <Route path="/explore" component={Explore} />
