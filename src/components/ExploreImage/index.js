@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Modal from "components/Modal";
 import {
   Container,
   Overlay,
@@ -6,14 +7,27 @@ import {
   defaultImageContainerCSS,
   defaultImageCSS,
   MoreInfoDiv,
-  LikeInfoDiv
+  LikeInfoDiv,
 } from "./ExploreImage.styles";
 
 export default function Image(props) {
   const [opacity, setOpacity] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    document.body.style.overflow = "hidden";
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    document.body.style.overflow = "unset";
+    setModalOpen(false);
+  };
+
   return (
     <>
-      <Container imageContainerCSS={defaultImageContainerCSS}>
+      <Modal item={props.item} open={modalOpen} onClose={closeModal} />
+      <Container imageContainerCSS={defaultImageContainerCSS} onClick={showModal}>
         <Overlay opacity={opacity} placeholderColor={props.item.color} />
         <MoreInfoDiv>
           <LikeInfoDiv>{props.item.likes} Likes</LikeInfoDiv>
