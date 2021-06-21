@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getSearchUrl } from "utils";
-import ImageCollection from "components/ImageCollection";
+import { ImageCollection } from "components";
 import {
   ImageContainer,
   ImageColumn,
@@ -70,7 +70,9 @@ export default class SearchCollectionResult extends React.Component {
   }
 
   componentDidUpdate(prevPros) {
-    if (this.props.match.params.searchTerm !== prevPros.match.params.searchTerm) {
+    if (
+      this.props.match.params.searchTerm !== prevPros.match.params.searchTerm
+    ) {
       this.setState({
         page: 1,
         data: [],
@@ -93,7 +95,9 @@ export default class SearchCollectionResult extends React.Component {
         <>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
-              <div>Search results for "{this.props.match.params.searchTerm}"</div>
+              <div>
+                Search results for "{this.props.match.params.searchTerm}"
+              </div>
               <div>{this.state.totalResult} collections found</div>
             </PhotoResultDetails>
             <PhotoSelectionSwitch>

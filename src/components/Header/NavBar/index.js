@@ -1,11 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router";
-import exploreIcon from "utils/resources/Iconly-Bulk-Camera.svg";
-import savedIcon from "utils/resources/Iconly-Bulk-Heart.svg";
-import themeIcon from "utils/resources/Scan.svg";
+import { exploreIcon, savedIcon, themeIcon } from "utils/resources";
 import { NavBarContianer, NavBarInfo } from "./NavBar.styles";
-import Search from "components/Header/Search";
-import IconButton from "components/Header/IconButton";
+import { Search, IconButton } from "components";
 
 class NavBar extends React.Component {
   state = {

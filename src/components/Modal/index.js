@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import favoriteIcon from "utils/resources/Iconly-Broken-Star.svg";
-import savedFavoriteIcon from "utils/resources/Iconly-Filled-Star.svg";
-import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
-import closeIcon from "utils/resources/Icon-metro-cross.svg";
-import ModalImage from "components/Modal/ModalImage";
-import Author from "components/Author";
-import { Download } from "./Download";
+import {
+  favoriteIcon,
+  savedFavoriteIcon,
+  likeIcon,
+  closeIcon,
+} from "utils/resources";
+import { Author, Download, ModalImage } from "components";
 import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
 import {
   ImageAndUserContainer,

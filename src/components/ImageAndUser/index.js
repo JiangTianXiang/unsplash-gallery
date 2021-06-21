@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import favoriteIcon from "utils/resources/Iconly-Broken-Star.svg";
-import savedFavoriteIcon from "utils/resources/Iconly-Filled-Star.svg";
-import likeIcon from "utils/resources/Iconly-Broken-Heart.svg";
-import showMoreIcon from "utils/resources/Icon-show-detail.svg";
-import DisplayImage from "components/DisplayImage";
-import Author from "components/Author";
+import {
+  favoriteIcon,
+  savedFavoriteIcon,
+  likeIcon,
+  showMoreIcon,
+} from "utils/resources";
+import { Author, DisplayImage } from "components";
 import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
 import {
   ImageAndUserContainer,

@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
-import ExploreImage from "components/ExploreImage";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUserUrl } from "utils";
+import { ExploreImage } from "components";
 import {
   DisplayArea,
   ImageColumn,
@@ -51,7 +51,6 @@ export default class User extends React.Component {
         })
       );
       const newList = response.data;
-      console.log(newList);
       this.setState({
         user: newList[0].user,
         data: [...this.state.data, newList],

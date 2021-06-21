@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getUrl } from "utils";
-import ImageAndUser from "components/ImageAndUser";
+import { ImageAndUser } from "components";
 import { DisplayArea } from "./Home.styles";
 
 export default class Home extends React.Component {
