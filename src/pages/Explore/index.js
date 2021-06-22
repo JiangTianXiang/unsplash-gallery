@@ -14,17 +14,19 @@ export default class Explore extends React.Component {
       { key: Math.random(), images: [] },
     ],
     hasError: false,
+    page: 1,
   };
 
   getData = async () => {
     try {
       this.setState({ hasError: false });
-      const response = await axios(getUrl({ page: null }));
+      const response = await axios(getUrl({ page: this.state.page }));
       const newList = response.data;
       this.setState({
         data: [...this.state.data, newList],
         renderObject: this.splitDataToColumns(newList),
         hasError: false,
+        page: this.state.page + 1,
       });
     } catch (err) {
       console.log(err);
@@ -61,9 +63,9 @@ export default class Explore extends React.Component {
             <ImageArea>
               {this.state.renderObject.map((column) => (
                 <ImageColumn key={column.key}>
-                  {column.images.map((item, index) => (
+                  {column.images.map((item) => (
                     <ExploreImage
-                      key={column.key * index}
+                      key={item.id}
                       item={item}
                       portrait={item.width < item.height}
                     />

@@ -8,9 +8,11 @@ import {
   defaultImageCSS,
   MoreInfoDiv,
   LikeInfoDiv,
+  restrictedImageContainerCss,
+  restrictedImageCss,
 } from "./ExploreImage.styles";
 
-export default function Image(props) {
+export default function ExploreImage(props) {
   const [opacity, setOpacity] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -27,7 +29,14 @@ export default function Image(props) {
   return (
     <>
       <Modal item={props.item} open={modalOpen} onClose={closeModal} />
-      <Container imageContainerCSS={defaultImageContainerCSS} onClick={showModal}>
+      <Container
+        imageContainerCSS={
+          props.restrict
+            ? restrictedImageContainerCss
+            : defaultImageContainerCSS
+        }
+        onClick={showModal}
+      >
         <Overlay opacity={opacity} placeholderColor={props.item.color} />
         <MoreInfoDiv>
           <LikeInfoDiv>{props.item.likes} Likes</LikeInfoDiv>
@@ -35,7 +44,7 @@ export default function Image(props) {
         <DisplayImage
           src={props.item.urls.small}
           objectFit={"cover"}
-          imageCSS={defaultImageCSS}
+          imageCSS={props.restrict ? restrictedImageCss : defaultImageCSS}
           onLoad={() => setOpacity(0)}
           alt="placeholder"
         />

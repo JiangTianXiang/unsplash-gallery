@@ -45,10 +45,10 @@ export default class Home extends React.Component {
           loader={<h4>Loading...</h4>}
         >
           <DisplayArea>
-            {this.state.data.map((item, index) => {
+            {this.state.data.map((item) => {
               return (
                 <ImageAndUser
-                  key={index}
+                  key={item.id}
                   item={item}
                   handleModal={this.handleModal}
                 />

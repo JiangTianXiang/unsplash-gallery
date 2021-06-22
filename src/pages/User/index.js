@@ -99,7 +99,7 @@ export default class User extends React.Component {
                 {this.state.renderObject.map((column) => (
                   <ImageColumn key={column.key}>
                     {column.images.map((item) => (
-                      <ExploreImage key={item.id} item={item} />
+                      <ExploreImage key={item.id} item={item} restrict/>
                     ))}
                   </ImageColumn>
                 ))}

@@ -38,6 +38,16 @@ export const getUserUrl = ({
   return `${base}/users/${user}/photos/?client_id=${apiKey}&per_page=${numberOfRequest}${pages}`;
 };
 
+export const getCollectionUrl = ({
+  numberOfRequest = 30,
+  page = 1,
+  collectionId = null,
+}) => {
+  const base = process.env.REACT_APP_ENDPOINT;
+  const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
+  return `${base}/collections/${collectionId}/photos/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
+};
+
 function timeDifference(elapsed) {
   const msPerMinute = 60 * 1000;
   const msPerHour = msPerMinute * 60;

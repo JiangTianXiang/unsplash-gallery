@@ -28,6 +28,17 @@ export const defaultImageContainerCSS = css`
   height: auto;
 `;
 
+export const restrictedImageContainerCss = css`
+  width: 223px;
+  height: 223px;
+`;
+
+export const restrictedImageCss = css`
+  width: 223px;
+  height: 223px;
+  border-radius: 8px;
+`;
+
 export const MoreInfoDiv = styled.div`
   position: absolute;
   transition: 0.5s ease;

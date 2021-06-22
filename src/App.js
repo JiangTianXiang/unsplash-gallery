@@ -9,6 +9,7 @@ import SearchPhotoResult from "pages/SearchPhotoResult";
 import SearchCollectionResult from "pages/SearchCollectionResult";
 import FavoriteImage from "pages/FavoriteImage";
 import { GlobalStyle, lightTheme, darkTheme, AppContainer } from "App.styles";
+import Collection from "pages/Collection";
 
 export default function App() {
   const [theme, setTheme] = useState(true);
@@ -20,22 +21,22 @@ export default function App() {
         <Router>
           <NavBar handleTheme={setTheme} on={theme} />
           <Switch>
-            <Route
-              exact
-              path="/"
-              component={Home}
-            ></Route>
-            <Route path="/user/:name" component={User}></Route>
+            <Route exact path="/" component={Home} />
+            <Route path="/user/:name" component={User} />
             <Route
               path="/search/photos/:searchTerm"
               component={SearchPhotoResult}
-            ></Route>
+            />
             <Route
               path="/search/collections/:searchTerm"
               component={SearchCollectionResult}
-            ></Route>
-            <Route path="/explore" component={Explore}></Route>
-            <Route path="/favorite" component={FavoriteImage}></Route>
+            />
+            <Route
+              path="/collection/:id&total_photos=:total_photos&user=:user&title=:title"
+              component={Collection}
+            />
+            <Route path="/explore" component={Explore} />
+            <Route path="/favorite" component={FavoriteImage} />
           </Switch>
         </Router>
       </ThemeProvider>
