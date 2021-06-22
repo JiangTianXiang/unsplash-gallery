@@ -63,9 +63,9 @@ export default class Explore extends React.Component {
             <ImageArea>
               {this.state.renderObject.map((column) => (
                 <ImageColumn key={column.key}>
-                  {column.images.map((item, index) => (
+                  {column.images.map((item) => (
                     <ExploreImage
-                      key={column.key * index}
+                      key={item.id}
                       item={item}
                       portrait={item.width < item.height}
                     />

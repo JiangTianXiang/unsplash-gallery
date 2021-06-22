@@ -61,7 +61,7 @@ export default function Collection(props) {
         <CollectionInfoContainer>
           <CollectionDetails>
             <div>
-              Collection "{props.match.params.title}" created by{" "}
+              Collection "{props.match.params.title}" created by
               {props.match.params.user}
             </div>
             <div>{maxPhoto} Photos in this collection</div>
@@ -79,11 +79,7 @@ export default function Collection(props) {
               {renderObject.map((column) => (
                 <ImageColumn key={column.key}>
                   {column.images.map((item, index) => (
-                    <ExploreImage
-                      key={column.key * index}
-                      item={item}
-                      restrict
-                    />
+                    <ExploreImage key={item.id} item={item} restrict />
                   ))}
                 </ImageColumn>
               ))}
