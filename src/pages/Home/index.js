@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingBar from "react-top-loading-bar";
+import LoadingCircle from "components/LoadingCircle";
 import { getUrl } from "utils";
 import { ImageAndUser } from "components";
 import { DisplayArea } from "./Home.styles";
@@ -11,6 +13,7 @@ export default class Home extends React.Component {
     hasError: false,
     page: 1,
   };
+  ref = React.createRef();
 
   getData = async () => {
     try {
@@ -29,34 +32,47 @@ export default class Home extends React.Component {
     }
   };
 
+  onLoaderFinished = () => {
+    this.setState({ loadingBarProgress: 0 });
+  };
+
   componentDidMount() {
     this.getData();
     this.setState({ page: 1 });
+    this.ref.current.continuousStart();
   }
 
   render() {
-    const loadSuccess = this.state.data.length;
+    let loadSuccess = null;
+    if (this.state.data.length && !loadSuccess) {
+      this.ref.current.complete();
+      loadSuccess = true;
+    }
     return (
-      loadSuccess && (
-        <InfiniteScroll
-          dataLength={this.state.data.length}
-          next={this.getData}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        >
-          <DisplayArea>
-            {this.state.data.map((item) => {
-              return (
-                <ImageAndUser
-                  key={item.id}
-                  item={item}
-                  handleModal={this.handleModal}
-                />
-              );
-            })}
-          </DisplayArea>
-        </InfiniteScroll>
-      )
+      <>
+        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
+        {!loadSuccess && <LoadingCircle />}
+        {loadSuccess && (
+          <InfiniteScroll
+            dataLength={this.state.data.length}
+            next={this.getData}
+            hasMore={true}
+            loader={<LoadingCircle />}
+          >
+            <DisplayArea>
+              {this.state.data.map((item) => {
+                return (
+                  <ImageAndUser
+                    key={item.id}
+                    item={item}
+                    handleModal={this.handleModal}
+                  />
+                );
+              })}
+            </DisplayArea>
+          </InfiniteScroll>
+        )}
+      </>
     );
   }
 }
