@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingBar from "react-top-loading-bar";
+import LoadingCircle from "components/LoadingCircle";
 import { getUserUrl } from "utils";
 import { ExploreImage } from "components";
 import {
@@ -53,7 +55,7 @@ export default class User extends React.Component {
       const newList = response.data;
       this.setState({
         user: newList[0].user,
-        data: [...this.state.data, newList],
+        data: [...this.state.data, ...newList],
         renderObject: this.splitDataToColumns(newList),
         page: this.state.page + 1,
         totalResult: newList[0].user.total_photos,
@@ -73,41 +75,49 @@ export default class User extends React.Component {
   }
 
   render() {
-    const loadedSuccess = this.state.data.length && this.state.user !== null;
+    let loadSuccess = null;
+    if (this.state.data.length && this.state.user !== null) {
+      loadSuccess = true;
+    }
     return (
-      loadedSuccess && (
-        <DisplayArea>
-          <UserInfoContainer>
-            <Avatar src={this.state.user.profile_image.large} />
-            <UserInfo>
-              <UserName>{this.state.user.username}</UserName>
-              <UserDetail>
-                <DetailDiv>{`${this.state.user.total_likes} likes`}</DetailDiv>
-                <DetailDiv>{`${this.state.user.total_photos} photos`}</DetailDiv>
-                <DetailDiv>{`${this.state.user.total_collections} collections`}</DetailDiv>
-              </UserDetail>
-            </UserInfo>
-          </UserInfoContainer>
-          <InfiniteScroll
-            dataLength={this.state.renderObject[0].images.length}
-            next={this.getData}
-            hasMore={this.state.page <= this.state.maxPage}
-            loader={<h4>Loading...</h4>}
-          >
-            <ImageContainer>
-              <ImageArea>
-                {this.state.renderObject.map((column) => (
-                  <ImageColumn key={column.key}>
-                    {column.images.map((item) => (
-                      <ExploreImage key={item.id} item={item} restrict/>
-                    ))}
-                  </ImageColumn>
-                ))}
-              </ImageArea>
-            </ImageContainer>
-          </InfiniteScroll>
-        </DisplayArea>
-      )
+      <>
+        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
+        {!loadSuccess && <LoadingCircle />}
+        {loadSuccess && (
+          <DisplayArea>
+            <UserInfoContainer>
+              <Avatar src={this.state.user.profile_image.large} />
+              <UserInfo>
+                <UserName>{this.state.user.username}</UserName>
+                <UserDetail>
+                  <DetailDiv>{`${this.state.user.total_likes} likes`}</DetailDiv>
+                  <DetailDiv>{`${this.state.user.total_photos} photos`}</DetailDiv>
+                  <DetailDiv>{`${this.state.user.total_collections} collections`}</DetailDiv>
+                </UserDetail>
+              </UserInfo>
+            </UserInfoContainer>
+            <InfiniteScroll
+              dataLength={this.state.renderObject[0].images.length}
+              next={this.getData}
+              hasMore={this.state.page <= this.state.maxPage}
+              loader={<h4>Loading...</h4>}
+              endMessage={<h4>End of Collection</h4>}
+            >
+              <ImageContainer>
+                <ImageArea>
+                  {this.state.renderObject.map((column) => (
+                    <ImageColumn key={column.key}>
+                      {column.images.map((item) => (
+                        <ExploreImage key={item.id} item={item} restrict />
+                      ))}
+                    </ImageColumn>
+                  ))}
+                </ImageArea>
+              </ImageContainer>
+            </InfiniteScroll>
+          </DisplayArea>
+        )}
+      </>
     );
   }
 }

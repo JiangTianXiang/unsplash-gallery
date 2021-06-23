@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { loadingScreen } from "./LoadingCircle.styles";
+import { LoadingScreen } from "./LoadingCircle.styles";
 
 const spinTransition = {
   loop: Infinity,
@@ -18,15 +18,15 @@ const circleStyle = {
   boxSizing: "border-box",
 };
 
-export default function LoadingScreen() {
+export default function LoadingPage() {
   return (
-    <loadingScreen>
-      <div> Page is Loading</div>
+    <LoadingScreen>
+      <div>Page is Loading</div>
       <motion.span
         style={circleStyle}
         animate={{ rotate: 360 }}
         transition={spinTransition}
       />
-    </loadingScreen>
+    </LoadingScreen>
   );
 }

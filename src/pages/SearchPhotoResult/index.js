@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "axios";
-import { getSearchUrl } from "utils";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingBar from "react-top-loading-bar";
+import LoadingCircle from "components/LoadingCircle";
+import { getSearchUrl } from "utils";
 import { ExploreImage } from "components";
 import {
   ImageContainer,
@@ -27,22 +29,25 @@ export default class SearchPhotoResult extends React.Component {
     maxPage: 0,
     totalResult: 0,
   };
+  ref = React.createRef();
 
   getData = async () => {
     try {
+      this.ref.current.continuousStart();
       const searchInput = this.props.match.params.searchTerm;
       const response = await axios(
         getSearchUrl({ query: searchInput, page: this.state.page })
       );
       const newList = response.data.results;
       this.setState({
-        data: [...this.state.data, newList],
+        data: [...this.state.data, ...newList],
         renderObject: this.splitDataToColumns(newList),
         page: this.state.page + 1,
         maxPage: response.data.total_pages,
         totalResult: response.data.total,
         hasError: false,
       });
+      this.ref.current.complete();
     } catch (err) {
       console.log(err);
       this.setState({ hasError: true });
@@ -62,8 +67,6 @@ export default class SearchPhotoResult extends React.Component {
 
   componentDidMount() {
     this.getData();
-    //Reset to get image from first page
-    this.setState({ page: 1 });
   }
 
   componentDidUpdate(prevPros) {
@@ -86,50 +89,57 @@ export default class SearchPhotoResult extends React.Component {
   }
 
   render() {
-    const loadSuccess = this.state.data.length;
+    let loadSuccess = null;
+    if (this.state.data.length) {
+      loadSuccess = true;
+    }
     return (
-      loadSuccess && (
-        <>
-          <PhotosAndSelectionsContainer>
-            <PhotoResultDetails>
-              <div>
-                Search results for "{this.props.match.params.searchTerm}"
-              </div>
-              <div>{this.state.totalResult} Photos found</div>
-            </PhotoResultDetails>
-            <PhotoSelectionSwitch>
-              <UnderScoredLink
-                to={`/search/photos/${this.props.match.params.searchTerm}`}
-              >
-                Photos
-              </UnderScoredLink>
-              <StyledLink
-                to={`/search/collections/${this.props.match.params.searchTerm}`}
-              >
-                Collections
-              </StyledLink>
-            </PhotoSelectionSwitch>
-          </PhotosAndSelectionsContainer>
-          <InfiniteScroll
-            dataLength={this.state.renderObject[0].images.length}
-            next={this.getData}
-            hasMore={this.state.page <= this.state.maxPage}
-            loader={<h4>Loading...</h4>}
-          >
-            <ImageContainer>
-              <ImageArea>
-                {this.state.renderObject.map((column) => (
-                  <ImageColumn key={column.key}>
-                    {column.images.map((item) => (
-                      <ExploreImage key={item.id} item={item} restrict/>
-                    ))}
-                  </ImageColumn>
-                ))}
-              </ImageArea>
-            </ImageContainer>
-          </InfiniteScroll>
-        </>
-      )
+      <>
+        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
+        {!loadSuccess && <LoadingCircle />}
+        {loadSuccess && (
+          <>
+            <PhotosAndSelectionsContainer>
+              <PhotoResultDetails>
+                <div>
+                  Search results for "{this.props.match.params.searchTerm}"
+                </div>
+                <div>{this.state.totalResult} Photos found</div>
+              </PhotoResultDetails>
+              <PhotoSelectionSwitch>
+                <UnderScoredLink
+                  to={`/search/photos/${this.props.match.params.searchTerm}`}
+                >
+                  Photos
+                </UnderScoredLink>
+                <StyledLink
+                  to={`/search/collections/${this.props.match.params.searchTerm}`}
+                >
+                  Collections
+                </StyledLink>
+              </PhotoSelectionSwitch>
+            </PhotosAndSelectionsContainer>
+            <InfiniteScroll
+              dataLength={this.state.renderObject[0].images.length}
+              next={this.getData}
+              hasMore={this.state.page <= this.state.maxPage}
+              loader={<h4>Loading...</h4>}
+            >
+              <ImageContainer>
+                <ImageArea>
+                  {this.state.renderObject.map((column) => (
+                    <ImageColumn key={column.key}>
+                      {column.images.map((item) => (
+                        <ExploreImage key={item.id} item={item} restrict />
+                      ))}
+                    </ImageColumn>
+                  ))}
+                </ImageArea>
+              </ImageContainer>
+            </InfiniteScroll>
+          </>
+        )}
+      </>
     );
   }
 }

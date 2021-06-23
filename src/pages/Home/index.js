@@ -17,6 +17,7 @@ export default class Home extends React.Component {
 
   getData = async () => {
     try {
+      this.ref.current.continuousStart();
       this.setState({ hasError: false });
       const response = await axios(
         getUrl({ isRandom: false, numberOfRequest: 10, page: this.state.page })
@@ -26,6 +27,7 @@ export default class Home extends React.Component {
         data: this.state.data.concat(newList),
         page: this.state.page + 1,
       });
+      this.ref.current.complete();
     } catch (err) {
       console.log(err);
       this.setState({ hasError: true });
@@ -38,14 +40,11 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this.getData();
-    this.setState({ page: 1 });
-    this.ref.current.continuousStart();
   }
 
   render() {
     let loadSuccess = null;
-    if (this.state.data.length && !loadSuccess) {
-      this.ref.current.complete();
+    if (this.state.data.length) {
       loadSuccess = true;
     }
     return (
