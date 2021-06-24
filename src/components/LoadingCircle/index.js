@@ -3,17 +3,17 @@ import { motion } from "framer-motion";
 import { LoadingScreen } from "./LoadingCircle.styles";
 
 const spinTransition = {
-  loop: Infinity,
+  repeat: Infinity,
   ease: "linear",
   duration: 1,
 };
 
 const circleStyle = {
   display: "inline-block",
-  width: "15rem",
-  height: "15rem",
-  border: "1.5rem solid #90EE90",
-  borderTop: "1.5rem solid #add8e6",
+  width: "8rem",
+  height: "8rem",
+  border: "0.5rem solid #FFFFFF",
+  borderTop: "0.5rem solid #add8e6",
   borderRadius: "50%",
   boxSizing: "border-box",
 };

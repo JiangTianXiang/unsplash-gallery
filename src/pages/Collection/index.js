@@ -72,7 +72,6 @@ export default function Collection(props) {
             dataLength={renderObject[0].images.length}
             next={getData}
             hasMore={data.length < maxPhoto}
-            loader={<h4>Loading...</h4>}
             endMessage={<h4>End of collection</h4>}
           >
             <ImageContainer>

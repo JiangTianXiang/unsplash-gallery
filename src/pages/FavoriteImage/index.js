@@ -1,6 +1,4 @@
 import React from "react";
-import LoadingBar from "react-top-loading-bar";
-import LoadingCircle from "components/LoadingCircle";
 import { DisplayArea, ImageColumn, ImageArea } from "./FavoriteImage.styles";
 import { getAllFavoriteImage } from "utils/index.js";
 import { ExploreImage } from "components";
@@ -47,20 +45,15 @@ export default class FavoriteImage extends React.Component {
   };
 
   render() {
-    const hasData = this.state.data !== null;
-    const noImage = this.state.data.length === 0;
+    const hasData = !!this.state.data.length;
     return (
       <>
-        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!hasData && <LoadingCircle />}
+        {!hasData && (
+          <div>No image saved yet. Press star button to save some images</div>
+        )}
         {hasData && (
           <>
-            {noImage && (
-              <div>
-                No image saved yet. Press star button to save some images
-              </div>
-            )}
-            {!noImage && <div>Saved Photos</div>}
+            <div>Saved Photos</div>
             <DisplayArea>
               <ImageArea>
                 {this.state.renderObject.map((column) => (

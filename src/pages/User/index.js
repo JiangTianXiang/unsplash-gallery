@@ -27,11 +27,13 @@ export default class User extends React.Component {
       { key: Math.random(), images: [] },
     ],
     hasError: false,
+    isLoading: false,
     user: null,
     page: 1,
     maxPage: 0,
     totalResult: 0,
   };
+  ref = React.createRef();
 
   splitDataToColumns = (newData) => {
     const newRenderObject = [...this.state.renderObject];
@@ -46,6 +48,8 @@ export default class User extends React.Component {
 
   getData = async () => {
     try {
+      this.setState({ isLoading: true });
+      this.ref.current.continuousStart();
       const response = await axios(
         getUserUrl({
           page: this.state.page,
@@ -61,7 +65,9 @@ export default class User extends React.Component {
         totalResult: newList[0].user.total_photos,
         maxPage: Math.floor(newList[0].user.total_photos / 30),
         hasError: false,
+        isLoading: false,
       });
+      this.ref.current.complete();
     } catch (err) {
       console.log(err);
       this.setState({ hasError: true });
@@ -76,12 +82,18 @@ export default class User extends React.Component {
 
   render() {
     const { user } = this.state;
-    const hasData = this.state.data.length && user !== null;
-    const { total_likes, total_photos, total_collections, username, profile_image } = user || {};
+    const hasData =
+      !!this.state.data.length && user !== null && !this.state.hasError;
+    const {
+      total_likes,
+      total_photos,
+      total_collections,
+      username,
+      profile_image,
+    } = user || {};
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!hasData && <LoadingCircle />}
         {hasData && (
           <DisplayArea>
             <UserInfoContainer>
@@ -99,7 +111,6 @@ export default class User extends React.Component {
               dataLength={this.state.renderObject[0].images.length}
               next={this.getData}
               hasMore={this.state.page <= this.state.maxPage}
-              loader={<h4>Loading...</h4>}
               endMessage={<h4>End of Collection</h4>}
             >
               <ImageContainer>
@@ -116,6 +127,7 @@ export default class User extends React.Component {
             </InfiniteScroll>
           </DisplayArea>
         )}
+        {this.state.isLoading && <LoadingCircle />}
       </>
     );
   }

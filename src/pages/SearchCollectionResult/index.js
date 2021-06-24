@@ -25,6 +25,7 @@ export default class SearchCollectionResult extends React.Component {
       { key: Math.random(), images: [] },
     ],
     hasError: false,
+    isLoading: false,
     page: 0,
     maxPage: 0,
     totalResult: 0,
@@ -33,8 +34,8 @@ export default class SearchCollectionResult extends React.Component {
 
   getData = async () => {
     try {
+      this.setState({ isLoading: true });
       this.ref.current.continuousStart();
-      this.setState({ hasError: false });
       const searchInput = this.props.match.params.searchTerm;
       const response = await axios(
         getSearchUrl({
@@ -50,6 +51,8 @@ export default class SearchCollectionResult extends React.Component {
         page: this.state.page + 1,
         maxPage: response.data.total_pages,
         totalResult: response.data.total,
+        hasError: false,
+        isLoading: false,
       });
       this.ref.current.complete();
     } catch (err) {
@@ -93,11 +96,10 @@ export default class SearchCollectionResult extends React.Component {
   }
 
   render() {
-    const hasData = !!this.state.data.length;
+    const hasData = !!this.state.data.length && !this.state.hasError;
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!hasData && <LoadingCircle />}
         {hasData && (
           <>
             <PhotosAndSelectionsContainer>
@@ -124,7 +126,6 @@ export default class SearchCollectionResult extends React.Component {
               dataLength={this.state.renderObject[0].images.length}
               next={this.getData}
               hasMore={this.state.page <= this.state.maxPage}
-              loader={<h4>Loading...</h4>}
             >
               <ImageContainer>
                 <ImageArea>
@@ -140,6 +141,7 @@ export default class SearchCollectionResult extends React.Component {
             </InfiniteScroll>
           </>
         )}
+        {this.state.isLoading && <LoadingCircle />}
       </>
     );
   }

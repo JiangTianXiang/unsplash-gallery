@@ -18,7 +18,7 @@ export default class Home extends React.Component {
   getData = async () => {
     try {
       this.ref.current.continuousStart();
-      this.setState({ hasError: false });
+      this.setState({ isLoading: true });
       const response = await axios(
         getUrl({ isRandom: false, numberOfRequest: 10, page: this.state.page })
       );
@@ -26,6 +26,7 @@ export default class Home extends React.Component {
       this.setState({
         data: this.state.data.concat(newList),
         page: this.state.page + 1,
+        isLoading: false,
       });
       this.ref.current.complete();
     } catch (err) {
@@ -34,26 +35,20 @@ export default class Home extends React.Component {
     }
   };
 
-  onLoaderFinished = () => {
-    this.setState({ loadingBarProgress: 0 });
-  };
-
   componentDidMount() {
     this.getData();
   }
 
   render() {
-    const hasData = !!this.state.data.length;
+    const hasData = !!this.state.data.length && !this.state.hasError;
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!hasData && <LoadingCircle />}
         {hasData && (
           <InfiniteScroll
             dataLength={this.state.data.length}
             next={this.getData}
             hasMore={true}
-            loader={<LoadingCircle />}
           >
             <DisplayArea>
               {this.state.data.map((item) => {
@@ -68,6 +63,7 @@ export default class Home extends React.Component {
             </DisplayArea>
           </InfiniteScroll>
         )}
+        {this.state.isLoading && <LoadingCircle />}
       </>
     );
   }
