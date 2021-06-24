@@ -13,6 +13,7 @@ export default class FavoriteImage extends React.Component {
     ],
     hasError: false,
   };
+  ref = React.createRef();
 
   loadImageFromLocalStorage = () => {
     try {
@@ -44,28 +45,29 @@ export default class FavoriteImage extends React.Component {
   };
 
   render() {
-    const loadSuccess = this.state.data !== null;
-    const noImage = this.state.data.length === 0;
+    const hasData = !!this.state.data.length;
     return (
-      loadSuccess && (
-        <>
-          {noImage && (
-            <div>No image saved yet. Press star button to save some images</div>
-          )}
-          {!noImage && <div>Saved Photos</div>}
-          <DisplayArea>
-            <ImageArea>
-              {this.state.renderObject.map((column) => (
-                <ImageColumn key={column.key}>
-                  {column.images.map((item) => (
-                    <ExploreImage key={item.id} item={item} restrict/>
-                  ))}
-                </ImageColumn>
-              ))}
-            </ImageArea>
-          </DisplayArea>
-        </>
-      )
+      <>
+        {!hasData && (
+          <div>No image saved yet. Press star button to save some images</div>
+        )}
+        {hasData && (
+          <>
+            <div>Saved Photos</div>
+            <DisplayArea>
+              <ImageArea>
+                {this.state.renderObject.map((column) => (
+                  <ImageColumn key={column.key}>
+                    {column.images.map((item) => (
+                      <ExploreImage key={item.id} item={item} restrict />
+                    ))}
+                  </ImageColumn>
+                ))}
+              </ImageArea>
+            </DisplayArea>
+          </>
+        )}
+      </>
     );
   }
 }

@@ -40,7 +40,7 @@ export default function Collection(props) {
       );
       const newList = response.data;
       setRenderObject(splitDataToColumns(newList));
-      setData([...data, newList]);
+      setData([...data, ...newList]);
       setError(false);
       setPage(page + 1);
     } catch (err) {
@@ -54,39 +54,40 @@ export default function Collection(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const loadSuccess = data.length && !error;
+  const hasData = data.length && !error;
   return (
-    loadSuccess && (
-      <>
-        <CollectionInfoContainer>
-          <CollectionDetails>
-            <div>
-              Collection "{props.match.params.title}" created by
-              {props.match.params.user}
-            </div>
-            <div>{maxPhoto} Photos in this collection</div>
-          </CollectionDetails>
-        </CollectionInfoContainer>
-        <InfiniteScroll
-          dataLength={renderObject[0].images.length}
-          next={getData}
-          hasMore={data.length <= maxPhoto}
-          loader={<h4>Loading...</h4>}
-          endMessage={<h4>End of collection</h4>}
-        >
-          <ImageContainer>
-            <ImageArea>
-              {renderObject.map((column) => (
-                <ImageColumn key={column.key}>
-                  {column.images.map((item, index) => (
-                    <ExploreImage key={item.id} item={item} restrict />
-                  ))}
-                </ImageColumn>
-              ))}
-            </ImageArea>
-          </ImageContainer>
-        </InfiniteScroll>
-      </>
-    )
+    <>
+      {hasData && (
+        <>
+          <CollectionInfoContainer>
+            <CollectionDetails>
+              <div>
+                Collection "{props.match.params.title}" created by
+                {props.match.params.user}
+              </div>
+              <div>{maxPhoto} Photos in this collection</div>
+            </CollectionDetails>
+          </CollectionInfoContainer>
+          <InfiniteScroll
+            dataLength={renderObject[0].images.length}
+            next={getData}
+            hasMore={data.length < maxPhoto}
+            endMessage={<h4>End of collection</h4>}
+          >
+            <ImageContainer>
+              <ImageArea>
+                {renderObject.map((column) => (
+                  <ImageColumn key={column.key}>
+                    {column.images.map((item) => (
+                      <ExploreImage key={item.id} item={item} restrict />
+                    ))}
+                  </ImageColumn>
+                ))}
+              </ImageArea>
+            </ImageContainer>
+          </InfiniteScroll>
+        </>
+      )}
+    </>
   );
 }

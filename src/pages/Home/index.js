@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingBar from "react-top-loading-bar";
+import LoadingCircle from "components/LoadingCircle";
 import { getUrl } from "utils";
 import { ImageAndUser } from "components";
 import { DisplayArea } from "./Home.styles";
@@ -11,10 +13,12 @@ export default class Home extends React.Component {
     hasError: false,
     page: 1,
   };
+  ref = React.createRef();
 
   getData = async () => {
     try {
-      this.setState({ hasError: false });
+      this.ref.current.continuousStart();
+      this.setState({ isLoading: true });
       const response = await axios(
         getUrl({ isRandom: false, numberOfRequest: 10, page: this.state.page })
       );
@@ -22,7 +26,9 @@ export default class Home extends React.Component {
       this.setState({
         data: this.state.data.concat(newList),
         page: this.state.page + 1,
+        isLoading: false,
       });
+      this.ref.current.complete();
     } catch (err) {
       console.log(err);
       this.setState({ hasError: true });
@@ -31,32 +37,34 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this.getData();
-    this.setState({ page: 1 });
   }
 
   render() {
-    const loadSuccess = this.state.data.length;
+    const hasData = !!this.state.data.length && !this.state.hasError;
     return (
-      loadSuccess && (
-        <InfiniteScroll
-          dataLength={this.state.data.length}
-          next={this.getData}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        >
-          <DisplayArea>
-            {this.state.data.map((item) => {
-              return (
-                <ImageAndUser
-                  key={item.id}
-                  item={item}
-                  handleModal={this.handleModal}
-                />
-              );
-            })}
-          </DisplayArea>
-        </InfiniteScroll>
-      )
+      <>
+        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
+        {hasData && (
+          <InfiniteScroll
+            dataLength={this.state.data.length}
+            next={this.getData}
+            hasMore={true}
+          >
+            <DisplayArea>
+              {this.state.data.map((item) => {
+                return (
+                  <ImageAndUser
+                    key={item.id}
+                    item={item}
+                    handleModal={this.handleModal}
+                  />
+                );
+              })}
+            </DisplayArea>
+          </InfiniteScroll>
+        )}
+        {this.state.isLoading && <LoadingCircle />}
+      </>
     );
   }
 }

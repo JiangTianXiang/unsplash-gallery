@@ -1,7 +1,9 @@
 import React from "react";
 import axios from "axios";
+import LoadingBar from "react-top-loading-bar";
 import ExploreImage from "components/ExploreImage";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingCircle from "components/LoadingCircle";
 import { getUrl } from "utils";
 import { DisplayArea, ImageColumn, ImageArea } from "./Explore.styles";
 
@@ -14,20 +16,25 @@ export default class Explore extends React.Component {
       { key: Math.random(), images: [] },
     ],
     hasError: false,
+    isLoading: false,
     page: 1,
   };
+  ref = React.createRef();
 
   getData = async () => {
     try {
-      this.setState({ hasError: false });
+      this.setState({ isLoading: true });
+      this.ref.current.continuousStart();
       const response = await axios(getUrl({ page: this.state.page }));
       const newList = response.data;
       this.setState({
-        data: [...this.state.data, newList],
+        data: [...this.state.data, ...newList],
         renderObject: this.splitDataToColumns(newList),
         hasError: false,
+        isLoading: false,
         page: this.state.page + 1,
       });
+      this.ref.current.complete();
     } catch (err) {
       console.log(err);
       this.setState({ hasError: true });
@@ -50,32 +57,35 @@ export default class Explore extends React.Component {
   };
 
   render() {
-    const loadSuccess = this.state.data.length;
+    const hasData = !!this.state.data.length && !this.state.hasError;
     return (
-      loadSuccess && (
-        <InfiniteScroll
-          dataLength={this.state.renderObject[0].images.length}
-          next={this.getData}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        >
-          <DisplayArea>
-            <ImageArea>
-              {this.state.renderObject.map((column) => (
-                <ImageColumn key={column.key}>
-                  {column.images.map((item) => (
-                    <ExploreImage
-                      key={item.id}
-                      item={item}
-                      portrait={item.width < item.height}
-                    />
-                  ))}
-                </ImageColumn>
-              ))}
-            </ImageArea>
-          </DisplayArea>
-        </InfiniteScroll>
-      )
+      <>
+        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
+        {hasData && (
+          <InfiniteScroll
+            dataLength={this.state.renderObject[0].images.length}
+            next={this.getData}
+            hasMore={true}
+          >
+            <DisplayArea>
+              <ImageArea>
+                {this.state.renderObject.map((column) => (
+                  <ImageColumn key={column.key}>
+                    {column.images.map((item) => (
+                      <ExploreImage
+                        key={item.id}
+                        item={item}
+                        portrait={item.width < item.height}
+                      />
+                    ))}
+                  </ImageColumn>
+                ))}
+              </ImageArea>
+            </DisplayArea>
+          </InfiniteScroll>
+        )}
+        {this.state.isLoading && <LoadingCircle />}
+      </>
     );
   }
 }
