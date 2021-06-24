@@ -96,7 +96,6 @@ export default class SearchPhotoResult extends React.Component {
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {this.state.isLoading && <LoadingCircle />}
         {hasData && (
           <>
             <PhotosAndSelectionsContainer>
@@ -123,7 +122,6 @@ export default class SearchPhotoResult extends React.Component {
               dataLength={this.state.renderObject[0].images.length}
               next={this.getData}
               hasMore={this.state.page <= this.state.maxPage}
-              loader={<h4>Loading...</h4>}
             >
               <ImageContainer>
                 <ImageArea>
@@ -139,6 +137,7 @@ export default class SearchPhotoResult extends React.Component {
             </InfiniteScroll>
           </>
         )}
+        {this.state.isLoading && <LoadingCircle />}
       </>
     );
   }

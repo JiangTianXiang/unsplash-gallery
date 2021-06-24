@@ -66,7 +66,6 @@ export default class Explore extends React.Component {
             dataLength={this.state.renderObject[0].images.length}
             next={this.getData}
             hasMore={true}
-            loader={<LoadingCircle />}
           >
             <DisplayArea>
               <ImageArea>

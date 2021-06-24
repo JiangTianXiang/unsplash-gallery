@@ -82,12 +82,18 @@ export default class User extends React.Component {
 
   render() {
     const { user } = this.state;
-    const hasData = !!this.state.data.length && user !== null && !this.state.hasError;
-    const { total_likes, total_photos, total_collections, username, profile_image } = user || {};
+    const hasData =
+      !!this.state.data.length && user !== null && !this.state.hasError;
+    const {
+      total_likes,
+      total_photos,
+      total_collections,
+      username,
+      profile_image,
+    } = user || {};
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {this.state.isLoading && <LoadingCircle />}
         {hasData && (
           <DisplayArea>
             <UserInfoContainer>
@@ -105,7 +111,6 @@ export default class User extends React.Component {
               dataLength={this.state.renderObject[0].images.length}
               next={this.getData}
               hasMore={this.state.page <= this.state.maxPage}
-              loader={<h4>Loading...</h4>}
               endMessage={<h4>End of Collection</h4>}
             >
               <ImageContainer>
@@ -122,6 +127,7 @@ export default class User extends React.Component {
             </InfiniteScroll>
           </DisplayArea>
         )}
+        {this.state.isLoading && <LoadingCircle />}
       </>
     );
   }

@@ -35,10 +35,6 @@ export default class Home extends React.Component {
     }
   };
 
-  onLoaderFinished = () => {
-    this.setState({ loadingBarProgress: 0 });
-  };
-
   componentDidMount() {
     this.getData();
   }
@@ -53,7 +49,6 @@ export default class Home extends React.Component {
             dataLength={this.state.data.length}
             next={this.getData}
             hasMore={true}
-            loader={<LoadingCircle />}
           >
             <DisplayArea>
               {this.state.data.map((item) => {
