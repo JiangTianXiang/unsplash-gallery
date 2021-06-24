@@ -93,15 +93,12 @@ export default class SearchCollectionResult extends React.Component {
   }
 
   render() {
-    let loadSuccess = null;
-    if (this.state.data.length) {
-      loadSuccess = true;
-    }
+    const hasData = !!this.state.data.length;
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!loadSuccess && <LoadingCircle />}
-        {loadSuccess && (
+        {!hasData && <LoadingCircle />}
+        {hasData && (
           <>
             <PhotosAndSelectionsContainer>
               <PhotoResultDetails>

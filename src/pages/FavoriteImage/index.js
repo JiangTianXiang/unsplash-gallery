@@ -19,14 +19,12 @@ export default class FavoriteImage extends React.Component {
 
   loadImageFromLocalStorage = () => {
     try {
-      this.ref.current.continuousStart();
       const favoriteImages = getAllFavoriteImage();
       this.setState({
         data: [...favoriteImages],
         renderObject: this.splitDataToColumns(favoriteImages),
         hasError: false,
       });
-      this.ref.current.complete();
     } catch (err) {
       console.log(err);
       this.setState({ hasError: true });
@@ -49,13 +47,13 @@ export default class FavoriteImage extends React.Component {
   };
 
   render() {
-    const loadSuccess = this.state.data !== null;
+    const hasData = this.state.data !== null;
     const noImage = this.state.data.length === 0;
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!loadSuccess && <LoadingCircle />}
-        {loadSuccess && (
+        {!hasData && <LoadingCircle />}
+        {hasData && (
           <>
             {noImage && (
               <div>

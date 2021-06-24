@@ -54,10 +54,10 @@ export default function Collection(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const loadSuccess = data.length && !error;
+  const hasData = data.length && !error;
   return (
     <>
-      {loadSuccess && (
+      {hasData && (
         <>
           <CollectionInfoContainer>
             <CollectionDetails>

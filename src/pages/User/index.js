@@ -75,24 +75,23 @@ export default class User extends React.Component {
   }
 
   render() {
-    let loadSuccess = null;
-    if (this.state.data.length && this.state.user !== null) {
-      loadSuccess = true;
-    }
+    const { user } = this.state;
+    const hasData = this.state.data.length && user !== null;
+    const { total_likes, total_photos, total_collections, username, profile_image } = user || {};
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!loadSuccess && <LoadingCircle />}
-        {loadSuccess && (
+        {!hasData && <LoadingCircle />}
+        {hasData && (
           <DisplayArea>
             <UserInfoContainer>
-              <Avatar src={this.state.user.profile_image.large} />
+              <Avatar src={profile_image.large} />
               <UserInfo>
-                <UserName>{this.state.user.username}</UserName>
+                <UserName>{username}</UserName>
                 <UserDetail>
-                  <DetailDiv>{`${this.state.user.total_likes} likes`}</DetailDiv>
-                  <DetailDiv>{`${this.state.user.total_photos} photos`}</DetailDiv>
-                  <DetailDiv>{`${this.state.user.total_collections} collections`}</DetailDiv>
+                  <DetailDiv>{`${total_likes} likes`}</DetailDiv>
+                  <DetailDiv>{`${total_photos} photos`}</DetailDiv>
+                  <DetailDiv>{`${total_collections} collections`}</DetailDiv>
                 </UserDetail>
               </UserInfo>
             </UserInfoContainer>

@@ -23,7 +23,6 @@ export default class Explore extends React.Component {
   getData = async () => {
     try {
       this.ref.current.continuousStart();
-      this.setState({ hasError: false });
       const response = await axios(getUrl({ page: this.state.page }));
       const newList = response.data;
       this.setState({
@@ -55,10 +54,7 @@ export default class Explore extends React.Component {
   };
 
   render() {
-    let loadSuccess = null;
-    if (this.state.data.length) {
-      loadSuccess = true;
-    }
+    const loadSuccess = !!this.state.data.length;
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
