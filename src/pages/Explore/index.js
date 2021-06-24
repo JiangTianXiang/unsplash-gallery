@@ -16,12 +16,14 @@ export default class Explore extends React.Component {
       { key: Math.random(), images: [] },
     ],
     hasError: false,
+    isLoading: false,
     page: 1,
   };
   ref = React.createRef();
 
   getData = async () => {
     try {
+      this.setState({ isLoading: true });
       this.ref.current.continuousStart();
       const response = await axios(getUrl({ page: this.state.page }));
       const newList = response.data;
@@ -29,6 +31,7 @@ export default class Explore extends React.Component {
         data: [...this.state.data, ...newList],
         renderObject: this.splitDataToColumns(newList),
         hasError: false,
+        isLoading: false,
         page: this.state.page + 1,
       });
       this.ref.current.complete();
@@ -54,17 +57,16 @@ export default class Explore extends React.Component {
   };
 
   render() {
-    const loadSuccess = !!this.state.data.length;
+    const hasData = !!this.state.data.length && !this.state.hasError;
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {!loadSuccess && <LoadingCircle />}
-        {loadSuccess && (
+        {hasData && (
           <InfiniteScroll
             dataLength={this.state.renderObject[0].images.length}
             next={this.getData}
             hasMore={true}
-            loader={<h4>Loading...</h4>}
+            loader={<LoadingCircle />}
           >
             <DisplayArea>
               <ImageArea>
@@ -83,6 +85,7 @@ export default class Explore extends React.Component {
             </DisplayArea>
           </InfiniteScroll>
         )}
+        {this.state.isLoading && <LoadingCircle />}
       </>
     );
   }
