@@ -12,7 +12,6 @@ export const getData = () => async (dispatch, getState) => {
     dispatch({
       type: FEED_FETCH_DATA_PENDING,
     });
-    console.log(getPage(getState()));
     const response = await axios(
       getUrl({
         isRandom: false,
@@ -20,7 +19,6 @@ export const getData = () => async (dispatch, getState) => {
         page: getPage(getState()),
       })
     );
-    console.log(response);
     dispatch({
       type: FEED_FETCH_DATA_SUCCESS,
       payload: response.data,

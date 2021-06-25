@@ -1,8 +1,9 @@
 import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import feed from "./feed/feedReducer";
+import search from "./search/searchReducer";
 import reduxTrunk from "redux-thunk";
 
-const reducers = combineReducers({ feed });
+const reducers = combineReducers({ feed, search });
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -13,5 +14,5 @@ const composeEnhancers =
 
 export default createStore(
   reducers,
-  composeEnhancers(applyMiddleware(reduxTrunk)),
+  composeEnhancers(applyMiddleware(reduxTrunk))
 );

@@ -16,7 +16,6 @@ class Home extends React.Component {
   render() {
     const { isLoading, hasError, data } = this.props.feed;
     const hasData = !!data.length && !hasError;
-    console.log(this.props.feed);
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
