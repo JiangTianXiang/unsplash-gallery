@@ -1,70 +1,50 @@
 import React from "react";
-import axios from "axios";
+import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
 import LoadingCircle from "components/LoadingCircle";
-import { getUrl } from "utils";
 import { ImageAndUser } from "components";
 import { DisplayArea } from "./Home.styles";
+import { getData } from "store/feed/feedAction";
 
-export default class Home extends React.Component {
-  state = {
-    data: [],
-    hasError: false,
-    page: 1,
-  };
+class Home extends React.Component {
   ref = React.createRef();
-
-  getData = async () => {
-    try {
-      this.ref.current.continuousStart();
-      this.setState({ isLoading: true });
-      const response = await axios(
-        getUrl({ isRandom: false, numberOfRequest: 10, page: this.state.page })
-      );
-      const newList = response.data;
-      this.setState({
-        data: this.state.data.concat(newList),
-        page: this.state.page + 1,
-        isLoading: false,
-      });
-      this.ref.current.complete();
-    } catch (err) {
-      console.log(err);
-      this.setState({ hasError: true });
-    }
-  };
-
   componentDidMount() {
-    this.getData();
+    this.props.getData();
   }
 
   render() {
-    const hasData = !!this.state.data.length && !this.state.hasError;
+    const { isLoading, hasError, data } = this.props.feed;
+    const hasData = !!data.length && !hasError;
+    console.log(this.props.feed);
     return (
       <>
         <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
         {hasData && (
           <InfiniteScroll
-            dataLength={this.state.data.length}
-            next={this.getData}
+            dataLength={data.length}
+            next={this.props.getData}
             hasMore={true}
           >
             <DisplayArea>
-              {this.state.data.map((item) => {
-                return (
-                  <ImageAndUser
-                    key={item.id}
-                    item={item}
-                    handleModal={this.handleModal}
-                  />
-                );
+              {data.map((item) => {
+                return <ImageAndUser key={item.id} item={item} />;
               })}
             </DisplayArea>
           </InfiniteScroll>
         )}
-        {this.state.isLoading && <LoadingCircle />}
+        {isLoading && <LoadingCircle />}
       </>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  feed: state.feed,
+});
+
+const mapDispatchToProps = {
+  getData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
