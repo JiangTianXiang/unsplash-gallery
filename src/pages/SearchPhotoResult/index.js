@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
@@ -20,79 +20,80 @@ import {
   ImageArea,
 } from "./SearchPhotoResult.styles";
 
-class SearchPhotoResult extends React.Component {
-  ref = React.createRef();
+function SearchPhotoResult(props) {
+  const ref = React.createRef();
 
-  componentDidMount() {
-    console.log("Component did mount");
-    this.props.getSearchResult(this.props.match.params.searchTerm);
-  }
+  useEffect(() => {
+    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.searchResult.isLoading]);
 
-  componentDidUpdate(prevPros) {
-    if (
-      this.props.match.params.searchTerm !== prevPros.match.params.searchTerm
-    ) {
-      console.log("Component did update");
-      this.props.resetState();
-      this.props.getSearchResult(this.props.match.params.searchTerm);
+  useEffect(() => {
+    if (props.searchResult.page !== 1) {
+      props.getSearchResult(props.match.params.searchTerm);
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.searchResult.page]);
 
-  render() {
-    const {
-      data,
-      isLoading,
-      hasError,
-      totalResult,
-      renderObject,
-      page,
-      maxPage,
-    } = this.props.searchResult;
-    const hasData = !!data.length && !hasError;
-    const searchTerm = this.props.match.params.searchTerm;
-    console.log(renderObject[0]);
-    return (
-      <>
-        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {hasData && (
-          <>
-            <PhotosAndSelectionsContainer>
-              <PhotoResultDetails>
-                <div>Search results for "{searchTerm}"</div>
-                <div>{totalResult} Photos found</div>
-              </PhotoResultDetails>
-              <PhotoSelectionSwitch>
-                <UnderScoredLink to={`/search/photos/${searchTerm}`}>
-                  Photos
-                </UnderScoredLink>
-                <StyledLink to={`/search/collections/${searchTerm}`}>
-                  Collections
-                </StyledLink>
-              </PhotoSelectionSwitch>
-            </PhotosAndSelectionsContainer>
-            <InfiniteScroll
-              dataLength={renderObject[0].images.length}
-              next={this.props.incrementPage}
-              hasMore={page <= maxPage}
-            >
-              <ImageContainer>
-                <ImageArea>
-                  {renderObject.map((column) => (
-                    <ImageColumn key={column.key}>
-                      {column.images.map((item) => (
-                        <ExploreImage key={item.id} item={item} restrict />
-                      ))}
-                    </ImageColumn>
-                  ))}
-                </ImageArea>
-              </ImageContainer>
-            </InfiniteScroll>
-          </>
-        )}
-        {isLoading && <LoadingCircle />}
-      </>
-    );
-  }
+  useEffect(() => {
+    props.resetState();
+    props.getSearchResult(props.match.params.searchTerm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.match.params.searchTerm]);
+
+  const {
+    data,
+    isLoading,
+    hasError,
+    totalResult,
+    renderObject,
+    page,
+    maxPage,
+  } = props.searchResult;
+  const hasData = !!data.length && !hasError;
+  const searchTerm = props.match.params.searchTerm;
+
+  return (
+    <>
+      <LoadingBar color="#f11946" ref={ref} shadow={true} />
+      {hasData && (
+        <>
+          <PhotosAndSelectionsContainer>
+            <PhotoResultDetails>
+              <div>Search results for "{searchTerm}"</div>
+              <div>{totalResult} Photos found</div>
+            </PhotoResultDetails>
+            <PhotoSelectionSwitch>
+              <UnderScoredLink to={`/search/photos/${searchTerm}`}>
+                Photos
+              </UnderScoredLink>
+              <StyledLink to={`/search/collections/${searchTerm}`}>
+                Collections
+              </StyledLink>
+            </PhotoSelectionSwitch>
+          </PhotosAndSelectionsContainer>
+          <InfiniteScroll
+            dataLength={renderObject[0].images.length}
+            next={props.incrementPage}
+            hasMore={page <= maxPage}
+          >
+            <ImageContainer>
+              <ImageArea>
+                {renderObject.map((column) => (
+                  <ImageColumn key={column.key}>
+                    {column.images.map((item) => (
+                      <ExploreImage key={item.id} item={item} restrict />
+                    ))}
+                  </ImageColumn>
+                ))}
+              </ImageArea>
+            </ImageContainer>
+          </InfiniteScroll>
+        </>
+      )}
+      {isLoading && <LoadingCircle />}
+    </>
+  );
 }
 
 const mapStateToProps = (state) => ({
@@ -102,7 +103,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   getSearchResult,
   resetState,
-  incrementPage
+  incrementPage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPhotoResult);
