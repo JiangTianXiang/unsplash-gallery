@@ -35,7 +35,6 @@ const resetRenderObject = (renderObject) => {
 };
 
 function exploreFeedReducer(state = initialState, action) {
-  console.log(action);
   switch (action.type) {
     case RESET_EXPLORE_STATE:
       resetRenderObject(initialState.renderObject);
