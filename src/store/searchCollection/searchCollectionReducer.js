@@ -1,4 +1,4 @@
-const initialState = {
+const initialCollectionState = {
   data: [],
   renderObject: [
     { key: Math.random(), images: [] },
@@ -12,9 +12,9 @@ const initialState = {
   totalResult: 0,
 };
 
-export const SEARCH_FETCH_DATA_SUCCESS = "SEARCH_FETCH_DATA_SUCCESS";
-export const SEARCH_FETCH_DATA_PENDING = "SEARCH_FETCH_DATA_PENDING";
-export const SEARCH_FETCH_DATA_ERROR = "SEARCH_FETCH_DATA_ERROR";
+export const SEARCH_FETCH_COLLECTION_SUCCESS = "SEARCH_FETCH_COLLECTION_SUCCESS";
+export const SEARCH_FETCH_COLLECTION_PENDING = "SEARCH_FETCH_COLLECTION_PENDING";
+export const SEARCH_FETCH_COLLECTION_ERROR = "SEARCH_FETCH_COLLECTION_ERROR";
 export const RESET_STATE = "RESET_STATE";
 export const INCREMENT_PAGE = "INCREMENT_PAGE";
 
@@ -36,15 +36,15 @@ const resetRenderObject = (renderObject) => {
   });
 };
 
-function searchReducer(state = initialState, action) {
+function searchCollectionReducer(state = initialCollectionState, action) {
   switch (action.type) {
     case RESET_STATE:
-      resetRenderObject(initialState.renderObject);
-      state = initialState;
-      return initialState;
+      resetRenderObject(initialCollectionState.renderObject);
+      state = initialCollectionState;
+      return initialCollectionState;
     case INCREMENT_PAGE:
       return { ...state, page: state.page + 1 };
-    case SEARCH_FETCH_DATA_SUCCESS:
+    case SEARCH_FETCH_COLLECTION_SUCCESS:
       return {
         ...state,
         data: [...state.data, ...action.payload.results],
@@ -57,13 +57,13 @@ function searchReducer(state = initialState, action) {
         isLoading: false,
         hasError: false,
       };
-    case SEARCH_FETCH_DATA_PENDING:
+    case SEARCH_FETCH_COLLECTION_PENDING:
       return {
         ...state,
         isLoading: true,
         hasError: false,
       };
-    case SEARCH_FETCH_DATA_ERROR:
+    case SEARCH_FETCH_COLLECTION_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -74,6 +74,6 @@ function searchReducer(state = initialState, action) {
   }
 }
 
-export default searchReducer;
+export default searchCollectionReducer;
 
-export const getPage = (state) => state.search.page;
+export const getPage = (state) => state.searchCollection.page;

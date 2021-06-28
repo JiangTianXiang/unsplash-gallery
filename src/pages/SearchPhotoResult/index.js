@@ -7,7 +7,7 @@ import {
   getSearchResult,
   resetState,
   incrementPage,
-} from "store/search/searchAction";
+} from "store/searchPhoto/searchAction";
 import { ExploreImage } from "components";
 import {
   ImageContainer,
@@ -97,7 +97,7 @@ function SearchPhotoResult(props) {
 }
 
 const mapStateToProps = (state) => ({
-  searchResult: state.search,
+  searchResult: state.searchPhoto,
 });
 
 const mapDispatchToProps = {

@@ -1,9 +1,10 @@
 import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import feed from "./feed/feedReducer";
-import search from "./search/searchReducer";
+import searchPhoto from "./searchPhoto/searchReducer";
+import searchCollection from "./searchCollection/searchCollectionReducer";
 import reduxTrunk from "redux-thunk";
 
-const reducers = combineReducers({ feed, search });
+const reducers = combineReducers({ feed, searchPhoto, searchCollection });
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

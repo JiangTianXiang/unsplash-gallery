@@ -15,7 +15,10 @@ export const getSearchResult = (searchInput) => async (dispatch, getState) => {
       type: SEARCH_FETCH_DATA_PENDING,
     });
     const response = await axios(
-      getSearchUrl({ query: searchInput, page: getPage(getState()) })
+      getSearchUrl({
+        query: searchInput,
+        page: getPage(getState()),
+      })
     );
     dispatch({
       type: SEARCH_FETCH_DATA_SUCCESS,
