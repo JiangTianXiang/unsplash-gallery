@@ -79,7 +79,7 @@ function SearchCollectionResult(props) {
             </PhotoSelectionSwitch>
           </PhotosAndSelectionsContainer>
           <InfiniteScroll
-            dataLength={renderObject[0].images.length}
+            dataLength={data.length}
             next={props.incrementCollectionPage}
             hasMore={page <= maxPage}
           >

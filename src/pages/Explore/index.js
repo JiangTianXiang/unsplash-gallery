@@ -44,7 +44,7 @@ function Explore(props) {
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
         <InfiniteScroll
-          dataLength={renderObject[0].images.length}
+          dataLength={data.length}
           next={props.incrementPage}
           hasMore={true}
         >
