@@ -69,7 +69,7 @@ export default function Collection(props) {
             </CollectionDetails>
           </CollectionInfoContainer>
           <InfiniteScroll
-            dataLength={renderObject[0].images.length}
+            dataLength={data.length}
             next={getData}
             hasMore={data.length < maxPhoto}
             endMessage={<h4>End of collection</h4>}

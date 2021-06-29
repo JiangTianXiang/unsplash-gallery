@@ -108,7 +108,7 @@ export default class User extends React.Component {
               </UserInfo>
             </UserInfoContainer>
             <InfiniteScroll
-              dataLength={this.state.renderObject[0].images.length}
+              dataLength={this.state.data.length}
               next={this.getData}
               hasMore={this.state.page <= this.state.maxPage}
               endMessage={<h4>End of Collection</h4>}

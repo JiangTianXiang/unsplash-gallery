@@ -1,91 +1,83 @@
-import React from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import LoadingBar from "react-top-loading-bar";
 import ExploreImage from "components/ExploreImage";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingCircle from "components/LoadingCircle";
-import { getUrl } from "utils";
+import {
+  getExploreFeed,
+  resetState,
+  incrementPage,
+} from "store/exploreFeed/exploreFeedAction";
 import { DisplayArea, ImageColumn, ImageArea } from "./Explore.styles";
 
-export default class Explore extends React.Component {
-  state = {
-    data: [],
-    renderObject: [
-      { key: Math.random(), images: [] },
-      { key: Math.random(), images: [] },
-      { key: Math.random(), images: [] },
-    ],
-    hasError: false,
-    isLoading: false,
-    page: 1,
-  };
-  ref = React.createRef();
+function Explore(props) {
+  const ref = React.createRef();
+  useEffect(() => {
+    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.exploreFeed.isLoading]);
 
-  getData = async () => {
-    try {
-      this.setState({ isLoading: true });
-      this.ref.current.continuousStart();
-      const response = await axios(getUrl({ page: this.state.page }));
-      const newList = response.data;
-      this.setState({
-        data: [...this.state.data, ...newList],
-        renderObject: this.splitDataToColumns(newList),
-        hasError: false,
-        isLoading: false,
-        page: this.state.page + 1,
-      });
-      this.ref.current.complete();
-    } catch (err) {
-      console.log(err);
-      this.setState({ hasError: true });
+  useEffect(() => {
+    if (props.exploreFeed.page !== 1) {
+      props.getExploreFeed();
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.exploreFeed.page]);
 
-  componentDidMount() {
-    this.getData();
-  }
+  useEffect(() => {
+    props.resetState();
+    props.getExploreFeed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  splitDataToColumns = (newData) => {
-    const newRenderObject = [...this.state.renderObject];
-    let counter = 0;
+  const {
+    data,
+    isLoading,
+    hasError,
+    renderObject,
+  } = props.exploreFeed;
+  const hasData = !!data.length && !hasError;
 
-    while (counter < newData.length) {
-      newRenderObject[counter % 3].images.push(newData[counter]);
-      counter++;
-    }
-    return newRenderObject;
-  };
-
-  render() {
-    const hasData = !!this.state.data.length && !this.state.hasError;
-    return (
-      <>
-        <LoadingBar color="#f11946" ref={this.ref} shadow={true} />
-        {hasData && (
-          <InfiniteScroll
-            dataLength={this.state.renderObject[0].images.length}
-            next={this.getData}
-            hasMore={true}
-          >
-            <DisplayArea>
-              <ImageArea>
-                {this.state.renderObject.map((column) => (
-                  <ImageColumn key={column.key}>
-                    {column.images.map((item) => (
-                      <ExploreImage
-                        key={item.id}
-                        item={item}
-                        portrait={item.width < item.height}
-                      />
-                    ))}
-                  </ImageColumn>
-                ))}
-              </ImageArea>
-            </DisplayArea>
-          </InfiniteScroll>
-        )}
-        {this.state.isLoading && <LoadingCircle />}
-      </>
-    );
-  }
+  return (
+    <>
+      <LoadingBar color="#f11946" ref={ref} shadow={true} />
+      {hasData && (
+        <InfiniteScroll
+          dataLength={data.length}
+          next={props.incrementPage}
+          hasMore={true}
+        >
+          <DisplayArea>
+            <ImageArea>
+              {renderObject.map((column) => (
+                <ImageColumn key={column.key}>
+                  {column.images.map((item) => (
+                    <ExploreImage
+                      key={item.id}
+                      item={item}
+                      portrait={item.width < item.height}
+                    />
+                  ))}
+                </ImageColumn>
+              ))}
+            </ImageArea>
+          </DisplayArea>
+        </InfiniteScroll>
+      )}
+      {isLoading && <LoadingCircle />}
+    </>
+  );
 }
+
+const mapStateToProps = (state) => ({
+  exploreFeed: state.exploreFeed,
+});
+
+const mapDispatchToProps = {
+  getExploreFeed,
+  resetState,
+  incrementPage,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Explore);
