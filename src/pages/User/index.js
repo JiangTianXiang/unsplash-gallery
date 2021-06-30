@@ -51,8 +51,7 @@ function User(props) {
     username,
     profile_image,
   } = user || {};
-
-  console.log(data.length, total_photos);
+  
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
