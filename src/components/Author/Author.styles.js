@@ -7,7 +7,7 @@ export const UserContainer = styled(Link)`
   cursor: pointer;
   color: ${(props) => props.theme.main};
   text-decoration: none;
-  background-color: ${(props) => props.theme.secondary};
+  background-color: white;
 `;
 
 export const UserAndTimeContainer = styled.div`

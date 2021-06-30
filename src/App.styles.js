@@ -20,7 +20,7 @@ export const AppContainer = styled.div`
 
 export const lightTheme = {
   main: "#000000",
-  secondary: "#FFFFFF",
+  secondary: " #f9fafb",
 };
 
 export const darkTheme = {

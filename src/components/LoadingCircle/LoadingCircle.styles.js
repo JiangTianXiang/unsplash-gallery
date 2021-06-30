@@ -8,4 +8,5 @@ export const LoadingScreen = styled.div`
   justify-content: center;
   text-align: center;
   overflow: hidden;
+  background-color: #f9fafb;
 `;
