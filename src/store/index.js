@@ -1,10 +1,11 @@
 import { combineReducers, createStore, applyMiddleware, compose } from "redux";
+import reduxTrunk from "redux-thunk";
 import feed from "./feed/feedReducer";
 import searchPhoto from "./searchPhoto/searchReducer";
 import searchCollection from "./searchCollection/searchCollectionReducer";
 import exploreFeed from "./exploreFeed/exploreFeedReducer";
 import userFeed from "./userFeed/userFeedReducer";
-import reduxTrunk from "redux-thunk";
+import collectionFeed from "./collectionFeed/collectionFeedReducer";
 
 const reducers = combineReducers({
   feed,
@@ -12,6 +13,7 @@ const reducers = combineReducers({
   searchCollection,
   exploreFeed,
   userFeed,
+  collectionFeed
 });
 
 const composeEnhancers =

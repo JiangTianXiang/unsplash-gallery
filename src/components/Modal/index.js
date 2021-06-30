@@ -45,6 +45,7 @@ export default function Modal(props) {
       <ImageAndUserContainer>
         <ImageAndUserHeader>
           <Author
+            onClick={document.body.style.overflow = "unset"}
             getUser={data.user}
             timeStamp={getDiffInTime(data.updated_at)}
           />

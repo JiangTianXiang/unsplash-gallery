@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingBar from "react-top-loading-bar";
 import { ExploreImage } from "components";
+import LoadingCircle from "components/LoadingCircle";
 import {
   ImageContainer,
   ImageArea,
@@ -9,54 +11,39 @@ import {
   CollectionInfoContainer,
   CollectionDetails,
 } from "./Collection.styles";
-import { getCollectionUrl } from "utils";
+import {
+  getCollectionFeed,
+  resetState,
+  incrementPage,
+} from "store/collectionFeed/collectionFeedAction";
 
-export default function Collection(props) {
-  const [data, setData] = useState([]);
-  const [renderObject, setRenderObject] = useState([
-    { key: Math.random(), images: [] },
-    { key: Math.random(), images: [] },
-    { key: Math.random(), images: [] },
-  ]);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
+function Collection(props) {
   const [maxPhoto] = useState(props.match.params.total_photos);
-
-  const splitDataToColumns = (newData) => {
-    const newRenderObject = [...renderObject];
-    let counter = 0;
-
-    while (counter < newData.length) {
-      newRenderObject[counter % 3].images.push(newData[counter]);
-      counter++;
-    }
-    return newRenderObject;
-  };
-
-  const getData = async () => {
-    try {
-      const response = await axios(
-        getCollectionUrl({ collectionId: props.match.params.id, page: page })
-      );
-      const newList = response.data;
-      setRenderObject(splitDataToColumns(newList));
-      setData([...data, ...newList]);
-      setError(false);
-      setPage(page + 1);
-    } catch (err) {
-      console.log(err);
-      setError(true);
-    }
-  };
+  const ref = React.createRef();
+  useEffect(() => {
+    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.collectionFeed.isLoading]);
 
   useEffect(() => {
-    getData();
+    if (props.collectionFeed.page !== 1) {
+      props.getCollectionFeed(props.match.params.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.collectionFeed.page]);
+
+  useEffect(() => {
+    props.resetState();
+    props.getCollectionFeed(props.match.params.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const hasData = data.length && !error;
+  const { data, isLoading, hasError, renderObject } =
+    props.collectionFeed;
+  const hasData = !!data.length && !hasError;
   return (
     <>
+      <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
         <>
           <CollectionInfoContainer>
@@ -70,7 +57,7 @@ export default function Collection(props) {
           </CollectionInfoContainer>
           <InfiniteScroll
             dataLength={data.length}
-            next={getData}
+            next={props.incrementPage}
             hasMore={data.length < maxPhoto}
             endMessage={<h4>End of collection</h4>}
           >
@@ -88,6 +75,19 @@ export default function Collection(props) {
           </InfiniteScroll>
         </>
       )}
+      {isLoading && <LoadingCircle />}
     </>
   );
 }
+
+const mapStateToProps = (state) => ({
+  collectionFeed: state.collectionFeed,
+});
+
+const mapDispatchToProps = {
+  getCollectionFeed,
+  resetState,
+  incrementPage,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Collection);
