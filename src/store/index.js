@@ -3,6 +3,7 @@ import feed from "./feed/feedReducer";
 import searchPhoto from "./searchPhoto/searchReducer";
 import searchCollection from "./searchCollection/searchCollectionReducer";
 import exploreFeed from "./exploreFeed/exploreFeedReducer";
+import userFeed from "./userFeed/userFeedReducer";
 import reduxTrunk from "redux-thunk";
 
 const reducers = combineReducers({
@@ -10,6 +11,7 @@ const reducers = combineReducers({
   searchPhoto,
   searchCollection,
   exploreFeed,
+  userFeed,
 });
 
 const composeEnhancers =

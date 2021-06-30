@@ -7,15 +7,15 @@ const initialState = {
   ],
   hasError: false,
   isLoading: false,
+  user: null,
   page: 1,
-  totalResult: 0,
 };
 
-export const SEARCH_FETCH_DATA_SUCCESS = "SEARCH_FETCH_DATA_SUCCESS";
-export const SEARCH_FETCH_DATA_PENDING = "SEARCH_FETCH_DATA_PENDING";
-export const SEARCH_FETCH_DATA_ERROR = "SEARCH_FETCH_DATA_ERROR";
-export const RESET_STATE = "RESET_STATE";
-export const INCREMENT_PAGE = "INCREMENT_PAGE";
+export const FETCH_USER_FEED_SUCCESS = "FETCH_USER_FEED_SUCCESS";
+export const FETCH_USER_FEED_PENDING = "FETCH_USER_FEED_PENDING";
+export const FETCH_USER_FEED_ERROR = "FETCH_USER_FEED_ERROR";
+export const RESET_USER_STATE = "RESET_USER_STATE";
+export const INCREMENT_USER_PAGE = "INCREMENT_USER_PAGE";
 
 const splitDataToColumns = (currentRenderObject, newData) => {
   const newRenderObject = [...currentRenderObject];
@@ -37,29 +37,29 @@ const resetRenderObject = (renderObject) => {
 
 function userFeedReducer(state = initialState, action) {
   switch (action.type) {
-    case RESET_STATE:
+    case RESET_USER_STATE:
       resetRenderObject(initialState.renderObject);
       state = initialState;
       return initialState;
-    case INCREMENT_PAGE:
+    case INCREMENT_USER_PAGE:
       return { ...state, page: state.page + 1 };
-    case SEARCH_FETCH_DATA_SUCCESS:
+    case FETCH_USER_FEED_SUCCESS:
       return {
         ...state,
         user: action.payload[0].user,
         data: [...state.data, ...action.payload],
         renderObject: splitDataToColumns(state.renderObject, action.payload),
-        totalResult: action.payload[0].user.total_photos,
+        maxPage: action.payload.total_pages,
         isLoading: false,
         hasError: false,
       };
-    case SEARCH_FETCH_DATA_PENDING:
+    case FETCH_USER_FEED_PENDING:
       return {
         ...state,
         isLoading: true,
         hasError: false,
       };
-    case SEARCH_FETCH_DATA_ERROR:
+    case FETCH_USER_FEED_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -72,4 +72,4 @@ function userFeedReducer(state = initialState, action) {
 
 export default userFeedReducer;
 
-export const getPage = (state) => state.searchPhoto.page;
+export const getPage = (state) => state.userFeed.page;
