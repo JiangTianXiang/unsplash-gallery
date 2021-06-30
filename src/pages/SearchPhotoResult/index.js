@@ -18,6 +18,7 @@ import {
   PhotoSelectionSwitch,
   UnderScoredLink,
   ImageArea,
+  DisplayArea
 } from "./SearchPhotoResult.styles";
 
 function SearchPhotoResult(props) {
@@ -57,7 +58,7 @@ function SearchPhotoResult(props) {
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
-        <>
+        <DisplayArea>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
               <div>Search results for "{searchTerm}"</div>
@@ -89,7 +90,7 @@ function SearchPhotoResult(props) {
               </ImageArea>
             </ImageContainer>
           </InfiniteScroll>
-        </>
+        </DisplayArea>
       )}
       {isLoading && <LoadingCircle />}
     </>

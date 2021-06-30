@@ -4,6 +4,7 @@ export const DisplayArea = styled.div`
   display: flex;
   justify-content: center;
   justify-self: center;
+  background-color: #f9fafb;
 `;
 
 export const ImageArea = styled.div`

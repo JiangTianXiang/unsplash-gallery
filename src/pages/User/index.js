@@ -51,7 +51,7 @@ function User(props) {
     username,
     profile_image,
   } = user || {};
-  
+
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />

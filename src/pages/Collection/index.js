@@ -10,6 +10,7 @@ import {
   ImageColumn,
   CollectionInfoContainer,
   CollectionDetails,
+  DisplayArea,
 } from "./Collection.styles";
 import {
   getCollectionFeed,
@@ -38,14 +39,13 @@ function Collection(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { data, isLoading, hasError, renderObject } =
-    props.collectionFeed;
+  const { data, isLoading, hasError, renderObject } = props.collectionFeed;
   const hasData = !!data.length && !hasError;
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
-        <>
+        <DisplayArea>
           <CollectionInfoContainer>
             <CollectionDetails>
               <div>
@@ -73,7 +73,7 @@ function Collection(props) {
               </ImageArea>
             </ImageContainer>
           </InfiniteScroll>
-        </>
+        </DisplayArea>
       )}
       {isLoading && <LoadingCircle />}
     </>
