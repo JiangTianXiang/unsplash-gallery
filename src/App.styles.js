@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Poppins";
     text-align: center;
-    background-color: ${(props) => props.theme.main};
+    background-color: ${(props) => props.theme.secondary};
     color: ${(props) => props.theme.main}
   }
 `;

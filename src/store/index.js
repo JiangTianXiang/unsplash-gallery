@@ -5,6 +5,7 @@ import searchPhoto from "./searchPhoto/searchReducer";
 import searchCollection from "./searchCollection/searchCollectionReducer";
 import exploreFeed from "./exploreFeed/exploreFeedReducer";
 import userFeed from "./userFeed/userFeedReducer";
+import favoriteFeed from "./favoriteFeed/favoriteFeedReducer";
 import collectionFeed from "./collectionFeed/collectionFeedReducer";
 
 const reducers = combineReducers({
@@ -13,7 +14,8 @@ const reducers = combineReducers({
   searchCollection,
   exploreFeed,
   userFeed,
-  collectionFeed
+  collectionFeed,
+  favoriteFeed
 });
 
 const composeEnhancers =
