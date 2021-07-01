@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 export const Overlay = styled.div`
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: auto;
   opacity: ${(props) => props.opacity};
   background-color: ${(props) => `${props.placeholderColor || "grey"}`};
   transition: 2s;
@@ -12,14 +12,14 @@ export const Overlay = styled.div`
 
 export const defaultImageCSS = css`
   width: 100%;
-  height: 100%;
+  height: auto;
   border-radius: 8px;
 `;
 
 export const DisplayImage = styled.img`
   transition: 0.5s ease;
   ${(props) => props.imageCSS}
-  object-fit: "cover";
+  object-fit:${(props) => `${props.objectFit || "cover"}`};
 `;
 
 export const defaultImageContainerCSS = css`

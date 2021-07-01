@@ -43,6 +43,7 @@ export default function ExploreImage(props) {
         </MoreInfoDiv>
         <DisplayImage
           src={props.item.urls.small}
+          objectFit={"cover"}
           imageCSS={props.restrict ? restrictedImageCss : defaultImageCSS}
           onLoad={() => setOpacity(0)}
           alt="placeholder"

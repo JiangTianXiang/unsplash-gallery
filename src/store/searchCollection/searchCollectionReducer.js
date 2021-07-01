@@ -12,8 +12,10 @@ const initialCollectionState = {
   totalResult: 0,
 };
 
-export const SEARCH_FETCH_COLLECTION_SUCCESS = "SEARCH_FETCH_COLLECTION_SUCCESS";
-export const SEARCH_FETCH_COLLECTION_PENDING = "SEARCH_FETCH_COLLECTION_PENDING";
+export const SEARCH_FETCH_COLLECTION_SUCCESS =
+  "SEARCH_FETCH_COLLECTION_SUCCESS";
+export const SEARCH_FETCH_COLLECTION_PENDING =
+  "SEARCH_FETCH_COLLECTION_PENDING";
 export const SEARCH_FETCH_COLLECTION_ERROR = "SEARCH_FETCH_COLLECTION_ERROR";
 export const RESET_STATE = "RESET_STATE";
 export const INCREMENT_PAGE = "INCREMENT_PAGE";
@@ -29,19 +31,21 @@ const splitDataToColumns = (currentRenderObject, newData) => {
   return newRenderObject;
 };
 
-const resetRenderObject = (renderObject) => {
-  renderObject.map((column) => {
-    column.images = [];
-    return column;
-  });
-};
-
 function searchCollectionReducer(state = initialCollectionState, action) {
   switch (action.type) {
     case RESET_STATE:
-      resetRenderObject(initialCollectionState.renderObject);
-      state = initialCollectionState;
-      return initialCollectionState;
+      return {
+        ...state,
+        data: [],
+        page: 1,
+        maxPage: 0,
+        totalResult: 0,
+        renderObject: [
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+        ],
+      };
     case INCREMENT_PAGE:
       return { ...state, page: state.page + 1 };
     case SEARCH_FETCH_COLLECTION_SUCCESS:
