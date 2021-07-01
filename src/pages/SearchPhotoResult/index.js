@@ -18,14 +18,18 @@ import {
   PhotoSelectionSwitch,
   UnderScoredLink,
   ImageArea,
-  DisplayArea
+  DisplayArea,
 } from "./SearchPhotoResult.styles";
 
 function SearchPhotoResult(props) {
   const ref = React.createRef();
 
   useEffect(() => {
-    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    const loadingBar = ref.current;
+    isLoading ? loadingBar.continuousStart() : loadingBar.complete();
+    return function cleanup() {
+      loadingBar.complete();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.searchResult.isLoading]);
 
