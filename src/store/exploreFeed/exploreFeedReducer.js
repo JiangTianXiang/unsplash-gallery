@@ -27,19 +27,19 @@ const splitDataToColumns = (currentRenderObject, newData) => {
   return newRenderObject;
 };
 
-const resetRenderObject = (renderObject) => {
-  renderObject.map((column) => {
-    column.images = [];
-    return column;
-  });
-};
-
 function exploreFeedReducer(state = initialState, action) {
   switch (action.type) {
     case RESET_EXPLORE_STATE:
-      resetRenderObject(initialState.renderObject);
-      state = initialState;
-      return initialState;
+      return {
+        ...state,
+        data: [],
+        page: 1,
+        renderObject: [
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+        ],
+      };
     case INCREMENT_EXPLORE_PAGE:
       return { ...state, page: state.page + 1 };
     case FETCH_EXPLORE_FEED_SUCCESS:

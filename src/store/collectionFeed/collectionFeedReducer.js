@@ -27,19 +27,19 @@ const splitDataToColumns = (currentRenderObject, newData) => {
   return newRenderObject;
 };
 
-const resetRenderObject = (renderObject) => {
-  renderObject.map((column) => {
-    column.images = [];
-    return column;
-  });
-};
-
 function collectionFeedReducer(state = initialState, action) {
   switch (action.type) {
     case RESET_COLLECTION_STATE:
-      resetRenderObject(initialState.renderObject);
-      state = initialState;
-      return initialState;
+      return {
+        ...state,
+        data: [],
+        page: 1,
+        renderObject: [
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+        ],
+      };
     case INCREMENT_COLLECTION_PAGE:
       return { ...state, page: state.page + 1 };
     case FETCH_COLLECTION_FEED_SUCCESS:

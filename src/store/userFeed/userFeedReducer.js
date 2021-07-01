@@ -28,19 +28,20 @@ const splitDataToColumns = (currentRenderObject, newData) => {
   return newRenderObject;
 };
 
-const resetRenderObject = (renderObject) => {
-  renderObject.map((column) => {
-    column.images = [];
-    return column;
-  });
-};
-
 function userFeedReducer(state = initialState, action) {
   switch (action.type) {
     case RESET_USER_STATE:
-      resetRenderObject(initialState.renderObject);
-      state = initialState;
-      return initialState;
+      return {
+        ...state,
+        data: [],
+        user: null,
+        page: 1,
+        renderObject: [
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+          { key: Math.random(), images: [] },
+        ],
+      };
     case INCREMENT_USER_PAGE:
       return { ...state, page: state.page + 1 };
     case FETCH_USER_FEED_SUCCESS:
