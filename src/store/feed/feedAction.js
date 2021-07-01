@@ -4,6 +4,8 @@ import {
   FEED_FETCH_DATA_PENDING,
   FEED_FETCH_DATA_SUCCESS,
   FEED_FETCH_DATA_ERROR,
+  RESET_FEED_STATE,
+  INCREMENT_FEED_PAGE,
   getPage,
 } from "./feedReducer";
 
@@ -29,4 +31,16 @@ export const getData = () => async (dispatch, getState) => {
     });
     console.log(err);
   }
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_FEED_STATE,
+  };
+};
+
+export const incrementPage = () => {
+  return {
+    type: INCREMENT_FEED_PAGE,
+  };
 };

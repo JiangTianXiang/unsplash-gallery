@@ -11,8 +11,12 @@ const initialState = {
 export const FETCH_FAVORITE_FEED_SUCCESS = "FETCH_FAVORITE_FEED_SUCCESS";
 export const FETCH_FAVORITE_FEED_ERROR = "FETCH_FAVORITE_FEED_ERROR";
 
-const splitDataToColumns = (currentRenderObject, newData) => {
-  const newRenderObject = [...currentRenderObject];
+const splitDataToColumns = (newData) => {
+  const newRenderObject = [
+    { key: Math.random(), images: [] },
+    { key: Math.random(), images: [] },
+    { key: Math.random(), images: [] },
+  ];
   let counter = 0;
 
   while (counter < newData.length) {
@@ -27,11 +31,8 @@ function favoriteFeedReducer(state = initialState, action) {
     case FETCH_FAVORITE_FEED_SUCCESS:
       return {
         ...state,
-        data: [...state.data, ...action.payload],
-        renderObject: splitDataToColumns(
-          state.renderObject,
-          action.payload
-        ),
+        data: [...action.payload],
+        renderObject: splitDataToColumns(action.payload),
         hasError: false,
       };
     case FETCH_FAVORITE_FEED_ERROR:

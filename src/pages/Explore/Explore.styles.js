@@ -2,9 +2,16 @@ import styled from "styled-components";
 
 export const DisplayArea = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   justify-self: center;
   background-color: #f9fafb;
+`;
+
+export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 `;
 
 export const ImageArea = styled.div`

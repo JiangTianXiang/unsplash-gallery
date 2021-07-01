@@ -41,8 +41,10 @@ function SearchPhotoResult(props) {
   }, [props.searchResult.page]);
 
   useEffect(() => {
-    props.resetState();
     props.getSearchResult(props.match.params.searchTerm);
+    return function cleanup() {
+      props.resetState();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.match.params.searchTerm]);
 

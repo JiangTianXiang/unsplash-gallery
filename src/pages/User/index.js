@@ -25,7 +25,11 @@ import {
 function User(props) {
   const ref = React.createRef();
   useEffect(() => {
-    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    const loadingBar = ref.current;
+    isLoading ? loadingBar.continuousStart() : loadingBar.complete();
+    return function cleanup() {
+      loadingBar.complete();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userFeed.isLoading]);
 
@@ -37,8 +41,10 @@ function User(props) {
   }, [props.userFeed.page]);
 
   useEffect(() => {
-    props.resetState();
     props.getUserFeed(props.match.params.name);
+    return function cleanup() {
+      props.resetState();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

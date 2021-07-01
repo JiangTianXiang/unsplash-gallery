@@ -22,7 +22,11 @@ function Collection(props) {
   const [maxPhoto] = useState(props.match.params.total_photos);
   const ref = React.createRef();
   useEffect(() => {
-    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    const loadingBar = ref.current;
+    isLoading ? loadingBar.continuousStart() : loadingBar.complete();
+    return function cleanup() {
+      loadingBar.complete();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.collectionFeed.isLoading]);
 
@@ -34,8 +38,10 @@ function Collection(props) {
   }, [props.collectionFeed.page]);
 
   useEffect(() => {
-    props.resetState();
     props.getCollectionFeed(props.match.params.id);
+    return function cleanup() {
+      props.resetState();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
