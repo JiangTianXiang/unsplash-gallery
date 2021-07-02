@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Modal from "components/Modal";
 import {
   favoriteIcon,
   savedFavoriteIcon,
@@ -23,6 +24,7 @@ import { getDiffInTime } from "utils/index";
 const ImageAndUser = (props) => {
   const [data] = useState(props.item);
   const [saved, setSaved] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleSave = () => {
     saved ? removeFavoriteImage(data) : saveFavoriteImage(data);
@@ -34,33 +36,46 @@ const ImageAndUser = (props) => {
     setSaved(!!found);
   }, [data]);
 
+  const showModal = () => {
+    document.body.style.overflow = "hidden";
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    document.body.style.overflow = "unset";
+    setModalOpen(false);
+  };
+
   return (
-    <ImageAndUserContainer>
-      <ImageAndUserHeader>
-        <Author
-          getUser={data.user}
-          timeStamp={getDiffInTime(data.updated_at)}
+    <>
+      <Modal item={props.item} open={modalOpen} onClose={closeModal} />
+      <ImageAndUserContainer>
+        <ImageAndUserHeader>
+          <Author
+            getUser={data.user}
+            timeStamp={getDiffInTime(data.updated_at)}
+          />
+          <ShowMore src={showMoreIcon} onClick={showModal} />
+        </ImageAndUserHeader>
+        {data.description && <PostBio>{data.description}</PostBio>}
+        <DisplayImage
+          url={data.urls.regular}
+          placeholder={data.color}
+          portrait={data.width < data.height}
+          item={data}
         />
-        <ShowMore image={showMoreIcon} />
-      </ImageAndUserHeader>
-      {data.description && <PostBio>{data.description}</PostBio>}
-      <DisplayImage
-        url={data.urls.regular}
-        placeholder={data.color}
-        portrait={data.width < data.height}
-        item={data}
-      />
-      <ImageAndUserFooter>
-        <LikesContainer>
-          <LikeIcon src={likeIcon} />
-          <Likes>{`${data.likes}`} </Likes>
-        </LikesContainer>
-        <FavoriteButton
-          src={saved ? savedFavoriteIcon : favoriteIcon}
-          onClick={handleSave}
-        />
-      </ImageAndUserFooter>
-    </ImageAndUserContainer>
+        <ImageAndUserFooter>
+          <LikesContainer>
+            <LikeIcon src={likeIcon} />
+            <Likes>{`${data.likes}`} </Likes>
+          </LikesContainer>
+          <FavoriteButton
+            src={saved ? savedFavoriteIcon : favoriteIcon}
+            onClick={handleSave}
+          />
+        </ImageAndUserFooter>
+      </ImageAndUserContainer>
+    </>
   );
 };
 

@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const DisplayArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-self: center;
+  background-color: #f9fafb;
+`;
+
 export const ImageColumn = styled.div`
   display: flex;
   flex-direction: column;

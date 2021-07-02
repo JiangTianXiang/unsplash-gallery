@@ -1,73 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { DisplayArea, ImageColumn, ImageArea } from "./FavoriteImage.styles";
-import { getAllFavoriteImage } from "utils/index.js";
 import { ExploreImage } from "components";
+import { getFavoriteFeed } from "store/favoriteFeed/favoriteFeedAction";
 
-export default class FavoriteImage extends React.Component {
-  state = {
-    data: [],
-    renderObject: [
-      { key: Math.random(), images: [] },
-      { key: Math.random(), images: [] },
-      { key: Math.random(), images: [] },
-    ],
-    hasError: false,
-  };
-  ref = React.createRef();
+function FavoriteImage(props) {
+  useEffect(() => {
+    props.getFavoriteFeed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  loadImageFromLocalStorage = () => {
-    try {
-      const favoriteImages = getAllFavoriteImage();
-      this.setState({
-        data: [...favoriteImages],
-        renderObject: this.splitDataToColumns(favoriteImages),
-        hasError: false,
-      });
-    } catch (err) {
-      console.log(err);
-      this.setState({ hasError: true });
-    }
-  };
-
-  componentDidMount() {
-    this.loadImageFromLocalStorage();
-  }
-
-  splitDataToColumns = (newData) => {
-    const newRenderObject = [...this.state.renderObject];
-    let counter = 0;
-
-    while (counter < newData.length) {
-      newRenderObject[counter % 3].images.push(newData[counter]);
-      counter++;
-    }
-    return newRenderObject;
-  };
-
-  render() {
-    const hasData = !!this.state.data.length;
-    return (
-      <>
-        {!hasData && (
-          <div>No image saved yet. Press star button to save some images</div>
-        )}
-        {hasData && (
-          <>
-            <div>Saved Photos</div>
-            <DisplayArea>
-              <ImageArea>
-                {this.state.renderObject.map((column) => (
-                  <ImageColumn key={column.key}>
-                    {column.images.map((item) => (
-                      <ExploreImage key={item.id} item={item} restrict />
-                    ))}
-                  </ImageColumn>
-                ))}
-              </ImageArea>
-            </DisplayArea>
-          </>
-        )}
-      </>
-    );
-  }
+  const { data, hasError, renderObject } = props.favoriteFeed || {};
+  const hasData = !!data.length && !hasError;
+  return (
+    <>
+      {!hasData && (
+        <div>No image saved yet. Press star button to save some images</div>
+      )}
+      {hasData && (
+        <>
+          <div>Saved Photos</div>
+          <DisplayArea>
+            <ImageArea>
+              {renderObject.map((column) => (
+                <ImageColumn key={column.key}>
+                  {column.images.map((item) => (
+                    <ExploreImage key={item.id} item={item} restrict />
+                  ))}
+                </ImageColumn>
+              ))}
+            </ImageArea>
+          </DisplayArea>
+        </>
+      )}
+    </>
+  );
 }
+
+const mapStateToProps = (state) => ({
+  favoriteFeed: state.favoriteFeed,
+});
+
+const mapDispatchToProps = {
+  getFavoriteFeed,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FavoriteImage);

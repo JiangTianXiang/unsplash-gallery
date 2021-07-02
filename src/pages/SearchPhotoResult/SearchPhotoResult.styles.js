@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+export const DisplayArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-self: center;
+  background-color: #f9fafb;
+`;
+
 export const ImageColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,7 +44,6 @@ export const StyledLink = styled(Link)`
   font-size: 32px;
   color: ${(props) => props.theme.main};
   text-decoration: none;
-  background-color: ${(props) => props.theme.secondary};
 `;
 
 export const UnderScoredLink = styled(Link)`
@@ -44,7 +51,6 @@ export const UnderScoredLink = styled(Link)`
   font-size: 32px;
   color: ${(props) => props.theme.main};
   text-decoration: none;
-  background-color: ${(props) => props.theme.secondary};
   border-bottom: 5px solid ${(props) => props.theme.main};
 `;
 

@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Poppins";
     text-align: center;
-    background-color: ${(props) => props.theme.main};
+    background-color: ${(props) => props.theme.secondary};
     color: ${(props) => props.theme.main}
   }
 `;
@@ -20,7 +20,7 @@ export const AppContainer = styled.div`
 
 export const lightTheme = {
   main: "#000000",
-  secondary: "#FFFFFF",
+  secondary: " #f9fafb",
 };
 
 export const darkTheme = {

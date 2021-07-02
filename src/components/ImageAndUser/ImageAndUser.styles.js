@@ -23,13 +23,9 @@ export const ImageAndUserHeader = styled.div`
 `;
 
 export const ShowMore = styled.img`
-  background-image: url(${(props) => props.image});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 5px;
   width: 25px;
-
+  cursor: pointer;
   margin-top: 53px;
 `;
 

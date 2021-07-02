@@ -21,6 +21,7 @@ export const Overlay = styled.div`
 export const defaultImageCSS = css`
   width: 100%;
   height: 100%;
+  min-height: 530px;
 `;
 
 export const portraitImageCSS = css`

@@ -18,13 +18,18 @@ import {
   PhotoSelectionSwitch,
   UnderScoredLink,
   ImageArea,
+  DisplayArea,
 } from "./SearchPhotoResult.styles";
 
 function SearchPhotoResult(props) {
   const ref = React.createRef();
 
   useEffect(() => {
-    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    const loadingBar = ref.current;
+    isLoading ? loadingBar.continuousStart() : loadingBar.complete();
+    return function cleanup() {
+      loadingBar.complete();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.searchResult.isLoading]);
 
@@ -36,8 +41,10 @@ function SearchPhotoResult(props) {
   }, [props.searchResult.page]);
 
   useEffect(() => {
-    props.resetState();
     props.getSearchResult(props.match.params.searchTerm);
+    return function cleanup() {
+      props.resetState();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.match.params.searchTerm]);
 
@@ -57,7 +64,7 @@ function SearchPhotoResult(props) {
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
-        <>
+        <DisplayArea>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
               <div>Search results for "{searchTerm}"</div>
@@ -89,7 +96,7 @@ function SearchPhotoResult(props) {
               </ImageArea>
             </ImageContainer>
           </InfiniteScroll>
-        </>
+        </DisplayArea>
       )}
       {isLoading && <LoadingCircle />}
     </>

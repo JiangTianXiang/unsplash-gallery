@@ -8,14 +8,23 @@ const initialState = {
 export const FEED_FETCH_DATA_SUCCESS = "FEED_FETCH_DATA_SUCCESS";
 export const FEED_FETCH_DATA_PENDING = "FEED_FETCH_DATA_PENDING";
 export const FEED_FETCH_DATA_ERROR = "FEED_FETCH_DATA_ERROR";
+export const RESET_FEED_STATE = "RESET_FEED_STATE";
+export const INCREMENT_FEED_PAGE = "INCREMENT_FEED_PAGE";
 
 function feedReducer(state = initialState, action) {
   switch (action.type) {
+    case RESET_FEED_STATE:
+      return {
+        ...state,
+        data: [],
+        page: 1,
+      };
+    case INCREMENT_FEED_PAGE:
+      return { ...state, page: state.page + 1 };
     case FEED_FETCH_DATA_SUCCESS:
       return {
         ...state,
         data: [...state.data, ...action.payload],
-        page: state.page + 1,
         isLoading: false,
         hasError: false,
       };

@@ -30,6 +30,8 @@ export default function ExploreImage(props) {
     <>
       <Modal item={props.item} open={modalOpen} onClose={closeModal} />
       <Container
+        width={props.item.width}
+        height={props.item.height}
         imageContainerCSS={
           props.restrict
             ? restrictedImageContainerCss

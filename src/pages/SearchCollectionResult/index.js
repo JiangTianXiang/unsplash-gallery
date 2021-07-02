@@ -18,13 +18,18 @@ import {
   PhotoSelectionSwitch,
   UnderScoredLink,
   ImageArea,
+  DisplayArea
 } from "./SearchCollectionResult.styles";
 
 function SearchCollectionResult(props) {
   const ref = React.createRef();
 
   useEffect(() => {
-    isLoading ? ref.current.continuousStart() : ref.current.complete();
+    const loadingBar = ref.current;
+    isLoading ? loadingBar.continuousStart() : loadingBar.complete();
+    return function cleanup() {
+      loadingBar.complete();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.searchResult.isLoading]);
 
@@ -57,7 +62,7 @@ function SearchCollectionResult(props) {
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
-        <>
+        <DisplayArea>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
               <div>
@@ -95,7 +100,7 @@ function SearchCollectionResult(props) {
               </ImageArea>
             </ImageContainer>
           </InfiniteScroll>
-        </>
+        </DisplayArea>
       )}
       {isLoading && <LoadingCircle />}
     </>
