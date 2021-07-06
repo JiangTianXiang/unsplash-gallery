@@ -42,7 +42,7 @@ export const PhotosAndSelectionsContainer = styled.div`
 export const StyledLink = styled(Link)`
   margin: 16px;
   font-size: 32px;
-  color: #7B7B7B;
+  color: #7b7b7b;
   opacity: 0.39;
   text-decoration: none;
 `;
@@ -55,13 +55,9 @@ export const UnderScoredLink = styled(Link)`
   border-bottom: 5px solid ${(props) => props.theme.main};
 `;
 
-export const PhotoResultDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const PhotoSelectionSwitch = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
+

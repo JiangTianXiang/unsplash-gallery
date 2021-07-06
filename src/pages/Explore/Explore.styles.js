@@ -27,6 +27,7 @@ export const ImageArea = styled.div`
 export const ImageColumn = styled.div`
   display: flex;
   flex-direction: column;
+  flex-basis: 100%;
   align-items: center;
   margin: 15px;
 `;

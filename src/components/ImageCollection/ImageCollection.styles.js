@@ -10,6 +10,12 @@ export const Overlay = styled.div`
   border-radius: 8px;
 `;
 
+export const userCollectionImageCSS = css`
+  height: 86px;
+  width: 86px;
+  border-radius: 8px;
+`;
+
 export const defaultImageCSS = css`
   width: 223px;
   height: 223px;
@@ -20,6 +26,15 @@ export const DisplayImage = styled.img`
   transition: 0.5s ease;
   ${(props) => props.imageCSS}
   object-fit:${(props) => `${props.objectFit || "cover"}`};
+`;
+
+export const userCollectionContainerCSS = css `
+  height: 86px;
+  width: 86px;
+  margin-top: 17px;
+  margin-right: 13px;
+  margin-left: 13px;
+  margin-bottom: 7px;
 `;
 
 export const defaultImageContainerCSS = css`

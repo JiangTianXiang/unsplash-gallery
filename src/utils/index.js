@@ -30,12 +30,14 @@ export const getUserUrl = ({
   numberOfRequest = 30,
   page = null,
   userName = null,
+  isPhoto = "photos",
 }) => {
   const base = process.env.REACT_APP_ENDPOINT;
   const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
   const pages = page ? `&page=${page}` : "";
   const user = userName ? `${userName}` : "";
-  return `${base}/users/${user}/photos/?client_id=${apiKey}&per_page=${numberOfRequest}${pages}`;
+  const type = isPhoto ? `/${isPhoto}` : "";
+  return `${base}/users/${user}${type}/?client_id=${apiKey}&per_page=${numberOfRequest}${pages}`;
 };
 
 export const getCollectionUrl = ({
@@ -46,6 +48,18 @@ export const getCollectionUrl = ({
   const base = process.env.REACT_APP_ENDPOINT;
   const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
   return `${base}/collections/${collectionId}/photos/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
+};
+
+export const getTopicUrl = ({
+  numberOfRequest = 30,
+  page = 1,
+  topic = null,
+  isPhoto = true,
+}) => {
+  const base = process.env.REACT_APP_ENDPOINT;
+  const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
+  const type = isPhoto ? `/photos` : "";
+  return `${base}/topics/${topic}${type}/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
 };
 
 function timeDifference(elapsed) {

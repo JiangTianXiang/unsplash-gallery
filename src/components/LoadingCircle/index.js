@@ -12,10 +12,11 @@ const circleStyle = {
   display: "inline-block",
   width: "8rem",
   height: "8rem",
-  border: "0.5rem solid #FFFFFF",
+  border: "0.5rem solid #f9fafb",
   borderTop: "0.5rem solid #add8e6",
   borderRadius: "50%",
   boxSizing: "border-box",
+  backgroundColor: "#f9fafb",
 };
 
 export default function LoadingPage() {

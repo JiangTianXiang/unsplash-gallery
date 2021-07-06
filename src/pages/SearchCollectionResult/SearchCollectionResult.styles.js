@@ -42,8 +42,10 @@ export const PhotosAndSelectionsContainer = styled.div`
 export const StyledLink = styled(Link)`
   margin: 16px;
   font-size: 32px;
-  color: ${(props) => props.theme.main};
+  color: #7B7B7B;
+  opacity: 0.39;
   text-decoration: none;
+  
 `;
 
 export const UnderScoredLink = styled(Link)`

@@ -11,7 +11,6 @@ export const GlobalStyle = createGlobalStyle`
 
 export const AppContainer = styled.div`
   background-color: ${(props) => props.theme.secondary};
-  background-color: white;
   border: 10px solid white;
   display: flex;
   flex-direction: column;

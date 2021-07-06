@@ -4,6 +4,8 @@ import {
   Container,
   Overlay,
   DisplayImage,
+  userCollectionContainerCSS,
+  userCollectionImageCSS,
   defaultImageContainerCSS,
   defaultImageCSS,
   MoreInfoDiv,
@@ -17,11 +19,12 @@ function ImageCollection(props) {
       `/collection/${props.item.id}&total_photos=${props.item.total_photos}&user=${props.item.user.username}&title=${props.item.title}`
     );
   };
-
+  const containerCSS = props.user ? userCollectionContainerCSS : defaultImageContainerCSS;
+  const imageCSS = props.user ? userCollectionImageCSS : defaultImageCSS;
   return (
     <>
       <Container
-        imageContainerCSS={defaultImageContainerCSS}
+        imageContainerCSS={containerCSS}
         onClick={handleClick}
       >
         <Overlay
@@ -36,7 +39,7 @@ function ImageCollection(props) {
         <DisplayImage
           src={props.item.cover_photo.urls.regular}
           objectFit={"cover"}
-          imageCSS={defaultImageCSS}
+          imageCSS={imageCSS}
           onLoad={() => setOpacity(0)}
           alt="placeholder"
         />
