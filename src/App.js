@@ -7,6 +7,7 @@ import NavBar from "components/Header/NavBar";
 import User from "pages/User";
 import SearchPhotoResult from "pages/SearchPhotoResult";
 import SearchCollectionResult from "pages/SearchCollectionResult";
+import Topic from "pages/Topic";
 import FavoriteImage from "pages/FavoriteImage";
 import { GlobalStyle, lightTheme, darkTheme, AppContainer } from "App.styles";
 import Collection from "pages/Collection";
@@ -30,6 +31,10 @@ export default function App() {
             <Route
               path="/search/collections/:searchTerm"
               component={SearchCollectionResult}
+            />
+            <Route
+              path="/topic/:searchTerm"
+              component={Topic}
             />
             <Route
               path="/collection/:id&total_photos=:total_photos&user=:user&title=:title"

@@ -12,6 +12,8 @@ import {
   restrictedImageCss,
 } from "./ExploreImage.styles";
 
+const DEFAULT_LANDSCAPE_HEIGHT = "223px";
+const DEFAULT_PORTRAIT_HEIGHT = "325px";
 export default function ExploreImage(props) {
   const [opacity, setOpacity] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,13 +32,12 @@ export default function ExploreImage(props) {
     <>
       <Modal item={props.item} open={modalOpen} onClose={closeModal} />
       <Container
-        width={props.item.width}
-        height={props.item.height}
         imageContainerCSS={
           props.restrict
             ? restrictedImageContainerCss
             : defaultImageContainerCSS
         }
+        minHeight= {props.portrait ? DEFAULT_PORTRAIT_HEIGHT : DEFAULT_LANDSCAPE_HEIGHT}
         onClick={showModal}
       >
         <Overlay opacity={opacity} placeholderColor={props.item.color} />

@@ -7,6 +7,7 @@ import exploreFeed from "./exploreFeed/exploreFeedReducer";
 import userFeed from "./userFeed/userFeedReducer";
 import favoriteFeed from "./favoriteFeed/favoriteFeedReducer";
 import collectionFeed from "./collectionFeed/collectionFeedReducer";
+import topicFeed from "./topicFeed/topicReducer";
 
 const reducers = combineReducers({
   feed,
@@ -15,7 +16,8 @@ const reducers = combineReducers({
   exploreFeed,
   userFeed,
   collectionFeed,
-  favoriteFeed
+  favoriteFeed,
+  topicFeed
 });
 
 const composeEnhancers =

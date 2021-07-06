@@ -3,9 +3,13 @@ import styled from "styled-components";
 export const SearchInput = styled.input`
   height: 20px;
   font-size: 14px;
+  font-family: Poppins;
   border: none;
   margin-top: 13px;
   margin-left: 33px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const SearchContainer = styled.div`

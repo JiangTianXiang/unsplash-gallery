@@ -4,24 +4,25 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
 import LoadingCircle from "components/LoadingCircle";
 import {
-  getSearchCollectionResult,
-  resetCollectionState,
-  incrementCollectionPage,
-} from "store/searchCollection/searchCollectionAction";
-import { ImageCollection } from "components";
+  getTopicFeed,
+  getTopicDetails,
+  resetState,
+  incrementPage,
+} from "store/topicFeed/topicAction";
+import { ExploreImage } from "components";
+import TopicDetail from "components/TopicDetail";
 import {
   ImageContainer,
   ImageColumn,
   PhotosAndSelectionsContainer,
   StyledLink,
-  PhotoResultDetails,
   PhotoSelectionSwitch,
   UnderScoredLink,
   ImageArea,
-  DisplayArea
-} from "./SearchCollectionResult.styles";
+  DisplayArea,
+} from "./Topic.styles";
 
-function SearchCollectionResult(props) {
+function Topic(props) {
   const ref = React.createRef();
 
   useEffect(() => {
@@ -31,72 +32,70 @@ function SearchCollectionResult(props) {
       loadingBar.complete();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.searchResult.isLoading]);
+  }, [props.topicFeed.isLoading]);
 
   useEffect(() => {
-    if (props.searchResult.page !== 1) {
-      props.getSearchCollectionResult(props.match.params.searchTerm);
+    if (props.topicFeed.page !== 1) {
+      props.getTopicFeed(props.match.params.searchTerm);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.searchResult.page]);
+  }, [props.topicFeed.page]);
 
   useEffect(() => {
-    props.resetCollectionState();
-    props.getSearchCollectionResult(props.match.params.searchTerm);
+    props.getTopicDetails(props.match.params.searchTerm);
+    props.getTopicFeed(props.match.params.searchTerm);
+    return function cleanup() {
+      props.resetState();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.match.params.searchTerm]);
 
-  const {
-    data,
-    isLoading,
-    hasError,
-    totalResult,
-    renderObject,
-    page,
-    maxPage,
-  } = props.searchResult;
+  const { data, isLoading, hasError, renderObject, detail } = props.topicFeed;
+  const { total_photos } = detail || {};
   const hasData = !!data.length && !hasError;
   const searchTerm = props.match.params.searchTerm.toLowerCase();
-
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
+      {hasError && (
+        <>
+          <div>Can not find topic with name "{searchTerm}"</div>
+          <PhotoSelectionSwitch>
+            <StyledLink to={`/search/photos/${searchTerm}`}>Photos</StyledLink>
+            <StyledLink to={`/search/collections/${searchTerm}`}>
+              Collections
+            </StyledLink>
+            <UnderScoredLink to={`/topic/${searchTerm}`}>Topic</UnderScoredLink>
+          </PhotoSelectionSwitch>
+        </>
+      )}
       {hasData && (
         <DisplayArea>
           <PhotosAndSelectionsContainer>
-            <PhotoResultDetails>
-              <div>
-                Search results for "{searchTerm}"
-              </div>
-              <div>{totalResult} collections found</div>
-            </PhotoResultDetails>
+            <TopicDetail detail={detail} searchTerm={searchTerm} />
             <PhotoSelectionSwitch>
-              <StyledLink
-                to={`/search/photos/${searchTerm}`}
-              >
+              <StyledLink to={`/search/photos/${searchTerm}`}>
                 Photos
               </StyledLink>
-              <UnderScoredLink
-                to={`/search/collections/${searchTerm}`}
-              >
+              <StyledLink to={`/search/collections/${searchTerm}`}>
                 Collections
-              </UnderScoredLink>
-              <StyledLink to={`/topic/${searchTerm}`}>
-                Topic
               </StyledLink>
+              <UnderScoredLink to={`/topic/${searchTerm}`}>
+                Topic
+              </UnderScoredLink>
             </PhotoSelectionSwitch>
           </PhotosAndSelectionsContainer>
           <InfiniteScroll
             dataLength={data.length}
-            next={props.incrementCollectionPage}
-            hasMore={page <= maxPage}
+            next={props.incrementPage}
+            hasMore={data.length < total_photos}
           >
             <ImageContainer>
               <ImageArea>
                 {renderObject.map((column) => (
                   <ImageColumn key={column.key}>
                     {column.images.map((item) => (
-                      <ImageCollection key={item.id} item={item} />
+                      <ExploreImage key={item.id} item={item} restrict />
                     ))}
                   </ImageColumn>
                 ))}
@@ -111,13 +110,14 @@ function SearchCollectionResult(props) {
 }
 
 const mapStateToProps = (state) => ({
-  searchResult: state.searchCollection,
+  topicFeed: state.topicFeed,
 });
 
 const mapDispatchToProps = {
-  getSearchCollectionResult,
-  resetCollectionState,
-  incrementCollectionPage,
+  getTopicFeed,
+  getTopicDetails,
+  resetState,
+  incrementPage,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchCollectionResult);
+export default connect(mapStateToProps, mapDispatchToProps)(Topic);

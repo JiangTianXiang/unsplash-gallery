@@ -58,7 +58,7 @@ function SearchPhotoResult(props) {
     maxPage,
   } = props.searchResult;
   const hasData = !!data.length && !hasError;
-  const searchTerm = props.match.params.searchTerm;
+  const searchTerm = props.match.params.searchTerm.toLowerCase();
 
   return (
     <>
@@ -76,6 +76,9 @@ function SearchPhotoResult(props) {
               </UnderScoredLink>
               <StyledLink to={`/search/collections/${searchTerm}`}>
                 Collections
+              </StyledLink>
+              <StyledLink to={`/topic/${searchTerm}`}>
+                Topic
               </StyledLink>
             </PhotoSelectionSwitch>
           </PhotosAndSelectionsContainer>

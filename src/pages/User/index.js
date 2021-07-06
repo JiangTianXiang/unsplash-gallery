@@ -3,9 +3,11 @@ import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
 import LoadingCircle from "components/LoadingCircle";
-import { ExploreImage } from "components";
+import { ExploreImage, ImageCollection } from "components";
 import {
   getUserFeed,
+  getUserInfo,
+  getUserCollection,
   resetState,
   incrementPage,
 } from "store/userFeed/userFeedAction";
@@ -15,13 +17,18 @@ import {
   UserInfoContainer,
   Avatar,
   UserInfo,
-  UserName,
+  BoldText,
   UserDetail,
   DetailDiv,
   ImageContainer,
   ImageArea,
+  LightText,
+  UserCollection,
+  CollectionContainer,
+  CollectionTitle,
 } from "./User.styles";
 
+const MAX_USER_COLLECTIONS = 7;
 function User(props) {
   const ref = React.createRef();
   useEffect(() => {
@@ -41,6 +48,8 @@ function User(props) {
   }, [props.userFeed.page]);
 
   useEffect(() => {
+    props.getUserInfo(props.match.params.name);
+    props.getUserCollection(props.match.params.name);
     props.getUserFeed(props.match.params.name);
     return function cleanup() {
       props.resetState();
@@ -48,14 +57,32 @@ function User(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { data, isLoading, hasError, renderObject, user } = props.userFeed;
-  const hasData = !!data.length && !hasError && user != null;
+  const convertToThousand = (stat) => {
+    if (stat >= 1000) {
+      return `${Math.round(stat / 10) / 100}k `;
+    }
+    return `${stat}`;
+  };
+
   const {
-    total_likes,
-    total_photos,
-    total_collections,
-    username,
-    profile_image,
+    data,
+    isLoading,
+    hasError,
+    renderObject,
+    user,
+    isCollectionLoading,
+    userCollections,
+  } = props.userFeed;
+
+  const hasData = !hasError && userCollections && !!data.length;
+
+  const {
+    totalPhotos,
+    followers,
+    following,
+    name,
+    profileImage,
+    portfolioUrl,
   } = user || {};
 
   return (
@@ -64,20 +91,55 @@ function User(props) {
       {hasData && (
         <DisplayArea>
           <UserInfoContainer>
-            <Avatar src={profile_image.large} />
+            <Avatar src={profileImage} />
             <UserInfo>
-              <UserName>{username}</UserName>
+              <BoldText>{name}</BoldText>
+              {portfolioUrl && (
+                <LightText href={portfolioUrl} target="_blank">
+                  {portfolioUrl}
+                </LightText>
+              )}
               <UserDetail>
-                <DetailDiv>{`${total_likes} likes`}</DetailDiv>
-                <DetailDiv>{`${total_photos} photos`}</DetailDiv>
-                <DetailDiv>{`${total_collections} collections`}</DetailDiv>
+                {totalPhotos && (
+                  <DetailDiv>
+                    <BoldText>{convertToThousand(totalPhotos)}</BoldText>
+                    <LightText>Photos</LightText>
+                  </DetailDiv>
+                )}
+                {followers && (
+                  <DetailDiv>
+                    <BoldText>{convertToThousand(followers)}</BoldText>
+                    <LightText>Followers</LightText>
+                  </DetailDiv>
+                )}
+                {!!following && (
+                  <DetailDiv>
+                    <BoldText>{convertToThousand(following)}</BoldText>
+                    <LightText>Following</LightText>
+                  </DetailDiv>
+                )}
               </UserDetail>
             </UserInfo>
           </UserInfoContainer>
+          {!!userCollections.length && (
+            <UserCollection>
+              {userCollections.map((item, index) => {
+                if (index < MAX_USER_COLLECTIONS) {
+                  return (
+                    <CollectionContainer>
+                      <ImageCollection user key={item.id} item={item} />
+                      <CollectionTitle>{item.title}</CollectionTitle>
+                    </CollectionContainer>
+                  );
+                }
+                return null;
+              })}
+            </UserCollection>
+          )}
           <InfiniteScroll
             dataLength={data.length}
             next={props.incrementPage}
-            hasMore={data.length < total_photos}
+            hasMore={data.length < totalPhotos}
             endMessage={<h4>End of Collection</h4>}
           >
             <ImageContainer>
@@ -94,7 +156,7 @@ function User(props) {
           </InfiniteScroll>
         </DisplayArea>
       )}
-      {isLoading && <LoadingCircle />}
+      {(isLoading || isCollectionLoading) && <LoadingCircle />}
     </>
   );
 }
@@ -105,6 +167,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getUserFeed,
+  getUserInfo,
+  getUserCollection,
   resetState,
   incrementPage,
 };
