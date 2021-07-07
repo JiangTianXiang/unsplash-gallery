@@ -7,7 +7,11 @@ import {
   showMoreIcon,
 } from "utils/resources";
 import { Author, DisplayImage } from "components";
-import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
+import {
+  saveFavoriteImage,
+  removeFavoriteImage,
+  imageExistInLocalStorage,
+} from "utils/index";
 import {
   ImageAndUserContainer,
   Likes,
@@ -27,12 +31,12 @@ const ImageAndUser = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleSave = () => {
-    saved ? removeFavoriteImage(data) : saveFavoriteImage(data);
+    saved ? removeFavoriteImage(data.id) : saveFavoriteImage(data);
     setSaved(!saved);
   };
 
   useEffect(() => {
-    const found = localStorage.getItem(data.id);
+    const found = imageExistInLocalStorage(data.id);
     setSaved(!!found);
   }, [data]);
 
@@ -59,6 +63,8 @@ const ImageAndUser = (props) => {
         </ImageAndUserHeader>
         {data.description && <PostBio>{data.description}</PostBio>}
         <DisplayImage
+          onSaveChanged={setSaved}
+          saved={saved}
           url={data.urls.regular}
           placeholder={data.color}
           portrait={data.width < data.height}

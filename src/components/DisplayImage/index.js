@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "components/Modal";
+import { imageExistInLocalStorage } from "utils/index";
 import {
   Container,
   Overlay,
@@ -20,13 +21,20 @@ export default function DisplayImage(props) {
 
   const closeModal = () => {
     document.body.style.overflow = "unset";
+    const found = imageExistInLocalStorage(props.item.id);
+    if (found != props.saved) {
+      props.onSaveChanged(found);
+    }
     setModalOpen(false);
   };
 
   return (
     <>
       <Modal item={props.item} open={modalOpen} onClose={closeModal} />
-      <Container imageContainerCSS={defaultImageContainerCSS} onClick={showModal}>
+      <Container
+        imageContainerCSS={defaultImageContainerCSS}
+        onClick={showModal}
+      >
         <Overlay opacity={opacity} placeholderColor={props.placeholder} />
         <ImageArea
           src={props.url}

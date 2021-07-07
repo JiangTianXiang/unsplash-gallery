@@ -15,7 +15,6 @@ const TopicDetail = (props) => {
   const searchTerm = props.searchTerm;
 
   const handleClick = () => {
-    console.log(followed);
     setFollowed(!followed);
   };
   
