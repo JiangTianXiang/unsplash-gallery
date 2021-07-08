@@ -6,7 +6,6 @@ import {
 } from "components/StyledLink";
 
 const IconButton = (props) => {
-
   return (
     <StyledLink to={props.to || ""}>
       <IconContainer selected={props.selected}>

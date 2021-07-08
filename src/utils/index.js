@@ -142,3 +142,7 @@ export const topicExistInLocalStorage = (id) => {
   const topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
   return topicStore.hasOwnProperty(id);
 };
+
+export const formatTopic = (searchTerm) => {
+  return searchTerm.replace(/[\W_]+/g, "-");
+};

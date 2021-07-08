@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
+import { formatTopic } from "utils/index";
 import {
   getTopicFeed,
   getTopicDetails,
@@ -14,7 +15,7 @@ import {
   StyledLink,
   PhotoSelectionSwitch,
   UnderScoredLink,
-  DisplayArea
+  DisplayArea,
 } from "components/UI/Layout/SearchPageInfoLayout.styles";
 import {
   ImageColumn,
@@ -24,6 +25,8 @@ import {
 
 function Topic(props) {
   const ref = React.createRef();
+  const searchTerm = props.match.params.searchTerm.toLowerCase();
+  const searchTopic = formatTopic(searchTerm);
 
   useEffect(() => {
     const loadingBar = ref.current;
@@ -36,14 +39,14 @@ function Topic(props) {
 
   useEffect(() => {
     if (props.topicFeed.page !== 1) {
-      props.getTopicFeed(props.match.params.searchTerm);
+      props.getTopicFeed(searchTopic);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.topicFeed.page]);
 
   useEffect(() => {
-    props.getTopicDetails(props.match.params.searchTerm);
-    props.getTopicFeed(props.match.params.searchTerm);
+    props.getTopicDetails(searchTopic);
+    props.getTopicFeed(searchTopic);
     return function cleanup() {
       props.resetState();
     };
@@ -53,7 +56,6 @@ function Topic(props) {
   const { data, isLoading, hasError, renderObject, detail } = props.topicFeed;
   const { total_photos } = detail || {};
   const hasData = !!data.length && !hasError;
-  const searchTerm = props.match.params.searchTerm.toLowerCase();
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
@@ -62,10 +64,10 @@ function Topic(props) {
           <div>Can not find topic with name "{searchTerm}"</div>
           <PhotoSelectionSwitch>
             <StyledLink to={`/search/photos/${searchTerm}`}>Photos</StyledLink>
-            <StyledLink to={`/search/collections/${searchTerm}`}>
+            <StyledLink to={`/search/collections/${searchTopic}`}>
               Collections
             </StyledLink>
-            <UnderScoredLink to={`/topic/${searchTerm}`}>Topic</UnderScoredLink>
+            <UnderScoredLink to={`/topic/${formatTopic(searchTerm)}`}>Topic</UnderScoredLink>
           </PhotoSelectionSwitch>
         </>
       )}
