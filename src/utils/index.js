@@ -91,22 +91,58 @@ export const getDiffInTime = (givenDate) => {
   return diff;
 };
 
+export const IMAGE_KEY = "images";
 export const saveFavoriteImage = (item) => {
-  localStorage.setItem(item.id, JSON.stringify(item));
-};
-
-export const removeFavoriteImage = (item) => {
-  localStorage.removeItem(item.id);
-};
-
-export const getAllFavoriteImage = () => {
-  const values = [];
-  const keys = Object.keys(localStorage);
-  let i = keys.length;
-
-  while (i--) {
-    values.push(JSON.parse(localStorage.getItem(keys[i])));
+  let imageStore = {};
+  if (localStorage.getItem(IMAGE_KEY) !== null) {
+    imageStore = JSON.parse(localStorage.getItem(IMAGE_KEY));
   }
+  imageStore[item.id] = item;
+  localStorage.setItem(IMAGE_KEY, JSON.stringify(imageStore));
+};
 
-  return values;
+export const removeFavoriteImage = (id) => {
+  const imageStore = JSON.parse(localStorage.getItem(IMAGE_KEY));
+  delete imageStore[`${id}`];
+  localStorage.setItem(IMAGE_KEY, JSON.stringify(imageStore));
+};
+
+export const imageExistInLocalStorage = (id) => {
+  if (localStorage.getItem(IMAGE_KEY) === null) {
+    return false;
+  }
+  const imageStore = JSON.parse(localStorage.getItem(IMAGE_KEY));
+  return imageStore.hasOwnProperty(id);
+};
+
+export const getLocalStorageWithKey = (key) => {
+  return Object.values(JSON.parse(localStorage.getItem(key)));
+};
+
+export const TOPIC_KEY = "topics";
+export const saveTopic = (item) => {
+  let topicStore = {};
+  if (localStorage.getItem(TOPIC_KEY) !== null) {
+    topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
+  }
+  topicStore[item.id] = item;
+  localStorage.setItem(TOPIC_KEY, JSON.stringify(topicStore));
+};
+
+export const removeTopic = (id) => {
+  const topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
+  delete topicStore[`${id}`];
+  localStorage.setItem(TOPIC_KEY, JSON.stringify(topicStore));
+};
+
+export const topicExistInLocalStorage = (id) => {
+  if (localStorage.getItem(TOPIC_KEY) === null) {
+    return false;
+  }
+  const topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
+  return topicStore.hasOwnProperty(id);
+};
+
+export const formatTopic = (searchTerm) => {
+  return searchTerm.replace(/[\W_]+/g, "-");
 };

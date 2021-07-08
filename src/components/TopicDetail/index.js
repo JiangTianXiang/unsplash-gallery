@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { removeTopic, saveTopic, topicExistInLocalStorage } from "utils/index";
 import {
   TopicDetailContainer,
   CoverPhoto,
@@ -15,10 +16,15 @@ const TopicDetail = (props) => {
   const searchTerm = props.searchTerm;
 
   const handleClick = () => {
-    console.log(followed);
+    followed ? removeTopic(props.detail.id) : saveTopic(props.detail);
     setFollowed(!followed);
   };
-  
+
+  useEffect(() => {
+    setFollowed(topicExistInLocalStorage(props.detail.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <TopicDetailContainer>
       <CoverPhoto src={cover_photo.urls.regular} />

@@ -6,12 +6,8 @@ import {
 } from "components/StyledLink";
 
 const IconButton = (props) => {
-  const handleClick = () => {
-    props.handleSelected(props.description);
-  };
-
   return (
-    <StyledLink to={props.to || ""} onClick={handleClick}>
+    <StyledLink to={props.to || ""}>
       <IconContainer selected={props.selected}>
         <StyledLinkIcon src={props.icon} alt="Explore" />
       </IconContainer>

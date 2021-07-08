@@ -9,49 +9,27 @@ export const DisplayArea = styled.div`
   background-color: #f9fafb;
 `;
 
-export const ImageColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 15px;
-`;
-
-export const ImageArea = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding-top: 20px;
-  padding-left: 14px;
-  padding-right: 14px;
-  width: 928px;
-`;
-
-export const ImageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-`;
-
 export const PhotosAndSelectionsContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 100%;
+  align-self: center;
+  width: 900px;
 `;
 
 export const StyledLink = styled(Link)`
-  margin: 16px;
   font-size: 32px;
   color: #7B7B7B;
   opacity: 0.39;
   text-decoration: none;
+  flex-basis: 100%;
 `;
 
 export const UnderScoredLink = styled(Link)`
-  margin: 16px;
   font-size: 32px;
   color: ${(props) => props.theme.main};
   text-decoration: none;
+  flex-basis: 100%;
   border-bottom: 5px solid ${(props) => props.theme.main};
 `;
 

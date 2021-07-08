@@ -7,7 +7,7 @@ import {
   closeIcon,
 } from "utils/resources";
 import { Author, Download, ModalImage } from "components";
-import { saveFavoriteImage, removeFavoriteImage } from "utils/index";
+import { saveFavoriteImage, removeFavoriteImage, imageExistInLocalStorage } from "utils/index";
 import {
   ImageAndUserContainer,
   Likes,
@@ -26,16 +26,16 @@ export default function Modal(props) {
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
-    saved ? removeFavoriteImage(data) : saveFavoriteImage(data);
+    saved ? removeFavoriteImage(data.id) : saveFavoriteImage(data);
     setSaved(!saved);
   };
 
   useEffect(() => {
-    if (data) {
-      const found = localStorage.getItem(data.id);
+    if (data && props.open) {
+      const found = imageExistInLocalStorage(data.id);
       setSaved(found ? true : false);
     }
-  }, [data]);
+  }, [data, props.open]);
 
   if (!props.open) return null;
 

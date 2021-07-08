@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const NavBarContianer = styled.div`
+export const NavBarContainer = styled.div`
   position: sticky;
   top: 0;
   z-index: 2;

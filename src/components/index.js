@@ -9,3 +9,5 @@ export { default as Modal } from "./Modal";
 export { default as Download } from "./Modal/Download";
 export { default as ModalImage } from "./Modal/ModalImage";
 export { default as ImageCollection } from "./ImageCollection";
+export { default as LoadingCircle } from "./LoadingCircle";
+export { default as TopicDetail } from "./TopicDetail";

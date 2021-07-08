@@ -1,4 +1,4 @@
-import { getAllFavoriteImage } from "utils/index.js";
+import { getLocalStorageWithKey, IMAGE_KEY } from "utils/index.js";
 import {
   FETCH_FAVORITE_FEED_SUCCESS,
   FETCH_FAVORITE_FEED_ERROR,
@@ -6,7 +6,7 @@ import {
 
 export const getFavoriteFeed = () => {
   try {
-    const favoriteImages = getAllFavoriteImage();
+    const favoriteImages = getLocalStorageWithKey(IMAGE_KEY);
     return {
       type: FETCH_FAVORITE_FEED_SUCCESS,
       payload: favoriteImages,

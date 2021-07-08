@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import LoadingCircle from "components/LoadingCircle";
-import { ExploreImage, ImageCollection } from "components";
+import { ExploreImage, ImageCollection, LoadingCircle } from "components";
 import {
   getUserFeed,
   getUserInfo,
@@ -12,16 +11,18 @@ import {
   incrementPage,
 } from "store/userFeed/userFeedAction";
 import {
-  DisplayArea,
   ImageColumn,
+  ImageArea,
+  ImageContainer,
+} from "components/UI/Layout/ThreeColumnLayout.styles";
+import { DisplayArea } from "components/UI/Layout/SearchPageInfoLayout.styles";
+import {
   UserInfoContainer,
   Avatar,
   UserInfo,
   BoldText,
   UserDetail,
   DetailDiv,
-  ImageContainer,
-  ImageArea,
   LightText,
   UserCollection,
   CollectionContainer,

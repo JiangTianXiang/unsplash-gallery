@@ -2,24 +2,25 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import LoadingCircle from "components/LoadingCircle";
 import {
   getSearchCollectionResult,
   resetCollectionState,
   incrementCollectionPage,
 } from "store/searchCollection/searchCollectionAction";
-import { ImageCollection } from "components";
+import { ImageCollection, LoadingCircle } from "components";
 import {
-  ImageContainer,
   ImageColumn,
+  ImageArea,
+  ImageContainer,
+} from "components/UI/Layout/ThreeColumnLayout.styles";
+import {
   PhotosAndSelectionsContainer,
   StyledLink,
   PhotoResultDetails,
   PhotoSelectionSwitch,
   UnderScoredLink,
-  ImageArea,
   DisplayArea
-} from "./SearchCollectionResult.styles";
+} from "components/UI/Layout/SearchPageInfoLayout.styles";
 
 function SearchCollectionResult(props) {
   const ref = React.createRef();

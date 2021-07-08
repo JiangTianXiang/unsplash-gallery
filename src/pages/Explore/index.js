@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import LoadingBar from "react-top-loading-bar";
-import ExploreImage from "components/ExploreImage";
 import InfiniteScroll from "react-infinite-scroll-component";
-import LoadingCircle from "components/LoadingCircle";
+import LoadingBar from "react-top-loading-bar";
+import { ExploreImage, LoadingCircle } from "components";
 import {
   getExploreFeed,
   resetState,
   incrementPage,
 } from "store/exploreFeed/exploreFeedAction";
-import { DisplayArea, ImageColumn, ImageArea, ImageContainer } from "./Explore.styles";
+import {
+  ImageColumn,
+  ImageArea,
+  ImageContainer,
+} from "components/UI/Layout/ThreeColumnLayout.styles";
 
 function Explore(props) {
   const ref = React.createRef();
@@ -44,29 +47,27 @@ function Explore(props) {
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
-        <DisplayArea>
-          <InfiniteScroll
-            dataLength={data.length}
-            next={props.incrementPage}
-            hasMore={true}
-          >
-            <ImageContainer>
-              <ImageArea>
-                {renderObject.map((column) => (
-                  <ImageColumn key={column.key}>
-                    {column.images.map((item) => (
-                      <ExploreImage
-                        key={item.id}
-                        item={item}
-                        portrait={item.width < item.height}
-                      />
-                    ))}
-                  </ImageColumn>
-                ))}
-              </ImageArea>
-            </ImageContainer>
-          </InfiniteScroll>
-        </DisplayArea>
+        <InfiniteScroll
+          dataLength={data.length}
+          next={props.incrementPage}
+          hasMore={true}
+        >
+          <ImageContainer>
+            <ImageArea>
+              {renderObject.map((column) => (
+                <ImageColumn key={column.key}>
+                  {column.images.map((item) => (
+                    <ExploreImage
+                      key={item.id}
+                      item={item}
+                      portrait={item.width < item.height}
+                    />
+                  ))}
+                </ImageColumn>
+              ))}
+            </ImageArea>
+          </ImageContainer>
+        </InfiniteScroll>
       )}
       {isLoading && <LoadingCircle />}
     </>
