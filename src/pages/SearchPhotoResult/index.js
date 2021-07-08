@@ -2,24 +2,25 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import LoadingCircle from "components/LoadingCircle";
 import {
   getSearchResult,
   resetState,
   incrementPage,
 } from "store/searchPhoto/searchAction";
-import { ExploreImage } from "components";
+import { ExploreImage, LoadingCircle } from "components";
 import {
-  ImageContainer,
   ImageColumn,
+  ImageArea,
+  ImageContainer,
+} from "components/UI/Layout/ThreeColumnLayout.styles";
+import {
   PhotosAndSelectionsContainer,
   StyledLink,
   PhotoResultDetails,
   PhotoSelectionSwitch,
   UnderScoredLink,
-  ImageArea,
-  DisplayArea,
-} from "./SearchPhotoResult.styles";
+  DisplayArea
+} from "components/UI/Layout/SearchPageInfoLayout.styles";
 
 function SearchPhotoResult(props) {
   const ref = React.createRef();

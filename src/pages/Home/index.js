@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import LoadingCircle from "components/LoadingCircle";
-import { ImageAndUser } from "components";
+import { ImageAndUser, LoadingCircle } from "components";
 import { DisplayArea } from "./Home.styles";
 import { getData, resetState, incrementPage } from "store/feed/feedAction";
 

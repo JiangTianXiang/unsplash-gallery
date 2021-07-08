@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "components/Modal";
+import { Modal } from "components";
 import { imageExistInLocalStorage } from "utils/index";
 import {
   Container,

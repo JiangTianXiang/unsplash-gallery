@@ -2,25 +2,25 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import LoadingCircle from "components/LoadingCircle";
 import {
   getTopicFeed,
   getTopicDetails,
   resetState,
   incrementPage,
 } from "store/topicFeed/topicAction";
-import { ExploreImage } from "components";
-import TopicDetail from "components/TopicDetail";
+import { ExploreImage, LoadingCircle, TopicDetail } from "components";
 import {
-  ImageContainer,
-  ImageColumn,
   PhotosAndSelectionsContainer,
   StyledLink,
   PhotoSelectionSwitch,
   UnderScoredLink,
+  DisplayArea
+} from "components/UI/Layout/SearchPageInfoLayout.styles";
+import {
+  ImageColumn,
   ImageArea,
-  DisplayArea,
-} from "./Topic.styles";
+  ImageContainer,
+} from "components/UI/Layout/ThreeColumnLayout.styles";
 
 function Topic(props) {
   const ref = React.createRef();

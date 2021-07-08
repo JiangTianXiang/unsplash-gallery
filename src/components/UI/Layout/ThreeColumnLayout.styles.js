@@ -1,10 +1,8 @@
 import styled from "styled-components";
-
-export const DisplayArea = styled.div`
+export const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  justify-self: center;
-  background-color: #f9fafb;
+  flex-direction: row;
 `;
 
 export const ImageArea = styled.div`
@@ -20,6 +18,14 @@ export const ImageArea = styled.div`
 export const ImageColumn = styled.div`
   display: flex;
   flex-direction: column;
+  flex-basis: 100%;
   align-items: center;
   margin: 15px;
+`;
+
+export const DisplayArea = styled.div`
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  background-color: #f9fafb;
 `;

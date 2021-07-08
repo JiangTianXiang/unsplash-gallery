@@ -28,13 +28,13 @@ export const defaultImageContainerCSS = css`
 `;
 
 export const restrictedImageContainerCss = css`
-  width: 223px;
-  height: 223px;
+  width: 265px;
+  height: 265px;
 `;
 
 export const restrictedImageCss = css`
-  width: 223px;
-  height: 223px;
+  width: 265px;
+  height: 265px;
   border-radius: 8px;
 `;
 

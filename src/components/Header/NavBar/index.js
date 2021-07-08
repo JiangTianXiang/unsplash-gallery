@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { exploreIcon, savedIcon, themeIcon } from "utils/resources";
-import { NavBarContianer, NavBarInfo } from "./NavBar.styles";
+import { NavBarContainer, NavBarInfo } from "./NavBar.styles";
 import { Search, IconButton } from "components";
 
 class NavBar extends React.Component {
@@ -15,7 +15,7 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <NavBarContianer>
+      <NavBarContainer>
         <NavBarInfo>
           <Search />
           <IconButton
@@ -39,7 +39,7 @@ class NavBar extends React.Component {
             selected={this.state.selectedIcon === "Theme"}
           />
         </NavBarInfo>
-      </NavBarContianer>
+      </NavBarContainer>
     );
   }
 }

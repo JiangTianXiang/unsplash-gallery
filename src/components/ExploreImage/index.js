@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "components/Modal";
+import { Modal } from "components";
 import {
   Container,
   Overlay,
@@ -37,7 +37,9 @@ export default function ExploreImage(props) {
             ? restrictedImageContainerCss
             : defaultImageContainerCSS
         }
-        minHeight= {props.portrait ? DEFAULT_PORTRAIT_HEIGHT : DEFAULT_LANDSCAPE_HEIGHT}
+        minHeight={
+          props.portrait ? DEFAULT_PORTRAIT_HEIGHT : DEFAULT_LANDSCAPE_HEIGHT
+        }
         onClick={showModal}
       >
         <Overlay opacity={opacity} placeholderColor={props.item.color} />

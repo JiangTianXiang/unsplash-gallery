@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import { ExploreImage } from "components";
-import LoadingCircle from "components/LoadingCircle";
+import { ExploreImage, LoadingCircle } from "components";
 import {
   ImageContainer,
   ImageArea,

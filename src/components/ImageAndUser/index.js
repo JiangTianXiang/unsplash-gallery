@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Modal from "components/Modal";
 import {
   favoriteIcon,
   savedFavoriteIcon,
   likeIcon,
   showMoreIcon,
 } from "utils/resources";
-import { Author, DisplayImage } from "components";
+import { Author, DisplayImage, Modal } from "components";
 import {
   saveFavoriteImage,
   removeFavoriteImage,

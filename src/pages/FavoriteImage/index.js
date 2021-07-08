@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { DisplayArea, ImageColumn, ImageArea } from "./FavoriteImage.styles";
+import {
+  ImageColumn,
+  ImageArea,
+  ImageContainer,
+} from "components/UI/Layout/ThreeColumnLayout.styles";
 import { ExploreImage } from "components";
 import { getFavoriteFeed } from "store/favoriteFeed/favoriteFeedAction";
 
@@ -20,7 +24,7 @@ function FavoriteImage(props) {
       {hasData && (
         <>
           <div>Saved Photos</div>
-          <DisplayArea>
+          <ImageContainer>
             <ImageArea>
               {renderObject.map((column) => (
                 <ImageColumn key={column.key}>
@@ -30,7 +34,7 @@ function FavoriteImage(props) {
                 </ImageColumn>
               ))}
             </ImageArea>
-          </DisplayArea>
+          </ImageContainer>
         </>
       )}
     </>

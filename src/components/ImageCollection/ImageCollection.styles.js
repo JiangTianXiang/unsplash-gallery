@@ -17,8 +17,8 @@ export const userCollectionImageCSS = css`
 `;
 
 export const defaultImageCSS = css`
-  width: 223px;
-  height: 223px;
+  width: 265px;
+  height: 265px;
   border-radius: 8px;
 `;
 
@@ -38,8 +38,8 @@ export const userCollectionContainerCSS = css `
 `;
 
 export const defaultImageContainerCSS = css`
-  width: 223px;
-  height: 223px;
+  width: 265px;
+  height: 265px;
 `;
 
 export const MoreInfoDiv = styled.div`
