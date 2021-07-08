@@ -1,47 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router";
 import { exploreIcon, savedIcon, themeIcon } from "utils/resources";
 import { NavBarContainer, NavBarInfo } from "./NavBar.styles";
 import { Search, IconButton } from "components";
 
-class NavBar extends React.Component {
-  state = {
-    selectedIcon: null,
-  };
+const EXPLORE_PAGE = "/explore";
+const SAVED_PAGE = "/favorite";
+const HOME_PAGE = "/";
+function NavBar(props) {
+  const [selectedIcon, setSelectedIcon] = useState(null);
 
-  handleSelected = (description) => {
-    this.setState({ selectedIcon: description });
-  };
+  useEffect(() => {
+    switch (props.location.pathname) {
+      case EXPLORE_PAGE:
+        setSelectedIcon("Photos");
+        break;
+      case SAVED_PAGE:
+        setSelectedIcon("Saved");
+        break;
+      case HOME_PAGE:
+        setSelectedIcon("Theme");
+        break;
+      default:
+        setSelectedIcon(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.location.pathname]);
 
-  render() {
-    return (
-      <NavBarContainer>
-        <NavBarInfo>
-          <Search />
-          <IconButton
-            icon={exploreIcon}
-            to="/explore"
-            description="Photos"
-            handleSelected={this.handleSelected}
-            selected={this.state.selectedIcon === "Photos"}
-          />
-          <IconButton
-            icon={savedIcon}
-            to="/favorite"
-            description="Saved"
-            handleSelected={this.handleSelected}
-            selected={this.state.selectedIcon === "Saved"}
-          />
-          <IconButton
-            icon={themeIcon}
-            description="Theme"
-            handleSelected={this.handleSelected}
-            selected={this.state.selectedIcon === "Theme"}
-          />
-        </NavBarInfo>
-      </NavBarContainer>
-    );
-  }
+  return (
+    <NavBarContainer>
+      <NavBarInfo>
+        <Search />
+        <IconButton
+          icon={exploreIcon}
+          to="/explore"
+          description="Photos"
+          selected={selectedIcon === "Photos"}
+        />
+        <IconButton
+          icon={savedIcon}
+          to="/favorite"
+          description="Saved"
+          selected={selectedIcon === "Saved"}
+        />
+        <IconButton
+          icon={themeIcon}
+          description="Theme"
+          selected={selectedIcon === "Theme"}
+        />
+      </NavBarInfo>
+    </NavBarContainer>
+  );
 }
 
 export default withRouter(NavBar);

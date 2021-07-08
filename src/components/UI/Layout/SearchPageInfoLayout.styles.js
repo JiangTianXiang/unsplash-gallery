@@ -13,23 +13,23 @@ export const PhotosAndSelectionsContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 100%;
+  align-self: center;
+  width: 900px;
 `;
 
 export const StyledLink = styled(Link)`
-  margin: 16px;
   font-size: 32px;
   color: #7B7B7B;
   opacity: 0.39;
   text-decoration: none;
-  
+  flex-basis: 100%;
 `;
 
 export const UnderScoredLink = styled(Link)`
-  margin: 16px;
   font-size: 32px;
   color: ${(props) => props.theme.main};
   text-decoration: none;
+  flex-basis: 100%;
   border-bottom: 5px solid ${(props) => props.theme.main};
 `;
 
