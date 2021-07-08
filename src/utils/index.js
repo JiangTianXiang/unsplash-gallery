@@ -92,7 +92,6 @@ export const getDiffInTime = (givenDate) => {
 };
 
 export const IMAGE_KEY = "images";
-export const TOPIC_KEY = "topics";
 export const saveFavoriteImage = (item) => {
   let imageStore = {};
   if (localStorage.getItem(IMAGE_KEY) !== null) {
@@ -118,4 +117,28 @@ export const imageExistInLocalStorage = (id) => {
 
 export const getLocalStorageWithKey = (key) => {
   return Object.values(JSON.parse(localStorage.getItem(key)));
+};
+
+export const TOPIC_KEY = "topics";
+export const saveTopic = (item) => {
+  let topicStore = {};
+  if (localStorage.getItem(TOPIC_KEY) !== null) {
+    topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
+  }
+  topicStore[item.id] = item;
+  localStorage.setItem(TOPIC_KEY, JSON.stringify(topicStore));
+};
+
+export const removeTopic = (id) => {
+  const topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
+  delete topicStore[`${id}`];
+  localStorage.setItem(TOPIC_KEY, JSON.stringify(topicStore));
+};
+
+export const topicExistInLocalStorage = (id) => {
+  if (localStorage.getItem(TOPIC_KEY) === null) {
+    return false;
+  }
+  const topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
+  return topicStore.hasOwnProperty(id);
 };

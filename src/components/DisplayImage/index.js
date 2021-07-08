@@ -22,7 +22,7 @@ export default function DisplayImage(props) {
   const closeModal = () => {
     document.body.style.overflow = "unset";
     const found = imageExistInLocalStorage(props.item.id);
-    if (found != props.saved) {
+    if (found !== props.saved) {
       props.onSaveChanged(found);
     }
     setModalOpen(false);

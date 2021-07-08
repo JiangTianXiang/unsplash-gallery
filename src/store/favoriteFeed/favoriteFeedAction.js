@@ -7,7 +7,6 @@ import {
 export const getFavoriteFeed = () => {
   try {
     const favoriteImages = getLocalStorageWithKey(IMAGE_KEY);
-    console.log(favoriteImages);
     return {
       type: FETCH_FAVORITE_FEED_SUCCESS,
       payload: favoriteImages,
