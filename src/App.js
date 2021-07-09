@@ -36,7 +36,7 @@ export default function App() {
             />
             <Route path="/topic/:searchTerm" component={Topic} />
             <Route
-              path="/collection/:id&total_photos=:total_photos&user=:user&title=:title"
+              path="/collection/:id"
               component={Collection}
             />
             <Route path="/explore" component={Explore} />

@@ -7,12 +7,18 @@ const initialState = {
   ],
   hasError: false,
   isLoading: false,
+  detailLoading: false,
+  detail: null,
   page: 1,
 };
 
 export const FETCH_COLLECTION_FEED_SUCCESS = "FETCH_COLLECTION_FEED_SUCCESS";
 export const FETCH_COLLECTION_FEED_PENDING = "FETCH_COLLECTION_FEED_PENDING";
 export const FETCH_COLLECTION_FEED_ERROR = "FETCH_COLLECTION_FEED_ERROR";
+export const FETCH_COLLECTION_DETAIL_SUCCESS =
+  "FETCH_COLLECTION_DETAIL_SUCCESS";
+export const FETCH_COLLECTION_DETAIL_PENDING =
+  "FETCH_COLLECTION_DETAIL_PENDING";
 export const RESET_COLLECTION_STATE = "RESET_COLLECTION_STATE";
 export const INCREMENT_COLLECTION_PAGE = "INCREMENT_COLLECTION_PAGE";
 
@@ -33,6 +39,7 @@ function collectionFeedReducer(state = initialState, action) {
       return {
         ...state,
         data: [],
+        detail: null,
         page: 1,
         renderObject: [
           { key: Math.random(), images: [] },
@@ -42,6 +49,10 @@ function collectionFeedReducer(state = initialState, action) {
       };
     case INCREMENT_COLLECTION_PAGE:
       return { ...state, page: state.page + 1 };
+    case FETCH_COLLECTION_DETAIL_PENDING:
+      return { ...state, detailLoading: true };
+    case FETCH_COLLECTION_DETAIL_SUCCESS:
+      return { ...state, detailLoading: false, detail: action.payload };
     case FETCH_COLLECTION_FEED_SUCCESS:
       return {
         ...state,
@@ -61,6 +72,7 @@ function collectionFeedReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         hasError: true,
+        detailLoading: false,
       };
     default:
       return state;

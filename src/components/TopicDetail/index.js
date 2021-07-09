@@ -8,14 +8,17 @@ import {
   TopicDescription,
   TopicStats,
   Follow,
+  AuthorName,
 } from "./TopicDetail.styles";
 
 const TopicDetail = (props) => {
   const { total_photos, description, cover_photo } = props.detail || {};
   const [followed, setFollowed] = useState(false);
   const searchTerm = props.searchTerm;
+  const feedType = props.collection ? "collection" : "topic";
 
   const handleClick = () => {
+    props.detail["feedType"] = feedType;
     followed ? removeTopic(props.detail.id) : saveTopic(props.detail);
     setFollowed(!followed);
   };
@@ -30,8 +33,15 @@ const TopicDetail = (props) => {
       <CoverPhoto src={cover_photo.urls.regular} />
       <PhotoResultDetails>
         <TopicTitle>#{searchTerm}</TopicTitle>
-        <TopicDescription>{description}</TopicDescription>
-        <TopicStats>{total_photos} Photos found in Topic</TopicStats>
+        {description && <TopicDescription>{description}</TopicDescription>}
+        {props.author && (
+          <AuthorName to={`/user/${props.author}`}>
+            Created by: {props.author}
+          </AuthorName>
+        )}
+        <TopicStats>
+          {total_photos} Photos found in {feedType}
+        </TopicStats>
         <Follow onClick={handleClick}>
           {followed ? "Un-Follow" : "Follow"}
         </Follow>

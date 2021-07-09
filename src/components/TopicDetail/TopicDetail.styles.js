@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const TopicDetailContainer = styled.div`
@@ -25,9 +26,17 @@ export const CoverPhoto = styled.img`
 `;
 
 export const TopicDescription = styled.div`
-  max-width: 545px;
+  width: 545px;
   word-wrap: break-word;
   font-size: 15px;
+`;
+
+export const AuthorName = styled(Link)`
+  width: 545px;
+  word-wrap: break-word;
+  font-size: 15px;
+  text-decoration: none;
+  color: black;
 `;
 
 export const TopicTitle = styled.div`

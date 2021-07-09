@@ -44,10 +44,11 @@ export const getCollectionUrl = ({
   numberOfRequest = 30,
   page = 1,
   collectionId = null,
+  isPhoto = '/photos',
 }) => {
   const base = process.env.REACT_APP_ENDPOINT;
   const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
-  return `${base}/collections/${collectionId}/photos/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
+  return `${base}/collections/${collectionId}${isPhoto}/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
 };
 
 export const getTopicUrl = ({
@@ -116,6 +117,9 @@ export const imageExistInLocalStorage = (id) => {
 };
 
 export const getLocalStorageWithKey = (key) => {
+  if (localStorage.getItem(key) === null) {
+    return null;
+  }
   return Object.values(JSON.parse(localStorage.getItem(key)));
 };
 
