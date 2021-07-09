@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
 import { ImageAndUser, LoadingCircle } from "components";
-import TopicShowcase from "components/TopicShowcase";
+import Showcase from "components/ShowcaseContainer";
 import { DisplayArea } from "./Home.styles";
 import { getData, resetState, incrementPage } from "store/feed/feedAction";
 
@@ -46,7 +46,7 @@ function Home(props) {
           hasMore={true}
         >
           <DisplayArea>
-            <TopicShowcase />
+            <Showcase />
             {data.map((item) => {
               return <ImageAndUser key={item.id} item={item} />;
             })}
