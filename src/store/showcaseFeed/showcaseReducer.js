@@ -22,7 +22,6 @@ function topicReducer(state = initialState, action) {
     case INCREMENT_SHOWCASE_PAGE:
       return { ...state, page: state.page + 1 };
     case SHOWCASE_FETCH_FEED_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         data: [...state.data, ...action.payload],

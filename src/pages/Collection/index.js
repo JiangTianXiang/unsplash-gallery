@@ -47,7 +47,6 @@ function Collection(props) {
     props.collectionFeed;
   const { total_photos } = detail || {};
   const hasData = !!data.length && !hasError && !!detail;
-  console.log(detail);
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
