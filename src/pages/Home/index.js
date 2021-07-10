@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
 import { ImageAndUser, LoadingCircle } from "components";
+import Showcase from "components/ShowcaseContainer";
 import { DisplayArea } from "./Home.styles";
 import { getData, resetState, incrementPage } from "store/feed/feedAction";
 
 function Home(props) {
   const ref = React.createRef();
+  const [showcaseLoaded, setShowcaseLoaded] = useState(false);
+  const { isLoading, hasError, data } = props.feed || {};
+  const hasLoadingFinish = !isLoading && showcaseLoaded;
+  const hasData = !!data.length && !hasError && hasLoadingFinish;
 
   useEffect(() => {
     const loadingBar = ref.current;
@@ -16,7 +21,7 @@ function Home(props) {
       loadingBar.complete();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.feed.isLoading]);
+  }, [isLoading]);
 
   useEffect(() => {
     if (props.feed.page !== 1) {
@@ -33,11 +38,10 @@ function Home(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { isLoading, hasError, data } = props.feed;
-  const hasData = !!data.length && !hasError;
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
+      <Showcase setLoading={setShowcaseLoaded} />
       {hasData && (
         <InfiniteScroll
           dataLength={data.length}

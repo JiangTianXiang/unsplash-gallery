@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import { ExploreImage, LoadingCircle } from "components";
+import { ExploreImage, LoadingCircle, TopicDetail } from "components";
 import {
   ImageContainer,
   ImageArea,
   ImageColumn,
-  CollectionInfoContainer,
-  CollectionDetails,
   DisplayArea,
 } from "./Collection.styles";
 import {
   getCollectionFeed,
+  getCollectionDetails,
   resetState,
   incrementPage,
 } from "store/collectionFeed/collectionFeedAction";
 
 function Collection(props) {
-  const [maxPhoto] = useState(props.match.params.total_photos);
   const ref = React.createRef();
   useEffect(() => {
     const loadingBar = ref.current;
@@ -37,6 +35,7 @@ function Collection(props) {
   }, [props.collectionFeed.page]);
 
   useEffect(() => {
+    props.getCollectionDetails(props.match.params.id);
     props.getCollectionFeed(props.match.params.id);
     return function cleanup() {
       props.resetState();
@@ -44,26 +43,25 @@ function Collection(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { data, isLoading, hasError, renderObject } = props.collectionFeed;
-  const hasData = !!data.length && !hasError;
+  const { data, isLoading, hasError, renderObject, detail } =
+    props.collectionFeed;
+  const { total_photos } = detail || {};
+  const hasData = !!data.length && !hasError && !!detail;
   return (
     <>
       <LoadingBar color="#f11946" ref={ref} shadow={true} />
       {hasData && (
         <DisplayArea>
-          <CollectionInfoContainer>
-            <CollectionDetails>
-              <div>
-                Collection "{props.match.params.title}" created by
-                {props.match.params.user}
-              </div>
-              <div>{maxPhoto} Photos in this collection</div>
-            </CollectionDetails>
-          </CollectionInfoContainer>
+          <TopicDetail
+            detail={detail}
+            searchTerm={detail.title}
+            author={detail.user.username}
+            collection
+          />
           <InfiniteScroll
             dataLength={data.length}
             next={props.incrementPage}
-            hasMore={data.length < maxPhoto}
+            hasMore={data.length < total_photos}
             endMessage={<h4>End of collection</h4>}
           >
             <ImageContainer>
@@ -91,6 +89,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getCollectionFeed,
+  getCollectionDetails,
   resetState,
   incrementPage,
 };

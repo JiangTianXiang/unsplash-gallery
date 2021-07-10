@@ -44,10 +44,15 @@ export const getCollectionUrl = ({
   numberOfRequest = 30,
   page = 1,
   collectionId = null,
+  isPhoto = '/photos',
 }) => {
   const base = process.env.REACT_APP_ENDPOINT;
   const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
-  return `${base}/collections/${collectionId}/photos/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
+  let collection = "";
+  if (collectionId != null) {
+    collection = `/${collectionId}`;
+  }
+  return `${base}/collections${collection}${isPhoto}/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
 };
 
 export const getTopicUrl = ({
@@ -108,15 +113,20 @@ export const removeFavoriteImage = (id) => {
 };
 
 export const imageExistInLocalStorage = (id) => {
-  if (localStorage.getItem(IMAGE_KEY) === null) {
+  const storedItems = localStorage.getItem(IMAGE_KEY);
+  if (!storedItems) {
     return false;
   }
-  const imageStore = JSON.parse(localStorage.getItem(IMAGE_KEY));
+  const imageStore = JSON.parse(storedItems);
   return imageStore.hasOwnProperty(id);
 };
 
 export const getLocalStorageWithKey = (key) => {
-  return Object.values(JSON.parse(localStorage.getItem(key)));
+  const storedItems = localStorage.getItem(key);
+  if (!storedItems) {
+    return null;
+  }
+  return Object.values(JSON.parse(storedItems));
 };
 
 export const TOPIC_KEY = "topics";
@@ -136,10 +146,11 @@ export const removeTopic = (id) => {
 };
 
 export const topicExistInLocalStorage = (id) => {
-  if (localStorage.getItem(TOPIC_KEY) === null) {
+  const storedItems = localStorage.getItem(TOPIC_KEY);
+  if (!storedItems) {
     return false;
   }
-  const topicStore = JSON.parse(localStorage.getItem(TOPIC_KEY));
+  const topicStore = JSON.parse(storedItems);
   return topicStore.hasOwnProperty(id);
 };
 
