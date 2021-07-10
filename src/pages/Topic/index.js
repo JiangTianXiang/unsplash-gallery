@@ -62,13 +62,19 @@ function Topic(props) {
       {hasError && (
         <>
           <div>Can not find topic with name "{searchTerm}"</div>
-          <PhotoSelectionSwitch>
-            <StyledLink to={`/search/photos/${searchTerm}`}>Photos</StyledLink>
-            <StyledLink to={`/search/collections/${searchTopic}`}>
-              Collections
-            </StyledLink>
-            <UnderScoredLink to={`/topic/${formatTopic(searchTerm)}`}>Topic</UnderScoredLink>
-          </PhotoSelectionSwitch>
+          <PhotosAndSelectionsContainer>
+            <PhotoSelectionSwitch>
+              <StyledLink to={`/search/photos/${searchTerm}`}>
+                Photos
+              </StyledLink>
+              <StyledLink to={`/search/collections/${searchTopic}`}>
+                Collections
+              </StyledLink>
+              <UnderScoredLink to={`/topic/${formatTopic(searchTerm)}`}>
+                Topic
+              </UnderScoredLink>
+            </PhotoSelectionSwitch>
+          </PhotosAndSelectionsContainer>
         </>
       )}
       {hasData && (

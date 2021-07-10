@@ -48,7 +48,11 @@ export const getCollectionUrl = ({
 }) => {
   const base = process.env.REACT_APP_ENDPOINT;
   const apiKey = process.env.REACT_APP_UNSPLASH_API_ACCESS_KEY;
-  return `${base}/collections/${collectionId}${isPhoto}/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
+  let collection = "";
+  if (collectionId != null) {
+    collection = `/${collectionId}`;
+  }
+  return `${base}/collections${collection}${isPhoto}/?client_id=${apiKey}&per_page=${numberOfRequest}&page=${page}`;
 };
 
 export const getTopicUrl = ({
