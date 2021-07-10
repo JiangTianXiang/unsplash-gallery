@@ -25,7 +25,8 @@ function ShowcaseContainer(props) {
       props.getShowcaseFeed();
     } else {
       setRecommendMode(false);
-      setTopicFeeds(topics);
+      const displayTopic = topics.filter((topic, index) => index < MAX_SHOWCASE);
+      setTopicFeeds(displayTopic);
       props.setLoading(true);
     }
 
@@ -40,13 +41,13 @@ function ShowcaseContainer(props) {
     const { isLoading, hasError, data } = props.showcaseFeed || {};
     const hasData = !!data.length && !hasError;
     if (hasData && !isLoading) {
-      data.map((item) => {
-        item["feedType"] = "collection";
-        item["searchTerm"] = item.id;
-        return item;
-      });
+      const newData = data.map((item) => ({
+        ...item,
+        feedType: "collection",
+        searchTerm: item.id,
+      }));
       props.setLoading(true);
-      setTopicFeeds(data);
+      setTopicFeeds(newData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.showcaseFeed.data]);
@@ -60,10 +61,7 @@ function ShowcaseContainer(props) {
       )}
       <ShowcaseGallery>
         {!!topicFeeds &&
-          topicFeeds.map((topicFeed, index) => {
-            if (index >= MAX_SHOWCASE) {
-              return null;
-            }
+          topicFeeds.map((topicFeed) => {
             return <Showcase key={topicFeed.searchTerm} detail={topicFeed} />;
           })}
       </ShowcaseGallery>

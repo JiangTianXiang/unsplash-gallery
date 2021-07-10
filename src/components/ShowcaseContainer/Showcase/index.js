@@ -14,15 +14,12 @@ import {
 function Showcase(props) {
   const [opacity, setOpacity] = useState(1);
   const handleClick = () => {
-    const feedType = props.detail.feedType;
-    const searchTerm = props.detail.searchTerm;
+    const { feedType, searchTerm } = props.detail;
     props.history.push(`/${feedType}/${searchTerm}`);
   };
-  const containerCSS = defaultImageContainerCSS;
-  const imageCSS = defaultImageCSS;
   return (
     <>
-      <Container imageContainerCSS={containerCSS} onClick={handleClick}>
+      <Container imageContainerCSS={defaultImageContainerCSS} onClick={handleClick}>
         <Overlay
           opacity={opacity}
           placeholderColor={props.detail.cover_photo.color}
@@ -36,7 +33,7 @@ function Showcase(props) {
         <DisplayImage
           src={props.detail.cover_photo.urls.regular}
           objectFit={"cover"}
-          imageCSS={imageCSS}
+          imageCSS={defaultImageCSS}
           onLoad={() => setOpacity(0)}
           alt="placeholder"
         />

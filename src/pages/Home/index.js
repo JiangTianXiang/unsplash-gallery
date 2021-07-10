@@ -11,8 +11,8 @@ function Home(props) {
   const ref = React.createRef();
   const [showcaseLoaded, setShowcaseLoaded] = useState(false);
   const { isLoading, hasError, data } = props.feed || {};
-  const loadFinish = !isLoading && showcaseLoaded;
-  const hasData = !!data.length && !hasError && loadFinish;
+  const hasLoadingFinish = !isLoading && showcaseLoaded;
+  const hasData = !!data.length && !hasError && hasLoadingFinish;
 
   useEffect(() => {
     const loadingBar = ref.current;

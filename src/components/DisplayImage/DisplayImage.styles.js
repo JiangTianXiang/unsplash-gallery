@@ -13,7 +13,7 @@ export const Overlay = styled.div`
   height: 100%;
   opacity: ${(props) => props.opacity};
   background-color: ${(props) => `${props.placeholderColor || "grey"}`};
-  min-width: 830px;
+  width: 830px;
   border-radius: 8px;
   transition: 0.5s;
 `;
@@ -34,7 +34,7 @@ export const ImageArea = styled.img`
   ${(props) => props.imageCSS}
   object-fit:${(props) => `${props.objectFit || "cover"}`};
   border-radius: 8px;
-  min-width: 600px;
+  min-width: 830px;
 `;
 
 export const defaultImageContainerCSS = css`

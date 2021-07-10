@@ -18,9 +18,12 @@ const TopicDetail = (props) => {
   const feedType = props.collection ? "collection" : "topic";
 
   const handleClick = () => {
-    props.detail["feedType"] = feedType;
-    props.detail["searchTerm"] = props.collection ? props.detail.id : searchTerm;
-    followed ? removeTopic(props.detail.id) : saveTopic(props.detail);
+    const storeItem = {
+      ...props.detail,
+      feedType: feedType,
+      searchTerm: props.collection ? props.detail.id : searchTerm,
+    };
+    followed ? removeTopic(storeItem.id) : saveTopic(storeItem);
     setFollowed(!followed);
   };
 
