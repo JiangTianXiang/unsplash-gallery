@@ -9,7 +9,12 @@ import {
   resetState,
   incrementPage,
 } from "store/topicFeed/topicAction";
-import { ExploreImage, LoadingCircle, TopicDetail } from "components";
+import {
+  ExploreImage,
+  LoadingCircle,
+  TopicDetail,
+  ErrorPage,
+} from "components";
 import {
   PhotosAndSelectionsContainer,
   StyledLink,
@@ -112,6 +117,7 @@ function Topic(props) {
           </InfiniteScroll>
         </DisplayArea>
       )}
+      {hasError && <ErrorPage />}
       {isLoading && <LoadingCircle />}
     </>
   );

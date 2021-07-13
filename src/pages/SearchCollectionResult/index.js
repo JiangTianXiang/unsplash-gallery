@@ -7,7 +7,7 @@ import {
   resetCollectionState,
   incrementCollectionPage,
 } from "store/searchCollection/searchCollectionAction";
-import { ImageCollection, LoadingCircle } from "components";
+import { ImageCollection, LoadingCircle, ErrorPage } from "components";
 import {
   ImageColumn,
   ImageArea,
@@ -106,6 +106,7 @@ function SearchCollectionResult(props) {
           </InfiniteScroll>
         </DisplayArea>
       )}
+      {hasError && <ErrorPage />}
       {isLoading && <LoadingCircle />}
     </>
   );

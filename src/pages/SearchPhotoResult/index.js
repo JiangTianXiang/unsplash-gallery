@@ -7,7 +7,7 @@ import {
   resetState,
   incrementPage,
 } from "store/searchPhoto/searchAction";
-import { ExploreImage, LoadingCircle } from "components";
+import { ExploreImage, LoadingCircle, ErrorPage } from "components";
 import {
   ImageColumn,
   ImageArea,
@@ -102,6 +102,7 @@ function SearchPhotoResult(props) {
           </InfiniteScroll>
         </DisplayArea>
       )}
+      {hasError && <ErrorPage />}
       {isLoading && <LoadingCircle />}
     </>
   );

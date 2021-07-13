@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import { ExploreImage, LoadingCircle, TopicDetail } from "components";
+import {
+  ExploreImage,
+  LoadingCircle,
+  TopicDetail,
+  ErrorPage,
+} from "components";
 import {
   ImageContainer,
   ImageArea,
@@ -79,6 +84,7 @@ function Collection(props) {
         </DisplayArea>
       )}
       {isLoading && <LoadingCircle />}
+      {hasError && <ErrorPage />}
     </>
   );
 }
