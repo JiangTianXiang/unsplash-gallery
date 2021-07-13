@@ -17,6 +17,9 @@ const splitDataToColumns = (newData) => {
     { key: Math.random(), images: [] },
     { key: Math.random(), images: [] },
   ];
+  if (!newData) {
+    return newRenderObject;
+  }
   let counter = 0;
 
   while (counter < newData.length) {
@@ -29,9 +32,10 @@ const splitDataToColumns = (newData) => {
 function favoriteFeedReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_FAVORITE_FEED_SUCCESS:
+      const newData = action.payload;
       return {
         ...state,
-        data: [...action.payload],
+        data: newData ? [...newData] : [],
         renderObject: splitDataToColumns(action.payload),
         hasError: false,
       };
