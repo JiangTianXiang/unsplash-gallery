@@ -9,6 +9,11 @@ import {
 } from "./showcaseReducer";
 
 const MAX_SHOWCASE = 5;
+const MAX_PAGE = 15;
+function getRandomPage() {
+  return Math.ceil(Math.random() * MAX_PAGE);
+}
+
 export const getShowcaseFeed = () => async (dispatch) => {
   try {
     dispatch({
@@ -17,6 +22,7 @@ export const getShowcaseFeed = () => async (dispatch) => {
     const response = await axios(
       getCollectionUrl({
         isPhoto: "",
+        page: getRandomPage(),
         numberOfRequest: MAX_SHOWCASE,
       })
     );
