@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import { ImageAndUser, LoadingCircle } from "components";
+import { ImageAndUser, LoadingCircle, ErrorPage } from "components";
 import Showcase from "components/ShowcaseContainer";
 import { DisplayArea } from "./Home.styles";
 import { getData, resetState, incrementPage } from "store/feed/feedAction";
@@ -56,6 +56,7 @@ function Home(props) {
         </InfiniteScroll>
       )}
       {isLoading && <LoadingCircle />}
+      {hasError && <ErrorPage />}
     </>
   );
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
-import { ExploreImage, ImageCollection, LoadingCircle } from "components";
+import { ExploreImage, ImageCollection, LoadingCircle, ErrorPage } from "components";
 import {
   getUserFeed,
   getUserInfo,
@@ -157,6 +157,7 @@ function User(props) {
           </InfiniteScroll>
         </DisplayArea>
       )}
+      {hasError && <ErrorPage />}
       {(isLoading || isCollectionLoading) && <LoadingCircle />}
     </>
   );

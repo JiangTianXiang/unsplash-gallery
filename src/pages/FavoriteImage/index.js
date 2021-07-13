@@ -5,7 +5,7 @@ import {
   ImageArea,
   ImageContainer,
 } from "components/UI/Layout/ThreeColumnLayout.styles";
-import { ExploreImage } from "components";
+import { ExploreImage, ErrorPage } from "components";
 import { getFavoriteFeed } from "store/favoriteFeed/favoriteFeedAction";
 
 function FavoriteImage(props) {
@@ -21,6 +21,7 @@ function FavoriteImage(props) {
       {!hasData && (
         <div>No image saved yet. Press star button to save some images</div>
       )}
+      {hasError && <ErrorPage />}
       {hasData && (
         <>
           <div>Saved Photos</div>
