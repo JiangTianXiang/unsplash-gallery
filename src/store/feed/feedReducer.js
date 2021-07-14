@@ -21,10 +21,10 @@ function feedReducer(state = initialState, action) {
       };
     case INCREMENT_FEED_PAGE:
       return { ...state, page: state.page + 1 };
-    case FEED_FETCH_DATA_SUCCESS:
+    case FEED_FETCH_DATA_SUCCESS: 
       return {
         ...state,
-        data: [...state.data, ...action.payload],
+        data: Array.from(new Set([...state.data, ...action.payload])),
         isLoading: false,
         hasError: false,
       };

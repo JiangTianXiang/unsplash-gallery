@@ -12,7 +12,7 @@ function Home(props) {
   const [showcaseLoaded, setShowcaseLoaded] = useState(false);
   const { isLoading, hasError, data } = props.feed || {};
   const hasLoadingFinish = !isLoading && showcaseLoaded;
-  const hasData = !!data.length && !hasError && hasLoadingFinish;
+  const hasData = !!data.length && !hasError && showcaseLoaded;
 
   useEffect(() => {
     const loadingBar = ref.current;
@@ -55,7 +55,7 @@ function Home(props) {
           </DisplayArea>
         </InfiniteScroll>
       )}
-      {isLoading && <LoadingCircle />}
+      {hasLoadingFinish && <LoadingCircle />}
       {hasError && <ErrorPage />}
     </>
   );
