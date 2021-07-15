@@ -17,7 +17,7 @@ export const getData = () => async (dispatch, getState) => {
     const response = await axios(
       getUrl({
         isRandom: false,
-        numberOfRequest: 10,
+        numberOfRequest: 9,
         page: getPage(getState()),
       })
     );
