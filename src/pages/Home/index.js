@@ -13,7 +13,7 @@ function Home(props) {
   const { isLoading, hasError, data } = props.feed || {};
   const hasLoadingFinish = !isLoading && showcaseLoaded;
   const hasData = !!data.length && !hasError && showcaseLoaded;
-
+  
   useEffect(() => {
     const loadingBar = ref.current;
     isLoading ? loadingBar.continuousStart() : loadingBar.complete();
@@ -25,13 +25,13 @@ function Home(props) {
 
   useEffect(() => {
     if (props.feed.page !== 1) {
-      props.getData();
+      props.getData(props.feed.page);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.feed.page]);
 
   useEffect(() => {
-    props.getData();
+    props.getData(1);
     return function cleanup() {
       props.resetState();
     };

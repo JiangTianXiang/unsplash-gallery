@@ -1,10 +1,10 @@
 import axios from "axios";
 import { Dispatch } from "redux";
-import { IState } from "interfaces/interfaces";
 import { getUrl } from "utils";
+import { IAction } from "./feedActionInterface";
 import { ActionType } from "./feedActionTypes";
 
-export const getData = () => async (dispatch: Dispatch, getState: IState) => {
+export const getData = (page: number) => async (dispatch: Dispatch<IAction>) => {
   try {
     dispatch({
       type: ActionType.FEED_FETCH_DATA_PENDING,
@@ -12,9 +12,8 @@ export const getData = () => async (dispatch: Dispatch, getState: IState) => {
     const response = await axios(
       getUrl({
         isRandom: false,
-        numberOfRequest: 10,
-        // page: getPage(getState()),
-        page: 1,
+        numberOfRequest: 9,
+        page,
       })
     );
     dispatch({
@@ -30,13 +29,17 @@ export const getData = () => async (dispatch: Dispatch, getState: IState) => {
 };
 
 export const resetState = () => {
-  return {
-    type: ActionType.RESET_FEED_STATE,
+  return (dispatch: Dispatch<IAction>) => {
+    dispatch({
+      type: ActionType.RESET_FEED_STATE,
+    });
   };
 };
 
 export const incrementPage = () => {
-  return {
-    type: ActionType.INCREMENT_FEED_PAGE,
+  return (dispatch: Dispatch<IAction>) => {
+    dispatch({
+      type: ActionType.INCREMENT_FEED_PAGE,
+    });
   };
 };
