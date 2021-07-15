@@ -12,3 +12,4 @@ export { default as ImageCollection } from "./ImageCollection";
 export { default as LoadingCircle } from "./LoadingCircle";
 export { default as TopicDetail } from "./TopicDetail";
 export { default as ErrorPage } from "./ErrorPage";
+export { default as Showcase } from "./ShowcaseContainer";

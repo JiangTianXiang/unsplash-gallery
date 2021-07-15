@@ -1,4 +1,5 @@
-import { combineReducers, createStore, applyMiddleware, compose } from "redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import reduxTrunk from "redux-thunk";
 import feed from "./feed/feedReducer";
 import searchPhoto from "./searchPhoto/searchReducer";
@@ -22,14 +23,7 @@ const reducers = combineReducers({
   showcaseFeed,
 });
 
-const composeEnhancers =
-  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-      })
-    : compose;
-
 export default createStore(
   reducers,
-  composeEnhancers(applyMiddleware(reduxTrunk))
+  composeWithDevTools(applyMiddleware(reduxTrunk))
 );
