@@ -11,9 +11,10 @@ import {
   incrementPage,
 } from "store/feed/feedActionCreators";
 import PageProps from "pages/Home/Home.types";
+import { IState } from "store/store.type";
 
 const Home = (props: PageProps) => {
-  const ref:any = React.createRef();
+  const ref: any = React.createRef();
   const [showcaseLoaded, setShowcaseLoaded] = useState(false);
   const { isLoading, hasError, data } = props.feed || {};
   const hasLoadingFinish = !isLoading && showcaseLoaded;
@@ -58,7 +59,7 @@ const Home = (props: PageProps) => {
           loader={null}
         >
           <DisplayArea>
-            {data.map((item:any) => {
+            {data.map((item: any) => {
               return <ImageAndUser key={item.id} item={item} />;
             })}
           </DisplayArea>
@@ -70,7 +71,7 @@ const Home = (props: PageProps) => {
   );
 };
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: IState) => ({
   feed: state.feed,
 });
 

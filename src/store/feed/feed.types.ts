@@ -26,7 +26,7 @@ export type IAction =
   | IFetchPendingAction
   | IIncrementPageAction;
 
-export interface IFeedState {
+export interface IFeed {
   data: Array<object>;
   hasError: boolean;
   page: number;

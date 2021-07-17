@@ -1,4 +1,4 @@
-import { IFeedState } from "./feed.types";
+import { IFeed } from "./feed.types";
 import { IAction } from "./feed.types";
 import { ActionType } from "./feed.enum";
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
 };
 
-function feedReducer(state: IFeedState = initialState, action: IAction) {
+function feedReducer(state: IFeed = initialState, action: IAction) {
   switch (action.type) {
     case ActionType.RESET_FEED_STATE:
       return {
