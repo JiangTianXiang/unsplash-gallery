@@ -1,4 +1,4 @@
-import { IThreeColumnFeed } from "store/exploreFeed/exploreFeed.types";
+import { IThreeColumnFeed } from "store/threeColumn.types";
 
 export default interface ExploreProps {
   exploreFeed: IThreeColumnFeed;

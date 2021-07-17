@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from "react-top-loading-bar";
+import { RouteComponentProps } from "react-router-dom";
 import {
   getSearchCollectionResult,
   resetCollectionState,
@@ -19,11 +20,16 @@ import {
   PhotoResultDetails,
   PhotoSelectionSwitch,
   UnderScoredLink,
-  DisplayArea
+  DisplayArea,
 } from "components/UI/Layout/SearchPageInfoLayout.styles";
+import SearchCollectionProps from "./SearchCollection.types";
+import { IState } from "store/store.type";
 
-function SearchCollectionResult(props) {
-  const ref = React.createRef();
+type TParams = { searchTerm: string };
+const SearchCollectionResult: React.FunctionComponent<
+  SearchCollectionProps & RouteComponentProps<TParams>
+> = (props) => {
+  const ref: any = React.createRef();
 
   useEffect(() => {
     const loadingBar = ref.current;
@@ -32,18 +38,24 @@ function SearchCollectionResult(props) {
       loadingBar.complete();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.searchResult.isLoading]);
+  }, [props.searchCollection.isLoading]);
 
   useEffect(() => {
-    if (props.searchResult.page !== 1) {
-      props.getSearchCollectionResult(props.match.params.searchTerm);
+    if (props.searchCollection.page !== 1) {
+      props.getSearchCollectionResult(
+        props.match.params.searchTerm,
+        props.searchCollection.page
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.searchResult.page]);
+  }, [props.searchCollection.page]);
 
   useEffect(() => {
     props.resetCollectionState();
-    props.getSearchCollectionResult(props.match.params.searchTerm);
+    props.getSearchCollectionResult(
+      props.match.params.searchTerm,
+      props.searchCollection.page
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.match.params.searchTerm]);
 
@@ -55,7 +67,7 @@ function SearchCollectionResult(props) {
     renderObject,
     page,
     maxPage,
-  } = props.searchResult;
+  } = props.searchCollection;
   const hasData = !!data.length && !hasError;
   const searchTerm = props.match.params.searchTerm.toLowerCase();
 
@@ -66,37 +78,30 @@ function SearchCollectionResult(props) {
         <DisplayArea>
           <PhotosAndSelectionsContainer>
             <PhotoResultDetails>
-              <div>
-                Search results for "{searchTerm}"
-              </div>
+              <div>Search results for "{searchTerm}"</div>
               <div>{totalResult} collections found</div>
             </PhotoResultDetails>
             <PhotoSelectionSwitch>
-              <StyledLink
-                to={`/search/photos/${searchTerm}`}
-              >
+              <StyledLink to={`/search/photos/${searchTerm}`}>
                 Photos
               </StyledLink>
-              <UnderScoredLink
-                to={`/search/collections/${searchTerm}`}
-              >
+              <UnderScoredLink to={`/search/collections/${searchTerm}`}>
                 Collections
               </UnderScoredLink>
-              <StyledLink to={`/topic/${searchTerm}`}>
-                Topic
-              </StyledLink>
+              <StyledLink to={`/topic/${searchTerm}`}>Topic</StyledLink>
             </PhotoSelectionSwitch>
           </PhotosAndSelectionsContainer>
           <InfiniteScroll
             dataLength={data.length}
             next={props.incrementCollectionPage}
             hasMore={page <= maxPage}
+            loader={null}
           >
             <ImageContainer>
               <ImageArea>
                 {renderObject.map((column) => (
                   <ImageColumn key={column.key}>
-                    {column.images.map((item) => (
+                    {column.images.map((item: any) => (
                       <ImageCollection key={item.id} item={item} />
                     ))}
                   </ImageColumn>
@@ -110,10 +115,10 @@ function SearchCollectionResult(props) {
       {isLoading && <LoadingCircle />}
     </>
   );
-}
+};
 
-const mapStateToProps = (state) => ({
-  searchResult: state.searchCollection,
+const mapStateToProps = (state: IState) => ({
+  searchCollection: state.searchCollection,
 });
 
 const mapDispatchToProps = {
@@ -122,4 +127,7 @@ const mapDispatchToProps = {
   incrementCollectionPage,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchCollectionResult);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchCollectionResult);

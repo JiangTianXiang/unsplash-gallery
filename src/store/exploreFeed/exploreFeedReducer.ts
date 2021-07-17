@@ -1,4 +1,5 @@
-import { IAction, IThreeColumnFeed, IColumnFeed } from "./exploreFeed.types";
+import { IAction } from "./exploreFeed.types";
+import { IThreeColumnFeed, splitDataToColumns } from "store/threeColumn.types";
 import { ActionType } from "./exploreFeed.enum";
 
 const initialState = {
@@ -11,20 +12,8 @@ const initialState = {
   hasError: false,
   isLoading: false,
   page: 1,
-};
-
-const splitDataToColumns = (
-  currentRenderObject: Array<IColumnFeed>,
-  newData: Array<object>
-) => {
-  const newRenderObject = [...currentRenderObject];
-  let counter = 0;
-
-  while (counter < newData.length) {
-    newRenderObject[counter % 3].images.push(newData[counter]);
-    counter++;
-  }
-  return newRenderObject;
+  totalResult: 0,
+  maxPage: 0,
 };
 
 function exploreFeedReducer(

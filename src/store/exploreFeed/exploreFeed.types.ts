@@ -25,16 +25,3 @@ export type IAction =
   | IResetFeedAction
   | IFetchPendingAction
   | IIncrementPageAction;
-
-export interface IColumnFeed {
-  key: number;
-  images: Array<object>;
-}
-
-export interface IThreeColumnFeed {
-  data: Array<object>;
-  hasError: boolean;
-  renderObject: Array<IColumnFeed>;
-  page: number;
-  isLoading: boolean;
-}
