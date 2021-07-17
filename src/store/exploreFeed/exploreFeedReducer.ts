@@ -1,3 +1,6 @@
+import { IAction, IThreeColumnFeed, IColumnFeed } from "./exploreFeed.types";
+import { ActionType } from "./exploreFeed.enum";
+
 const initialState = {
   data: [],
   renderObject: [
@@ -10,13 +13,10 @@ const initialState = {
   page: 1,
 };
 
-export const FETCH_EXPLORE_FEED_SUCCESS = "FETCH_EXPLORE_FEED_SUCCESS";
-export const FETCH_EXPLORE_FEED_PENDING = "FETCH_EXPLORE_FEED_PENDING";
-export const FETCH_EXPLORE_FEED_ERROR = "FETCH_EXPLORE_FEED_ERROR";
-export const RESET_EXPLORE_STATE = "RESET_EXPLORE_STATE";
-export const INCREMENT_EXPLORE_PAGE = "INCREMENT_EXPLORE_PAGE";
-
-const splitDataToColumns = (currentRenderObject, newData) => {
+const splitDataToColumns = (
+  currentRenderObject: Array<IColumnFeed>,
+  newData: Array<object>
+) => {
   const newRenderObject = [...currentRenderObject];
   let counter = 0;
 
@@ -27,9 +27,12 @@ const splitDataToColumns = (currentRenderObject, newData) => {
   return newRenderObject;
 };
 
-function exploreFeedReducer(state = initialState, action) {
+function exploreFeedReducer(
+  state: IThreeColumnFeed = initialState,
+  action: IAction
+) {
   switch (action.type) {
-    case RESET_EXPLORE_STATE:
+    case ActionType.RESET_EXPLORE_STATE:
       return {
         ...state,
         data: [],
@@ -40,26 +43,23 @@ function exploreFeedReducer(state = initialState, action) {
           { key: Math.random(), images: [] },
         ],
       };
-    case INCREMENT_EXPLORE_PAGE:
+    case ActionType.INCREMENT_EXPLORE_PAGE:
       return { ...state, page: state.page + 1 };
-    case FETCH_EXPLORE_FEED_SUCCESS:
+    case ActionType.FETCH_EXPLORE_FEED_SUCCESS:
       return {
         ...state,
         data: [...state.data, ...action.payload],
-        renderObject: splitDataToColumns(
-          state.renderObject,
-          action.payload
-        ),
+        renderObject: splitDataToColumns(state.renderObject, action.payload),
         isLoading: false,
         hasError: false,
       };
-    case FETCH_EXPLORE_FEED_PENDING:
+    case ActionType.FETCH_EXPLORE_FEED_PENDING:
       return {
         ...state,
         isLoading: true,
         hasError: false,
       };
-    case FETCH_EXPLORE_FEED_ERROR:
+    case ActionType.FETCH_EXPLORE_FEED_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -71,5 +71,3 @@ function exploreFeedReducer(state = initialState, action) {
 }
 
 export default exploreFeedReducer;
-
-export const getPage = (state) => state.exploreFeed.page;
