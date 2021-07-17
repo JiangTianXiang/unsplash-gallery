@@ -1,4 +1,4 @@
-import { ActionType } from "./feedActionTypes";
+import { ActionType } from "./feed.enum";
 
 interface IFetchSuccessAction {
   type: ActionType.FEED_FETCH_DATA_SUCCESS;
@@ -25,3 +25,10 @@ export type IAction =
   | IResetFeedAction
   | IFetchPendingAction
   | IIncrementPageAction;
+
+export interface IFeedState {
+  data: Array<object>;
+  hasError: boolean;
+  page: number;
+  isLoading: boolean;
+}

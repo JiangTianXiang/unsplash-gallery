@@ -23,7 +23,8 @@ const reducers = combineReducers({
   showcaseFeed,
 });
 
-export default createStore(
+const store = createStore(
   reducers,
   composeWithDevTools(applyMiddleware(reduxTrunk))
 );
+export default store;

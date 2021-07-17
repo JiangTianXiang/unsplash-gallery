@@ -1,6 +1,6 @@
-import { IState } from "interfaces/interfaces";
-import { IAction } from "./feedActionInterface";
-import { ActionType } from "./feedActionTypes";
+import { IFeedState } from "./feed.types";
+import { IAction } from "./feed.types";
+import { ActionType } from "./feed.enum";
 const initialState = {
   data: [],
   hasError: false,
@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
 };
 
-function feedReducer(state: IState = initialState, action: IAction) {
+function feedReducer(state: IFeedState = initialState, action: IAction) {
   switch (action.type) {
     case ActionType.RESET_FEED_STATE:
       return {
@@ -44,4 +44,3 @@ function feedReducer(state: IState = initialState, action: IAction) {
 
 export default feedReducer;
 
-export const getPage = (state: IState) => state.page;

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { getUrl } from "utils";
-import { IAction } from "./feedActionInterface";
-import { ActionType } from "./feedActionTypes";
+import { IAction } from "./feed.types";
+import { ActionType } from "./feed.enum";
 
 export const getData = (page: number) => async (dispatch: Dispatch<IAction>) => {
   try {
