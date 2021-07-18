@@ -1,3 +1,6 @@
+import { ActionType } from "./favoriteFeed.enum";
+import { splitFavoriteToColumns, IFavoriteFeed } from "store/threeColumn.types";
+import { IAction } from "./favoriteFeed.types";
 const initialState = {
   data: [],
   renderObject: [
@@ -11,35 +14,25 @@ const initialState = {
 export const FETCH_FAVORITE_FEED_SUCCESS = "FETCH_FAVORITE_FEED_SUCCESS";
 export const FETCH_FAVORITE_FEED_ERROR = "FETCH_FAVORITE_FEED_ERROR";
 
-const splitDataToColumns = (newData) => {
-  const newRenderObject = [
-    { key: Math.random(), images: [] },
-    { key: Math.random(), images: [] },
-    { key: Math.random(), images: [] },
-  ];
-  if (!newData) {
-    return newRenderObject;
-  }
-  let counter = 0;
-
-  while (counter < newData.length) {
-    newRenderObject[counter % 3].images.push(newData[counter]);
-    counter++;
-  }
-  return newRenderObject;
-};
-
-function favoriteFeedReducer(state = initialState, action) {
+function favoriteFeedReducer(
+  state: IFavoriteFeed = initialState,
+  action: IAction
+) {
   switch (action.type) {
-    case FETCH_FAVORITE_FEED_SUCCESS:
+    case ActionType.FETCH_FAVORITE_FEED_SUCCESS:
       const newData = action.payload;
+      const newRenderObject = [
+        { key: Math.random(), images: [] },
+        { key: Math.random(), images: [] },
+        { key: Math.random(), images: [] },
+      ];
       return {
         ...state,
         data: newData ? [...newData] : [],
-        renderObject: splitDataToColumns(action.payload),
+        renderObject: splitFavoriteToColumns(newRenderObject, action.payload),
         hasError: false,
       };
-    case FETCH_FAVORITE_FEED_ERROR:
+    case ActionType.FETCH_FAVORITE_FEED_ERROR:
       return {
         ...state,
         hasError: true,
