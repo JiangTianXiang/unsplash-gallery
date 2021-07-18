@@ -11,6 +11,8 @@ export interface IThreeColumnFeed {
   isLoading: boolean;
   totalResult?: number;
   maxPage: number;
+  detailLoading?: boolean;
+  detail?: Array<object>;
 }
 
 export const splitDataToColumns = (

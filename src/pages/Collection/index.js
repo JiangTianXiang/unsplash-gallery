@@ -34,14 +34,14 @@ function Collection(props) {
 
   useEffect(() => {
     if (props.collectionFeed.page !== 1) {
-      props.getCollectionFeed(props.match.params.id);
+      props.getCollectionFeed(props.match.params.id, props.collectionFeed.page);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.collectionFeed.page]);
 
   useEffect(() => {
     props.getCollectionDetails(props.match.params.id);
-    props.getCollectionFeed(props.match.params.id);
+    props.getCollectionFeed(props.match.params.id, props.collectionFeed.page);
     return function cleanup() {
       props.resetState();
     };

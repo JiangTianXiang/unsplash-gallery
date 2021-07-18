@@ -5,4 +5,5 @@ export interface IState {
   exploreFeed: IThreeColumnFeed;
   searchCollection: IThreeColumnFeed;
   searchPhoto: IThreeColumnFeed;
+  collectionFeed: IThreeColumnFeed;
 }
