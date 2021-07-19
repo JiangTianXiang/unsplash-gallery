@@ -5,10 +5,16 @@ import LoadingBar from "react-top-loading-bar";
 import { ImageAndUser, LoadingCircle, ErrorPage } from "components";
 import Showcase from "components/ShowcaseContainer";
 import { DisplayArea } from "./Home.styles";
-import { getData, resetState, incrementPage } from "store/feed/feedAction";
+import {
+  getData,
+  resetState,
+  incrementPage,
+} from "store/feed/feedActionCreators";
+import PageProps from "pages/Home/Home.types";
+import { IState } from "store/store.type";
 
-function Home(props) {
-  const ref = React.createRef();
+const Home = (props: PageProps) => {
+  const ref: any = React.createRef();
   const [showcaseLoaded, setShowcaseLoaded] = useState(false);
   const { isLoading, hasError, data } = props.feed || {};
   const hasLoadingFinish = !isLoading && showcaseLoaded;
@@ -16,7 +22,10 @@ function Home(props) {
 
   useEffect(() => {
     const loadingBar = ref.current;
-    isLoading ? loadingBar.continuousStart() : loadingBar.complete();
+    if (loadingBar) {
+      isLoading ? loadingBar.continuousStart() : loadingBar.complete();
+    }
+
     return function cleanup() {
       loadingBar.complete();
     };
@@ -25,13 +34,13 @@ function Home(props) {
 
   useEffect(() => {
     if (props.feed.page !== 1) {
-      props.getData();
+      props.getData(props.feed.page);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.feed.page]);
 
   useEffect(() => {
-    props.getData();
+    props.getData(1);
     return function cleanup() {
       props.resetState();
     };
@@ -47,9 +56,10 @@ function Home(props) {
           dataLength={data.length}
           next={props.incrementPage}
           hasMore={true}
+          loader={null}
         >
           <DisplayArea>
-            {data.map((item) => {
+            {data.map((item: any) => {
               return <ImageAndUser key={item.id} item={item} />;
             })}
           </DisplayArea>
@@ -59,9 +69,9 @@ function Home(props) {
       {hasError && <ErrorPage />}
     </>
   );
-}
+};
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: IState) => ({
   feed: state.feed,
 });
 

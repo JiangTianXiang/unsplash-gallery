@@ -7,8 +7,10 @@ import {
 } from "components/UI/Layout/ThreeColumnLayout.styles";
 import { ExploreImage, ErrorPage } from "components";
 import { getFavoriteFeed } from "store/favoriteFeed/favoriteFeedAction";
+import FavoriteProps from "./Explore.types";
+import { IState } from "store/store.type";
 
-function FavoriteImage(props) {
+function FavoriteImage(props: FavoriteProps) {
   useEffect(() => {
     props.getFavoriteFeed();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,7 +31,7 @@ function FavoriteImage(props) {
             <ImageArea>
               {renderObject.map((column) => (
                 <ImageColumn key={column.key}>
-                  {column.images.map((item) => (
+                  {column.images.map((item: any) => (
                     <ExploreImage key={item.id} item={item} restrict />
                   ))}
                 </ImageColumn>
@@ -42,7 +44,7 @@ function FavoriteImage(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: IState) => ({
   favoriteFeed: state.favoriteFeed,
 });
 

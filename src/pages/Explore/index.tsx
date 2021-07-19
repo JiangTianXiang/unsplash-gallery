@@ -13,9 +13,12 @@ import {
   ImageArea,
   ImageContainer,
 } from "components/UI/Layout/ThreeColumnLayout.styles";
+import ExploreProps from "./Explore.types";
+import { IState } from "store/store.type";
 
-function Explore(props) {
-  const ref = React.createRef();
+function Explore(props: ExploreProps) {
+  const ref: any = React.createRef();
+
   useEffect(() => {
     const loadingBar = ref.current;
     isLoading ? loadingBar.continuousStart() : loadingBar.complete();
@@ -27,13 +30,13 @@ function Explore(props) {
 
   useEffect(() => {
     if (props.exploreFeed.page !== 1) {
-      props.getExploreFeed();
+      props.getExploreFeed(props.exploreFeed.page);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.exploreFeed.page]);
 
   useEffect(() => {
-    props.getExploreFeed();
+    props.getExploreFeed(props.exploreFeed.page);
     return function cleanup() {
       props.resetState();
     };
@@ -51,12 +54,13 @@ function Explore(props) {
           dataLength={data.length}
           next={props.incrementPage}
           hasMore={true}
+          loader={null}
         >
           <ImageContainer>
             <ImageArea>
               {renderObject.map((column) => (
                 <ImageColumn key={column.key}>
-                  {column.images.map((item) => (
+                  {column.images.map((item: any) => (
                     <ExploreImage
                       key={item.id}
                       item={item}
@@ -75,7 +79,7 @@ function Explore(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: IState) => ({
   exploreFeed: state.exploreFeed,
 });
 
